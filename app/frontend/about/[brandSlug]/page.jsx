@@ -3,8 +3,9 @@
 import { useParams } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import AboutBrand from "../../components/AboutBrand";
+
 import BrandProduct from "../../components/BrandProduct";
+import AboutBrand from "../../components/Aboutbrand";
 
 export default function BrandAboutPage() {
   const params = useParams();
