@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import AdminLayout from "../components/AdminLayout";
 import dynamic from 'next/dynamic';
 import axios from "axios";
 
+// Dynamically import CKEditor with SSR disabled
 const CKEditor = dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => mod.CKEditor), {
   ssr: false,
   loading: () => <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center">
@@ -24,10 +25,13 @@ if (typeof window !== 'undefined') {
 }
 
 const AdminAddBlog = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const isEditMode = searchParams.get("id");
-  const id = searchParams.get("id");
+  
+  // State for URL parameters
+  const [urlParams, setUrlParams] = useState({
+    isEditMode: false,
+    id: null
+  });
 
   const [formData, setFormData] = useState({
     blogName: "",
@@ -48,12 +52,27 @@ const AdminAddBlog = () => {
 
   useEffect(() => {
     setEditorLoaded(true);
-    if (isEditMode) fetchBlogDetails();
-  }, [isEditMode]);
+    
+    // Get URL parameters on client side only
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      const id = searchParams.get("id");
+      const isEditMode = !!id;
+      
+      setUrlParams({
+        isEditMode,
+        id
+      });
 
-  const fetchBlogDetails = async () => {
+      if (isEditMode) {
+        fetchBlogDetails(id);
+      }
+    }
+  }, []);
+
+  const fetchBlogDetails = async (blogId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/blog/${id}`);
+      const res = await axios.get(`http://localhost:5000/api/blog/${blogId}`);
       const blog = res.data;
       
       const formattedDate = blog.blogDate
@@ -168,8 +187,8 @@ const AdminAddBlog = () => {
     try {
       setLoading(true);
 
-      const url = isEditMode ? `http://localhost:5000/api/blog/${id}` : "http://localhost:5000/api/blog/createblog";
-      const method = isEditMode ? "PUT" : "POST";
+      const url = urlParams.isEditMode ? `http://localhost:5000/api/blog/${urlParams.id}` : "http://localhost:5000/api/blog/createblog";
+      const method = urlParams.isEditMode ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
@@ -185,7 +204,7 @@ const AdminAddBlog = () => {
 
       toast.success(data.message || "Blog saved successfully!");
 
-      if (!isEditMode) {
+      if (!urlParams.isEditMode) {
         setFormData({
           blogName: "",
           blogDetail: "",
@@ -216,10 +235,10 @@ const AdminAddBlog = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-800">
-                {isEditMode ? "Edit Blog Post" : "Create New Blog Post"}
+                {urlParams.isEditMode ? "Edit Blog Post" : "Create New Blog Post"}
               </h1>
               <p className="text-gray-600 mt-2">
-                {isEditMode ? "Update your blog content" : "Write and publish a new blog article"}
+                {urlParams.isEditMode ? "Update your blog content" : "Write and publish a new blog article"}
               </p>
             </div>
             <div className="mt-4 md:mt-0">
@@ -472,27 +491,23 @@ const AdminAddBlog = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-8 mt-8 border-t border-gray-200">
-             {/* Action Buttons */}
-<div className="flex flex-col sm:flex-row gap-4 pt-8 mt-8 border-t border-gray-200">
-  <button
-    type="submit"
-    disabled={loading}
-    className={`flex-1 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-medium py-3 px-10 rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-800 transition-all ${
-      loading ? "opacity-50 cursor-not-allowed" : ""
-    }`}
-  >
-    {loading ? "Saving..." : isEditMode ? "Update Blog" : "Publish Blog"}
-  </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className={`flex-1 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-medium py-3 px-10 rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-800 transition-all ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                {loading ? "Saving..." : urlParams.isEditMode ? "Update Blog" : "Publish Blog"}
+              </button>
 
-  <button
-    type="button"
-    onClick={() => router.push("/admin/list-blogs")}
-    className="flex-1 bg-gray-200 text-gray-800 font-medium py-3 px-10 rounded-lg shadow hover:bg-gray-300 transition-all"
-  >
-    Cancel
-  </button>
-</div>
-
+              <button
+                type="button"
+                onClick={() => router.push("/admin/list-blogs")}
+                className="flex-1 bg-gray-200 text-gray-800 font-medium py-3 px-10 rounded-lg shadow hover:bg-gray-300 transition-all"
+              >
+                Cancel
+              </button>
             </div>
           </form>
         </div>
