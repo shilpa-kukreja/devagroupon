@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import AdminLayout from "../components/AdminLayout";
 import dynamic from 'next/dynamic';
@@ -26,12 +26,11 @@ if (typeof window !== 'undefined') {
 
 const AdminAddBlog = () => {
   const router = useRouter();
+  const params = useParams();
   
-  // State for URL parameters
-  const [urlParams, setUrlParams] = useState({
-    isEditMode: false,
-    id: null
-  });
+  // Get the ID from route parameters - much cleaner approach
+  const id = params.id;
+  const isEditMode = !!id;
 
   const [formData, setFormData] = useState({
     blogName: "",
@@ -52,27 +51,14 @@ const AdminAddBlog = () => {
 
   useEffect(() => {
     setEditorLoaded(true);
-    
-    // Get URL parameters on client side only
-    if (typeof window !== 'undefined') {
-      const searchParams = new URLSearchParams(window.location.search);
-      const id = searchParams.get("id");
-      const isEditMode = !!id;
-      
-      setUrlParams({
-        isEditMode,
-        id
-      });
-
-      if (isEditMode) {
-        fetchBlogDetails(id);
-      }
+    if (isEditMode) {
+      fetchBlogDetails();
     }
-  }, []);
+  }, [isEditMode, id]);
 
-  const fetchBlogDetails = async (blogId) => {
+  const fetchBlogDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/blog/${blogId}`);
+      const res = await axios.get(`http://localhost:5000/api/blog/${id}`);
       const blog = res.data;
       
       const formattedDate = blog.blogDate
@@ -187,8 +173,8 @@ const AdminAddBlog = () => {
     try {
       setLoading(true);
 
-      const url = urlParams.isEditMode ? `http://localhost:5000/api/blog/${urlParams.id}` : "http://localhost:5000/api/blog/createblog";
-      const method = urlParams.isEditMode ? "PUT" : "POST";
+      const url = isEditMode ? `http://localhost:5000/api/blog/${id}` : "http://localhost:5000/api/blog/createblog";
+      const method = isEditMode ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
@@ -204,7 +190,7 @@ const AdminAddBlog = () => {
 
       toast.success(data.message || "Blog saved successfully!");
 
-      if (!urlParams.isEditMode) {
+      if (!isEditMode) {
         setFormData({
           blogName: "",
           blogDetail: "",
@@ -235,10 +221,10 @@ const AdminAddBlog = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-800">
-                {urlParams.isEditMode ? "Edit Blog Post" : "Create New Blog Post"}
+                {isEditMode ? "Edit Blog Post" : "Create New Blog Post"}
               </h1>
               <p className="text-gray-600 mt-2">
-                {urlParams.isEditMode ? "Update your blog content" : "Write and publish a new blog article"}
+                {isEditMode ? "Update your blog content" : "Write and publish a new blog article"}
               </p>
             </div>
             <div className="mt-4 md:mt-0">
@@ -498,7 +484,7 @@ const AdminAddBlog = () => {
                   loading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
-                {loading ? "Saving..." : urlParams.isEditMode ? "Update Blog" : "Publish Blog"}
+                {loading ? "Saving..." : isEditMode ? "Update Blog" : "Publish Blog"}
               </button>
 
               <button
