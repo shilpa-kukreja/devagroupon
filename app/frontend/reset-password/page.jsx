@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Lock, Eye, EyeOff, CheckCircle, XCircle, Loader } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, } from "next/navigation";
 import Link from "next/link";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -18,7 +18,7 @@ export default function ResetPassword() {
   const [tokenValid, setTokenValid] = useState(true);
   
   const router = useRouter();
-  const searchParams = useSearchParams();
+
 
   // Password requirements
   const passwordRequirements = [
@@ -26,15 +26,20 @@ export default function ResetPassword() {
     { id: 2, text: "Passwords match", met: password === confirmPassword && confirmPassword !== "" },
   ];
 
-  useEffect(() => {
-    const tokenFromUrl = searchParams.get("token");
+ useEffect(() => {
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromUrl = params.get("token");
+
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
     } else {
       setTokenValid(false);
       setMessage("Invalid or missing reset token.");
     }
-  }, [searchParams]);
+  }
+}, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
