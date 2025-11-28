@@ -1552,7 +1552,7 @@ export default function Navbar() {
       let cleanPath = imgPath.startsWith('/') ? imgPath : `/${imgPath}`;
       cleanPath = cleanPath.replace(/\/+/g, '/');
 
-      const fullUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${cleanPath}`;
+      const fullUrl = `${'https://devagroupon.onrender.com'}${cleanPath}`;
 
       new URL(fullUrl);
       return fullUrl;
