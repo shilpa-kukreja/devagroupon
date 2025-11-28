@@ -450,7 +450,7 @@
 
 //       if (user) {
 //         // For logged-in users
-//         response = await fetch('http://localhost:5000/api/productenquiry/enquiries', {
+//         response = await fetch('https://devagroupon.onrender.com/api/productenquiry/enquiries', {
 //           method: 'POST',
 //           headers: {
 //             'Content-Type': 'application/json',
@@ -464,7 +464,7 @@
 //         });
 //       } else {
 //         // For non-logged-in users
-//         response = await fetch('http://localhost:5000/api/products/enquiry/create', {
+//         response = await fetch('https://devagroupon.onrender.com/api/products/enquiry/create', {
 //           method: 'POST',
 //           headers: {
 //             'Content-Type': 'application/json'
@@ -1035,7 +1035,7 @@ export default function ProductDetailPage() {
     // Handle different path formats
     let cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
     
-    return `http://localhost:5000/${cleanPath}`;
+    return `https://devagroupon.onrender.com/${cleanPath}`;
   };
 
   const getCountryCode = (country) => {
@@ -1089,7 +1089,7 @@ export default function ProductDetailPage() {
 
       if (user) {
         // For logged-in users
-        response = await fetch('http://localhost:5000/api/productenquiry/enquiries', {
+        response = await fetch('https://devagroupon.onrender.com/api/productenquiry/enquiries', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -1103,7 +1103,7 @@ export default function ProductDetailPage() {
         });
       } else {
         // For non-logged-in users
-        response = await fetch('http://localhost:5000/api/products/enquiry/create', {
+        response = await fetch('https://devagroupon.onrender.com/api/products/enquiry/create', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

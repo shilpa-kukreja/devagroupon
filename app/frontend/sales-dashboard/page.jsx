@@ -85,7 +85,7 @@ export default function SalesDashboard() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/products/categories');
+      const response = await fetch('https://devagroupon.onrender.com/api/products/categories');
       const data = await response.json();
       if (data.success) {
         setCategories(data.data);
@@ -98,7 +98,7 @@ export default function SalesDashboard() {
   const fetchProducts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/products/products?page=${currentPage}&search=${searchTerm}`,
+        `https://devagroupon.onrender.com/api/products/products?page=${currentPage}&search=${searchTerm}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -133,8 +133,8 @@ export default function SalesDashboard() {
     e.preventDefault();
     try {
       const url = editingProduct 
-        ? `http://localhost:5000/api/products/products/${editingProduct._id}`
-        : 'http://localhost:5000/api/products/products';
+        ? `https://devagroupon.onrender.com/api/products/products/${editingProduct._id}`
+        : 'https://devagroupon.onrender.com/api/products/products';
       
       const method = editingProduct ? 'PUT' : 'POST';
       
@@ -166,7 +166,7 @@ export default function SalesDashboard() {
   const handleDeleteProduct = async (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/products/${id}`, {
+        const response = await fetch(`https://devagroupon.onrender.com/api/products/products/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`

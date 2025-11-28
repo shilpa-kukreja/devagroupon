@@ -41,10 +41,10 @@
 //   const fetchDashboardData = async () => {
 //     try {
 //       const [enquiriesRes, statsRes] = await Promise.all([
-//         fetch('http://localhost:5000/api/productenquiry/my', {
+//         fetch('https://devagroupon.onrender.com/api/productenquiry/my', {
 //           headers: { 'Authorization': `Bearer ${token}` }
 //         }),
-//         fetch('http://localhost:5000/api/productenquiry/stats', {
+//         fetch('https://devagroupon.onrender.com/api/productenquiry/stats', {
 //           headers: { 'Authorization': `Bearer ${token}` }
 //         })
 //       ]);
@@ -72,7 +72,7 @@
 //         status: 'active'
 //       }).toString();
 
-//       const response = await fetch(`http://localhost:5000/api/product/products?${queryParams}`, {
+//       const response = await fetch(`https://devagroupon.onrender.com/api/product/products?${queryParams}`, {
 //         headers: { 'Authorization': `Bearer ${token}` }
 //       });
 
@@ -124,7 +124,7 @@
 //   const handleSubmitEnquiry = async (e) => {
 //     e.preventDefault();
 //     try {
-//       const response = await fetch('http://localhost:5000/api/productenquiry/enquiries', {
+//       const response = await fetch('https://devagroupon.onrender.com/api/productenquiry/enquiries', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',
@@ -157,7 +157,7 @@
 //   const handleDeleteEnquiry = async (id) => {
 //     if (confirm('Are you sure you want to delete this enquiry?')) {
 //       try {
-//         const response = await fetch(`http://localhost:5000/api/productenquiry/${id}`, {
+//         const response = await fetch(`https://devagroupon.onrender.com/api/productenquiry/${id}`, {
 //           method: 'DELETE',
 //           headers: { 'Authorization': `Bearer ${token}` }
 //         });
@@ -709,10 +709,10 @@ export default function PurchaseDashboard() {
   const fetchDashboardData = async () => {
     try {
       const [enquiriesRes, statsRes] = await Promise.all([
-        fetch('http://localhost:5000/api/productenquiry/my', {
+        fetch('https://devagroupon.onrender.com/api/productenquiry/my', {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        fetch('http://localhost:5000/api/productenquiry/stats', {
+        fetch('https://devagroupon.onrender.com/api/productenquiry/stats', {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ]);
@@ -740,7 +740,7 @@ export default function PurchaseDashboard() {
         status: 'active'
       }).toString();
 
-      const response = await fetch(`http://localhost:5000/api/product/products?${queryParams}`, {
+      const response = await fetch(`https://devagroupon.onrender.com/api/product/products?${queryParams}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -792,7 +792,7 @@ export default function PurchaseDashboard() {
   const handleSubmitEnquiry = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/productenquiry/enquiries', {
+      const response = await fetch('https://devagroupon.onrender.com/api/productenquiry/enquiries', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -825,7 +825,7 @@ export default function PurchaseDashboard() {
   const handleDeleteEnquiry = async (id) => {
     if (confirm('Are you sure you want to delete this enquiry?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/productenquiry/${id}`, {
+        const response = await fetch(`https://devagroupon.onrender.com/api/productenquiry/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });

@@ -52,7 +52,7 @@ export default function AllBrandsPage() {
       // Remove leading slash if present to avoid double slashes
       let cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
       
-      const fullUrl = `http://localhost:5000/${cleanPath}`;
+      const fullUrl = `https://devagroupon.onrender.com/${cleanPath}`;
       
       // Validate URL
       new URL(fullUrl);

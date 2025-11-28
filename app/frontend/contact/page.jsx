@@ -42,7 +42,7 @@ const ContactSection = () => {
         };
 
         try {
-            const res = await fetch('http://localhost:5000/api/contact/contact', {
+            const res = await fetch('https://devagroupon.onrender.com/api/contact/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

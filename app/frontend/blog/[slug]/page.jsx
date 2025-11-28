@@ -81,7 +81,7 @@ export default function BlogDetailPage({ params }) {
     const getImageUrl = (blogImg) => {
         if (!blogImg) return '/images/blog-placeholder.jpg';
         const cleanPath = blogImg.startsWith('/') ? blogImg.slice(1) : blogImg;
-        return `http://localhost:5000/${cleanPath}`;
+        return `https://devagroupon.onrender.com/${cleanPath}`;
     };
 
     const handleShare = async (platform) => {

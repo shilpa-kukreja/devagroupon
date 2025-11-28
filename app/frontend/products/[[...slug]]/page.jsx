@@ -2265,7 +2265,7 @@
 //     cleanPath = cleanPath.substring(1);
 //   }
   
-//   return `http://localhost:5000/${cleanPath}`;
+//   return `https://devagroupon.onrender.com/${cleanPath}`;
 // };
 
 
@@ -3294,7 +3294,7 @@ export default function ProductsPage() {
     cleanPath = cleanPath.substring(1);
   }
   
-  return `http://localhost:5000/${cleanPath}`;
+  return `https://devagroupon.onrender.com/${cleanPath}`;
 };
 
   const FilterSection = ({ title, children, isExpanded = false }) => (
