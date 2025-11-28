@@ -9,7 +9,10 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-admin/
+# Admin panel
+/app/admin/
+/pages/admin/
+/src/components/admin/
 
 # testing
 /coverage
