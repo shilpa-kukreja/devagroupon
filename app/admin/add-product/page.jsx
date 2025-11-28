@@ -1,12 +1,13 @@
 // app/admin/products/add/page.jsx
 "use client";
+import AdminLayout from "../components/AdminLayout";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter} from "next/navigation";
 import axios from "axios";
 
 import dynamic from "next/dynamic";
-import AdminLayout from "../components/AdminLayout";
+
 
 const CKEditor = dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => mod.CKEditor), {
   ssr: false,
@@ -14,8 +15,9 @@ const CKEditor = dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => m
 });
 
 export default function AddProductPage() {
-  const searchParams = useSearchParams();
+  
   const router = useRouter();
+  const params = useParams();
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState({});
   const [formData, setFormData] = useState({
@@ -63,7 +65,7 @@ export default function AddProductPage() {
   const [filteredSubcategories, setFilteredSubcategories] = useState([]);
 
 
-  const id = searchParams.get("id");
+  const id = params.id;
   const isEditMode = !!id;
 
   // Debug logs

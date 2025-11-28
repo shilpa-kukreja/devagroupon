@@ -10,7 +10,7 @@
 !.yarn/releases
 !.yarn/versions
 # Admin panel
-app/admin/
+
 
 
 # testing
