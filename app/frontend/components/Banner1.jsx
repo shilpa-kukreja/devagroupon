@@ -7,7 +7,7 @@ const Banner1 = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <Image
-          src="/banner/banner1.webp"
+          src="/banner/banner2.jpg"
           alt="Premium Asian Food Collection - Beagley Copperman"
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-105"

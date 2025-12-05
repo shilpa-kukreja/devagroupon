@@ -83,7 +83,7 @@ const AboutUs = () => {
               {/* Main Image */}
               <div className="relative w-full max-w-lg">
                 <img
-                  src="/about/about-us.webp"
+                  src="/home/about-us.png"
                   alt="Beagley Copperman Flags"
                 
                   className="rounded-2xl w-[500px] h-[500px] shadow-2xl object-cover"

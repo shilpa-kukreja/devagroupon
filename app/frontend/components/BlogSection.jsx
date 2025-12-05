@@ -39,7 +39,7 @@ const BlogSection = () => {
     // Remove leading slash if present to avoid double slashes
     const cleanPath = blogImg.startsWith('/') ? blogImg.slice(1) : blogImg;
     
-    return `http://localhost:5000/${cleanPath}`;
+    return `https://devagroupon.onrender.com/${cleanPath}`;
   };
 
   return (
@@ -69,14 +69,12 @@ const BlogSection = () => {
               >
                 {/* Image Container */}
                 <div className="relative h-56 overflow-hidden">
-                  <Image
+                  <img
                     src={getImageUrl(post.blogImg)}
                     alt={post.blogName || 'Blog post'}
-                    fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                   />
                   
                   {/* Category Badge */}

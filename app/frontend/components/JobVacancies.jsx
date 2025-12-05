@@ -10,7 +10,7 @@ const JobVacancies = () => {
           <div className="relative group">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="/about/JobVaccancies.webp"
+                src="/home/team.jpg"
                 alt="Beagle Copperman Office Environment"
                 className="w-full h-[400px] lg:h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700"
               />

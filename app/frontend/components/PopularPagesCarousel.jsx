@@ -8,25 +8,25 @@ const PopularPagesCarousel = () => {
     {
       id: 1,
       title: "Download our catalogue & magazines",
-      image: "/populerpages/populer1.webp",
+      image: "/populerpages/image1.png",
       href: "/frontend/catalogues-and-folders",
     },
     {
       id: 2,
       title: "SALE",
-      image: "/populerpages/populer2.webp",
+      image: "/populerpages/image4.png",
       href: "/frontend/all-products",
     },
     {
       id: 3,
       title: "FROZEN PRODUCTS",
-      image: "/populerpages/sale.webp",
+      image: "/populerpages/image3.png",
       href: "/frontend/frozen-products",
     },
     {
       id: 4,
       title: "Vegan selection",
-      image: "/populerpages/Vegan.webp",
+      image: "/populerpages/image2.png",
       href: "/frontend/vegan-products",
     },
     

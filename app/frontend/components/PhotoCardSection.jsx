@@ -9,25 +9,25 @@ import Link from "next/link";
 const photoCards = [
   {
     title: "Asian Store",
-    imageSrc: "/home/photo1.jpg",
+    imageSrc: "/home/Group1.png",
     description: "Authentic Asian groceries and ingredients",
     href: "/frontend/asian-store",
   },
   {
     title: "Candy Store",
-    imageSrc: "/home/restaurant.webp",
+    imageSrc: "/home/Group2.png",
     description: "Sweet delights from around the world",
     href: "/frontend/candy-store",
   },
   {
     title: "Retail",
-    imageSrc: "/home/supermarkt.webp",
+    imageSrc: "/home/Group3.png",
     description: "Premium retail shopping experience",
     href: "/frontend/retail",
   },
   {
     title: "Asian Wholesale",
-    imageSrc: "/home/tokok.webp",
+    imageSrc: "/home/Group4.png",
     description: "Bulk sourcing for businesses",
     href: "/frontend/asian-wholesale",
   },

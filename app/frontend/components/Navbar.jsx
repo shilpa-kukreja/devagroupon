@@ -1186,7 +1186,7 @@
 
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { Search, Mail, Phone, X, Globe, ChevronRight, Loader, Menu, User, ChevronDown, ChevronUp,LayoutDashboard } from "lucide-react";
+import { Search, Mail, Phone, X, Globe, ChevronRight, Loader, Menu, User, ChevronDown, ChevronUp, LayoutDashboard } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -1646,9 +1646,12 @@ export default function Navbar() {
 
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <a href="/" className="text-xl lg:text-2xl font-semibold text-gray-800">
-            <span className="font-serif">Deva</span>{" "}
-            <span className="font-serif text-lime-600">Groupon</span>
+          <a href="/" className="flex items-center">
+            <img
+              src="/home/logo1.png"
+              alt="Logo"
+              className="w-20 lg:w-40 object-contain"
+            />
           </a>
         </div>
 
@@ -2437,7 +2440,7 @@ export default function Navbar() {
                   onClick={handleLoginToggle}
                   className="sm:hidden text-[10px] p-1 rounded-md text-white bg-lime-500  hover:bg-lime-600 transition"
                 >
-                  {user.role === 'sales' ? 'Dashboard' : <LayoutDashboard size={20} /> }
+                  {user.role === 'sales' ? 'Dashboard' : <LayoutDashboard size={20} />}
                 </button>
               </>
             ) : (
@@ -2590,7 +2593,7 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
-              
+
 
               {/* Country of Origin */}
               <div className="border-b border-gray-200 pb-4">
@@ -2778,7 +2781,7 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-         
+
       )}
 
       {/* LOGIN SLIDE PANEL */}
@@ -2875,7 +2878,7 @@ export default function Navbar() {
                     Forgot password?
                   </button>
                 </div>
-                 
+
 
                 <button
                   type="submit"
@@ -2931,7 +2934,7 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-     
+
       )}
     </header>
   );

@@ -7,9 +7,9 @@ const Banner = () => {
   return (
     <section className="relative w-full h-[700px] min-h-[500px] overflow-hidden">
       {/* Background Image */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 mt-10">
         <Image
-          src="/Homebanner.webp"
+          src="/banner/HOMEPAGE.png"
           alt="Tokyo Design Studio Background"
           fill
           className="object-cover object-center"
@@ -23,7 +23,7 @@ const Banner = () => {
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between px-6 sm:pl-12 sm:pr-6  h-full max-w-7xl mx-auto">
         {/* Left Content */}
         <div className="max-w-2xl text-center lg:text-left mt-20">
-          <h1
+          {/* <h1
             className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white italic leading-tight drop-shadow-2xl"
             style={{
               textShadow:
@@ -31,7 +31,7 @@ const Banner = () => {
             }}
           >
             Check it out!
-          </h1>
+          </h1> */}
 
           {/* <div className="space-y-2 mt-4">
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-black drop-shadow-2xl">
@@ -42,13 +42,13 @@ const Banner = () => {
             </h2>
           </div> */}
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start mt-8">
+          {/* <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start mt-8">
             <button className="group relative inline-flex items-center gap-3 bg-green-400 text-white text-lg font-semibold px-8 py-4 rounded-xl shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
               <span className="relative z-10">Read more</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
-          </div>
+          </div> */}
         </div>
 
         {/* Right Section — Image + Video */}
