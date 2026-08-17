@@ -45,8 +45,8 @@ export default function ProductsPage() {
       });
 
       const [productsRes, categoriesRes] = await Promise.all([
-        fetch(`http://localhost:5000/api/product/products?${queryParams}`),
-        fetch("http://localhost:5000/api/product/categories")
+        fetch(`https://devagroupon-1.onrender.com/api/product/products?${queryParams}`),
+        fetch("https://devagroupon-1.onrender.com/api/product/categories")
       ]);
 
       if (!productsRes.ok || !categoriesRes.ok) {
@@ -91,7 +91,7 @@ export default function ProductsPage() {
     
     try {
       setDeleteLoading(id);
-      const res = await fetch(`http://localhost:5000/api/product/products/${id}`, {
+      const res = await fetch(`https://devagroupon-1.onrender.com/api/product/products/${id}`, {
         method: "DELETE",
       });
 
@@ -192,7 +192,7 @@ export default function ProductsPage() {
       <div className="relative h-48 bg-gray-100 overflow-hidden">
         {product.thumbImg ? (
           <img 
-            src={`http://localhost:5000/${product.thumbImg}`} 
+            src={`https://devagroupon-1.onrender.com/${product.thumbImg}`} 
             alt={product.name}
             className="w-full h-full object-cover"
           />

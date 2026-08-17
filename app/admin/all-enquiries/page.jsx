@@ -25,9 +25,9 @@ export default function AdminDashboard() {
   // Get API endpoint based on enquiry type
   const getUpdateEndpoint = (enquiryId, enquiryType) => {
     if (enquiryType === 'logged_in') {
-      return `http://localhost:5000/api/productenquiry/admin/${enquiryId}/status`;
+      return `https://devagroupon-1.onrender.com/api/productenquiry/admin/${enquiryId}/status`;
     } else {
-      return `http://localhost:5000/api/products/enquiry/${enquiryId}`;
+      return `https://devagroupon-1.onrender.com/api/products/enquiry/${enquiryId}`;
     }
   };
 
@@ -49,9 +49,9 @@ export default function AdminDashboard() {
 
       // Fetch from both APIs
       const [loggedInEnquiriesRes, directEnquiriesRes, statsRes] = await Promise.all([
-        fetch(`http://localhost:5000/api/productenquiry/admin/enquiries?page=${currentPage}&limit=10&status=${activeTab !== 'all' ? activeTab : ''}&search=${debouncedSearchTerm}`),
-        fetch(`http://localhost:5000/api/products/enquiry/get`),
-        fetch('http://localhost:5000/api/productenquiry/admin/stats')
+        fetch(`https://devagroupon-1.onrender.com/api/productenquiry/admin/enquiries?page=${currentPage}&limit=10&status=${activeTab !== 'all' ? activeTab : ''}&search=${debouncedSearchTerm}`),
+        fetch(`https://devagroupon-1.onrender.com/api/products/enquiry/get`),
+        fetch('https://devagroupon-1.onrender.com/api/productenquiry/admin/stats')
       ]);
 
       if (!loggedInEnquiriesRes.ok || !directEnquiriesRes.ok) {
@@ -163,7 +163,7 @@ export default function AdminDashboard() {
       
       if (enquiryType === 'logged_in') {
         // Update for logged-in users (PATCH request)
-        response = await fetch(`http://localhost:5000/api/productenquiry/admin/${enquiryId}/status`, {
+        response = await fetch(`https://devagroupon-1.onrender.com/api/productenquiry/admin/${enquiryId}/status`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -172,7 +172,7 @@ export default function AdminDashboard() {
         });
       } else {
         // Update for direct users (PUT request)
-        response = await fetch(`http://localhost:5000/api/products/enquiry/${enquiryId}`, {
+        response = await fetch(`https://devagroupon-1.onrender.com/api/products/enquiry/${enquiryId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

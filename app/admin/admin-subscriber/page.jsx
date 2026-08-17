@@ -35,7 +35,7 @@ const SubscriptionManagement = () => {
   const fetchSubscribers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/newsletter/subscribers");
+      const response = await axios.get("https://devagroupon-1.onrender.com/api/newsletter/subscribers");
       setSubscribers(response.data);
     } catch (error) {
       console.error("Failed to fetch subscribers", error);
@@ -48,7 +48,7 @@ const SubscriptionManagement = () => {
   const handleUnsubscribe = async (email) => {
     try {
       setActionLoading(true);
-      await axios.delete(`http://localhost:5000/api/newsletter/subscribers/${email}`);
+      await axios.delete(`https://devagroupon-1.onrender.com/api/newsletter/subscribers/${email}`);
       toast.success("Subscriber removed successfully");
       setSubscribers((prev) => prev.filter((sub) => sub.email !== email));
       setDeleteConfirm(null);
@@ -69,7 +69,7 @@ const SubscriptionManagement = () => {
       // Using Promise.all for parallel deletion
       await Promise.all(
         selectedSubscribers.map(email => 
-          axios.delete(`http://localhost:5000/api/newsletter/subscribers/${email}`)
+          axios.delete(`https://devagroupon-1.onrender.com/api/newsletter/subscribers/${email}`)
         )
       );
       

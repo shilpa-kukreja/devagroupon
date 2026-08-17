@@ -78,7 +78,7 @@ const CategoryCarousel = () => {
       // Remove any double slashes that might occur
       cleanPath = cleanPath.replace(/\/+/g, '/');
 
-      const fullUrl = `${'http://localhost:5000'}${cleanPath}`;
+      const fullUrl = `${'https://devagroupon-1.onrender.com'}${cleanPath}`;
 
       // Validate URL
       new URL(fullUrl);

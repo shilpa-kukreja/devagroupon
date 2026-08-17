@@ -57,7 +57,7 @@ export const Recommendations = () => {
       // Remove leading slash if present to avoid double slashes
       let cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
       
-      const fullUrl = `http://localhost:5000/${cleanPath}`;
+      const fullUrl = `https://devagroupon-1.onrender.com/${cleanPath}`;
       
       // Validate URL
       new URL(fullUrl);
@@ -355,7 +355,7 @@ export const SimpleDynamicRecommendations = ({ product }) => {
       // Remove leading slash if present to avoid double slashes
       let cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
       
-      const fullUrl = `http://localhost:5000/${cleanPath}`;
+      const fullUrl = `https://devagroupon-1.onrender.com/${cleanPath}`;
       
       // Validate URL
       new URL(fullUrl);

@@ -58,7 +58,7 @@ const AdminAddBlog = () => {
 
   const fetchBlogDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/blog/${id}`);
+      const res = await axios.get(`https://devagroupon-1.onrender.com/api/blog/${id}`);
       const blog = res.data;
       
       const formattedDate = blog.blogDate
@@ -76,7 +76,7 @@ const AdminAddBlog = () => {
         metatag: blog.metatag || "",
       });
 
-      setImagePreview(`http://localhost:5000${blog.blogImg}` || "");
+      setImagePreview(`https://devagroupon-1.onrender.com${blog.blogImg}` || "");
     } catch (error) {
       toast.error("Failed to fetch blog details.");
       console.error(error);
@@ -173,7 +173,7 @@ const AdminAddBlog = () => {
     try {
       setLoading(true);
 
-      const url = isEditMode ? `http://localhost:5000/api/blog/${id}` : "http://localhost:5000/api/blog/createblog";
+      const url = isEditMode ? `https://devagroupon-1.onrender.com/api/blog/${id}` : "https://devagroupon-1.onrender.com/api/blog/createblog";
       const method = isEditMode ? "PUT" : "POST";
 
       const res = await fetch(url, {
@@ -561,7 +561,7 @@ export default AdminAddBlog;
 
 //   const fetchBlogDetails = async () => {
 //     try {
-//       const res = await axios.get(`http://localhost:5000/api/blog/blog/${id}`);
+//       const res = await axios.get(`https://devagroupon-1.onrender.com/api/blog/blog/${id}`);
 //       const blog = res.data;
       
 //       const formattedDate = blog.blogDate
@@ -579,7 +579,7 @@ export default AdminAddBlog;
 //         metatag: blog.metatag || "",
 //       });
 
-//       setImagePreview(`http://localhost:5000${blog.blogImg}` || "");
+//       setImagePreview(`https://devagroupon-1.onrender.com${blog.blogImg}` || "");
 //     } catch (error) {
 //       toast.error("Failed to fetch blog details.");
 //       console.error(error);
@@ -676,7 +676,7 @@ export default AdminAddBlog;
 //     try {
 //       setLoading(true);
 
-//       const url = isEditMode ? `http://localhost:5000/api/blog/blog/${id}` : "http://localhost:5000/api/blog/blog";
+//       const url = isEditMode ? `https://devagroupon-1.onrender.com/api/blog/blog/${id}` : "https://devagroupon-1.onrender.com/api/blog/blog";
 //       const method = isEditMode ? "PUT" : "POST";
 
 //       const res = await fetch(url, {

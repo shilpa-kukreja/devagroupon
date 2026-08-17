@@ -15,7 +15,7 @@ export default function RegisteredBusinesses() {
   // Fetch all businesses
   const fetchBusinesses = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/businessregistration/get");
+      const res = await fetch("https://devagroupon-1.onrender.com/api/businessregistration/get");
       const data = await res.json();
       if (data.success) {
         setBusinesses(data.data);
@@ -38,7 +38,7 @@ export default function RegisteredBusinesses() {
   const handleStatusChange = async (id, newStatus) => {
     try {
       setUpdatingId(id);
-      const res = await fetch(`http://localhost:5000/api/businessregistration/${id}/status`, {
+      const res = await fetch(`https://devagroupon-1.onrender.com/api/businessregistration/${id}/status`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),

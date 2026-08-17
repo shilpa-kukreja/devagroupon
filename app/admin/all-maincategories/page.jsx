@@ -29,7 +29,7 @@ export default function MainCategoriesPage() {
   const fetchCategories = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/admin/main-categories");
+      const res = await fetch("https://devagroupon-1.onrender.com/api/admin/main-categories");
 
       if (!res.ok) {
         throw new Error('Failed to fetch categories');
@@ -64,8 +64,8 @@ export default function MainCategoriesPage() {
         "Name": category.name,
         "Slug": category.slug || "",
         "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
-        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
-        "Banner URL": category.banner ? `http://localhost:5000${category.banner}` : "",
+        "Image URL": category.img ? `https://devagroupon-1.onrender.com${category.img}` : "",
+        "Banner URL": category.banner ? `https://devagroupon-1.onrender.com${category.banner}` : "",
         "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
@@ -131,8 +131,8 @@ export default function MainCategoriesPage() {
         "Name": category.name,
         "Slug": category.slug || "",
         "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
-        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
-        "Banner URL": category.banner ? `http://localhost:5000${category.banner}` : "",
+        "Image URL": category.img ? `https://devagroupon-1.onrender.com${category.img}` : "",
+        "Banner URL": category.banner ? `https://devagroupon-1.onrender.com${category.banner}` : "",
         "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
@@ -246,8 +246,8 @@ export default function MainCategoriesPage() {
       }
 
       const url = editingId
-        ? `http://localhost:5000/api/admin/main-categories/${editingId}`
-        : "http://localhost:5000/api/admin/main-categories";
+        ? `https://devagroupon-1.onrender.com/api/admin/main-categories/${editingId}`
+        : "https://devagroupon-1.onrender.com/api/admin/main-categories";
 
       const method = editingId ? "PUT" : "POST";
 
@@ -277,7 +277,7 @@ export default function MainCategoriesPage() {
     if (!window.confirm("Are you sure you want to delete this category? This action cannot be undone.")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/main-categories/${id}`, {
+      const res = await fetch(`https://devagroupon-1.onrender.com/api/admin/main-categories/${id}`, {
         method: "DELETE",
       });
 
@@ -300,8 +300,8 @@ export default function MainCategoriesPage() {
       img: null,
       status: category.status
     });
-    setImagePreview(`http://localhost:5000/${category.img}` || category.img);
-    setBannerPreview(`http://localhost:5000${category.banner}`);
+    setImagePreview(`https://devagroupon-1.onrender.com/${category.img}` || category.img);
+    setBannerPreview(`https://devagroupon-1.onrender.com${category.banner}`);
     setEditingId(category._id);
     setShowForm(true);
   };
@@ -433,7 +433,7 @@ export default function MainCategoriesPage() {
       <div className="relative h-48 bg-gray-100 overflow-hidden">
         {category.img ? (
           <img
-            src={`http://localhost:5000${category.img} `}
+            src={`https://devagroupon-1.onrender.com${category.img} `}
             alt={category.name}
             className="w-full h-full object-cover"
           />
@@ -812,7 +812,7 @@ export default function MainCategoriesPage() {
                               <div className="flex items-center">
                                 {category.img && (
                                   <img
-                                    src={`http://localhost:5000${category.img} `}
+                                    src={`https://devagroupon-1.onrender.com${category.img} `}
                                     alt={category.name}
                                     className="h-10 w-10 rounded-lg object-cover mr-3"
                                   />
@@ -830,7 +830,7 @@ export default function MainCategoriesPage() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               {category.img && (
                                 <img
-                                  src={`http://localhost:5000${category.img} `}
+                                  src={`https://devagroupon-1.onrender.com${category.img} `}
                                   alt={category.name}
                                   className="h-10 w-10 rounded-lg object-cover"
                                 />

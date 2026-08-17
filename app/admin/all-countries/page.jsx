@@ -23,7 +23,7 @@ export default function CountriesPage() {
   const fetchCountries = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/api/admin/countries");
+      const res = await fetch("https://devagroupon-1.onrender.com/api/admin/countries");
       
       if (!res.ok) {
         throw new Error('Failed to fetch countries');
@@ -88,8 +88,8 @@ export default function CountriesPage() {
       }
 
       const url = editingId 
-        ? `http://localhost:5000/api/admin/countries/${editingId}`
-        : "http://localhost:5000/api/admin/countries";
+        ? `https://devagroupon-1.onrender.com/api/admin/countries/${editingId}`
+        : "https://devagroupon-1.onrender.com/api/admin/countries";
       
       const method = editingId ? "PUT" : "POST";
 
@@ -118,7 +118,7 @@ export default function CountriesPage() {
     if (!window.confirm("Are you sure you want to delete this country? This action cannot be undone.")) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/countries/${id}`, {
+      const res = await fetch(`https://devagroupon-1.onrender.com/api/admin/countries/${id}`, {
         method: "DELETE",
       });
 
@@ -140,7 +140,7 @@ export default function CountriesPage() {
       name: country.name,
       img: null
     });
-    setImagePreview(`http://localhost:5000${country.img}` || country.img);
+    setImagePreview(`https://devagroupon-1.onrender.com${country.img}` || country.img);
     setEditingId(country._id);
     setShowForm(true);
   };
@@ -260,7 +260,7 @@ export default function CountriesPage() {
       <div className="relative h-48 bg-gray-100 overflow-hidden">
         {country.img ? (
           <img 
-            src={`http://localhost:5000${country.img}`} // Replace with your backend APIcountry.img} 
+            src={`https://devagroupon-1.onrender.com${country.img}`} // Replace with your backend APIcountry.img} 
             alt={country.name}
             className="w-full h-full object-cover"
           />
@@ -535,7 +535,7 @@ export default function CountriesPage() {
                               <div className="flex items-center">
                                 {country.img && (
                                   <img 
-                                    src={`http://localhost:5000${country.img}`} // Replace with your backend APIcountry.img} 
+                                    src={`https://devagroupon-1.onrender.com${country.img}`} // Replace with your backend APIcountry.img} 
                                     alt={country.name}
                                     className="h-10 w-10 rounded-lg object-cover mr-3"
                                   />
@@ -553,7 +553,7 @@ export default function CountriesPage() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               {country.img ? (
                                 <img 
-                                  src={`http://localhost:5000${country.img}`} // Replace with your backend APIcountry.img} 
+                                  src={`https://devagroupon-1.onrender.com${country.img}`} // Replace with your backend APIcountry.img} 
                                   alt={country.name}
                                   className="h-12 w-16 rounded object-cover border border-gray-200"
                                 />

@@ -55,7 +55,7 @@ export default function AboutBrandsPage() {
   ];
 
   // API base URL
-  const API_BASE = "http://localhost:5000/api/aboutbrand";
+  const API_BASE = "https://devagroupon-1.onrender.com/api/aboutbrand";
 
   // Fetch data
   const fetchData = useCallback(async () => {
@@ -64,7 +64,7 @@ export default function AboutBrandsPage() {
       
       const [aboutBrandsRes, brandsRes] = await Promise.all([
         fetch(`${API_BASE}/about-brands`),
-        fetch("http://localhost:5000/api/admin/brands")
+        fetch("https://devagroupon-1.onrender.com/api/admin/brands")
       ]);
 
       if (!aboutBrandsRes.ok || !brandsRes.ok) {
@@ -608,7 +608,7 @@ const TableView = ({ aboutBrands, onEdit, onDelete }) => {
                   <div className="flex items-center">
                     {aboutBrand.image && (
                       <img 
-                        src={`http://localhost:5000${aboutBrand.image}`}
+                        src={`https://devagroupon-1.onrender.com${aboutBrand.image}`}
                         alt={aboutBrand.heading}
                         className="h-10 w-10 rounded-lg object-cover mr-3"
                       />
@@ -682,7 +682,7 @@ const GridView = ({ aboutBrands, onEdit, onDelete }) => {
           <div className="h-32 bg-gray-100 overflow-hidden">
             {aboutBrand.image ? (
               <img 
-                src={`http://localhost:5000${aboutBrand.image}`}
+                src={`https://devagroupon-1.onrender.com${aboutBrand.image}`}
                 alt={aboutBrand.heading}
                 className="w-full h-full object-cover"
               />
@@ -946,7 +946,7 @@ const AboutBrandForm = ({
               </label>
               <div className="flex justify-center">
                 <img 
-                  src={`http://localhost:5000${imagePreview}`}
+                  src={`https://devagroupon-1.onrender.com${imagePreview}`}
                   alt="Preview" 
                   className="h-24 w-24 rounded-lg object-cover border border-gray-200"
                 />

@@ -21,7 +21,7 @@ export default function AdminLogin() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/businessregistration/admin-login",
+        "https://devagroupon-1.onrender.com/api/businessregistration/admin-login",
         { email, password }
       );
 

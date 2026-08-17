@@ -30,8 +30,8 @@ export default function SubcategoriesPage() {
     try {
       setLoading(true);
       const [subcategoriesRes, categoriesRes] = await Promise.all([
-        fetch("http://localhost:5000/api/admin/subcategories"),
-        fetch("http://localhost:5000/api/admin/categories")
+        fetch("https://devagroupon-1.onrender.com/api/admin/subcategories"),
+        fetch("https://devagroupon-1.onrender.com/api/admin/categories")
       ]);
 
       if (!subcategoriesRes.ok || !categoriesRes.ok) {
@@ -81,7 +81,7 @@ export default function SubcategoriesPage() {
         "Main Category": subcategory.category?.maincategory?.name || "N/A",
         "Main Category ID": subcategory.category?.maincategory?._id || "",
         "Status": subcategory.status.charAt(0).toUpperCase() + subcategory.status.slice(1),
-        "Image URL": subcategory.img ? `http://localhost:5000${subcategory.img}` : "",
+        "Image URL": subcategory.img ? `https://devagroupon-1.onrender.com${subcategory.img}` : "",
         "Created Date": new Date(subcategory.createdAt).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
@@ -155,7 +155,7 @@ export default function SubcategoriesPage() {
         "Parent Category ID": subcategory.category?._id || "",
         "Main Category": subcategory.category?.maincategory?.name || "N/A",
         "Status": subcategory.status.charAt(0).toUpperCase() + subcategory.status.slice(1),
-        "Image URL": subcategory.img ? `http://localhost:5000${subcategory.img}` : "",
+        "Image URL": subcategory.img ? `https://devagroupon-1.onrender.com${subcategory.img}` : "",
         "Created Date": new Date(subcategory.createdAt).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
@@ -222,7 +222,7 @@ export default function SubcategoriesPage() {
         "Parent Category": subcategory.category?.name || "N/A",
         "Parent Category ID": subcategory.category?._id || "",
         "Status": subcategory.status.charAt(0).toUpperCase() + subcategory.status.slice(1),
-        "Image URL": subcategory.img ? `http://localhost:5000${subcategory.img}` : "",
+        "Image URL": subcategory.img ? `https://devagroupon-1.onrender.com${subcategory.img}` : "",
         "Created Date": new Date(subcategory.createdAt).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
@@ -307,8 +307,8 @@ export default function SubcategoriesPage() {
       }
 
       const url = editingId 
-        ? `http://localhost:5000/api/admin/subcategories/${editingId}`
-        : "http://localhost:5000/api/admin/subcategories";
+        ? `https://devagroupon-1.onrender.com/api/admin/subcategories/${editingId}`
+        : "https://devagroupon-1.onrender.com/api/admin/subcategories";
       
       const method = editingId ? "PUT" : "POST";
 
@@ -337,7 +337,7 @@ export default function SubcategoriesPage() {
     if (!window.confirm("Are you sure you want to delete this subcategory? This action cannot be undone.")) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/subcategories/${id}`, {
+      const res = await fetch(`https://devagroupon-1.onrender.com/api/admin/subcategories/${id}`, {
         method: "DELETE",
       });
 
@@ -493,7 +493,7 @@ export default function SubcategoriesPage() {
       <div className="relative h-48 bg-gray-100 overflow-hidden">
         {subcategory.img ? (
           <img 
-            src={`http://localhost:5000${subcategory.img} `}
+            src={`https://devagroupon-1.onrender.com${subcategory.img} `}
             alt={subcategory.name}
             className="w-full h-full object-cover"
           />
@@ -905,7 +905,7 @@ export default function SubcategoriesPage() {
                               <div className="flex items-center">
                                 {subcategory.img && (
                                   <img 
-                                    src={`http://localhost:5000${subcategory.img} `}
+                                    src={`https://devagroupon-1.onrender.com${subcategory.img} `}
                                     alt={subcategory.name}
                                     className="h-10 w-10 rounded-lg object-cover mr-3"
                                   />

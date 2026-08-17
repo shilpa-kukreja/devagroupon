@@ -322,7 +322,7 @@ export default function FrozenProductsPage() {
       cleanPath = cleanPath.substring(1);
     }
     
-    return `http://localhost:5000/${cleanPath}`;
+    return `https://devagroupon-1.onrender.com/${cleanPath}`;
   };
 
   const FilterSection = ({ title, children, isExpanded = false }) => (

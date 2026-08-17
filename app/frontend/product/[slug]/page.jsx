@@ -1035,7 +1035,7 @@ export default function ProductDetailPage() {
     // Handle different path formats
     let cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
     
-    return `http://localhost:5000/${cleanPath}`;
+    return `https://devagroupon-1.onrender.com/${cleanPath}`;
   };
 
   const getCountryCode = (country) => {

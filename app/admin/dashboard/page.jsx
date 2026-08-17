@@ -41,9 +41,9 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       const [statsRes, chartsRes, overviewRes] = await Promise.all([
-        fetch('http://localhost:5000/api/dashboard/stats'),
-        fetch('http://localhost:5000/api/dashboard/charts'),
-        fetch('http://localhost:5000/api/dashboard/overview')
+        fetch('https://devagroupon-1.onrender.com/api/dashboard/stats'),
+        fetch('https://devagroupon-1.onrender.com/api/dashboard/charts'),
+        fetch('https://devagroupon-1.onrender.com/api/dashboard/overview')
       ]);
 
       if (!statsRes.ok || !chartsRes.ok || !overviewRes.ok) {

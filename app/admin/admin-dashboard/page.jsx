@@ -77,7 +77,7 @@ export default function AdminDashboard() {
 
   const fetchMainCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/main-categories', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/admin/main-categories', {
        
       });
       const data = await response.json();
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/categories', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/admin/categories', {
        
       });
       const data = await response.json();
@@ -105,7 +105,7 @@ export default function AdminDashboard() {
 
   const fetchSubcategories = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/categories/subcategories', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/admin/categories/subcategories', {
         
       });
       const data = await response.json();
@@ -119,7 +119,7 @@ export default function AdminDashboard() {
 
   const fetchBrands = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admin/brands', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/admin/brands', {
        
       });
       const data = await response.json();
@@ -139,7 +139,7 @@ export default function AdminDashboard() {
   const handleCreateMainCategory = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/admin/categories/main-categories', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/admin/categories/main-categories', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export default function AdminDashboard() {
   const handleCreateCategory = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/admin/categories', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/admin/categories', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ export default function AdminDashboard() {
   const handleCreateSubcategory = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/admin/subcategories', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/admin/subcategories', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -220,7 +220,7 @@ export default function AdminDashboard() {
   const handleCreateBrand = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/admin/brands', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/admin/brands', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

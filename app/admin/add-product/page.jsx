@@ -82,7 +82,7 @@ export default function AddProductPage() {
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/product/categories");
+      const res = await fetch("https://devagroupon-1.onrender.com/api/product/categories");
       const data = await res.json();
       if (data.success) {
         setCategories(data.data);
@@ -106,7 +106,7 @@ export default function AddProductPage() {
       setLoading(true);
       console.log("Fetching product with ID:", id);
 
-      const response = await axios.get(`http://localhost:5000/api/product/products/${id}`);
+      const response = await axios.get(`https://devagroupon-1.onrender.com/api/product/products/${id}`);
       console.log("Full API Response:", response);
 
       if (response.data.success) {
@@ -168,7 +168,7 @@ export default function AddProductPage() {
         if (product.thumbImg) {
           const thumbUrl = product.thumbImg.startsWith('http')
             ? product.thumbImg
-            : `http://localhost:5000/${product.thumbImg}`;
+            : `https://devagroupon-1.onrender.com/${product.thumbImg}`;
           setImagePreview(thumbUrl);
           console.log("Thumbnail preview set:", thumbUrl);
         }
@@ -177,7 +177,7 @@ export default function AddProductPage() {
         if (product.galleryImg?.length > 0) {
           const galleryUrls = product.galleryImg.map(img =>
             typeof img === 'string' && !img.startsWith('http')
-              ? `http://localhost:5000/${img}`
+              ? `https://devagroupon-1.onrender.com/${img}`
               : img
           );
           setGalleryPreviews(galleryUrls);
@@ -321,8 +321,8 @@ export default function AddProductPage() {
       }
 
       const url = isEditMode
-        ? `http://localhost:5000/api/product/products/${id}`
-        : "http://localhost:5000/api/product/products";
+        ? `https://devagroupon-1.onrender.com/api/product/products/${id}`
+        : "https://devagroupon-1.onrender.com/api/product/products";
 
       const method = isEditMode ? "PUT" : "POST";
 

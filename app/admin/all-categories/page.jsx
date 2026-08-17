@@ -30,8 +30,8 @@ export default function CategoriesPage() {
     try {
       setLoading(true);
       const [categoriesRes, mainCategoriesRes] = await Promise.all([
-        fetch("http://localhost:5000/api/admin/categories"),
-        fetch("http://localhost:5000/api/admin/main-categories")
+        fetch("https://devagroupon-1.onrender.com/api/admin/categories"),
+        fetch("https://devagroupon-1.onrender.com/api/admin/main-categories")
       ]);
 
       if (!categoriesRes.ok || !mainCategoriesRes.ok) {
@@ -79,7 +79,7 @@ export default function CategoriesPage() {
         "Main Category": category.maincategory?.name || "N/A",
         "Main Category ID": category.maincategory?._id || "",
         "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
-        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
+        "Image URL": category.img ? `https://devagroupon-1.onrender.com${category.img}` : "",
         "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
@@ -150,7 +150,7 @@ export default function CategoriesPage() {
         "Main Category": category.maincategory?.name || "N/A",
         "Main Category ID": category.maincategory?._id || "",
         "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
-        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
+        "Image URL": category.img ? `https://devagroupon-1.onrender.com${category.img}` : "",
         "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
@@ -215,7 +215,7 @@ export default function CategoriesPage() {
         "Slug": category.slug || "",
         "Main Category": category.maincategory?.name || "N/A",
         "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
-        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
+        "Image URL": category.img ? `https://devagroupon-1.onrender.com${category.img}` : "",
         "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
@@ -299,8 +299,8 @@ export default function CategoriesPage() {
       }
 
       const url = editingId 
-        ? `http://localhost:5000/api/admin/categories/${editingId}`
-        : "http://localhost:5000/api/admin/categories";
+        ? `https://devagroupon-1.onrender.com/api/admin/categories/${editingId}`
+        : "https://devagroupon-1.onrender.com/api/admin/categories";
       
       const method = editingId ? "PUT" : "POST";
 
@@ -329,7 +329,7 @@ export default function CategoriesPage() {
     if (!window.confirm("Are you sure you want to delete this category? This action cannot be undone.")) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/categories/${id}`, {
+      const res = await fetch(`https://devagroupon-1.onrender.com/api/admin/categories/${id}`, {
         method: "DELETE",
       });
 

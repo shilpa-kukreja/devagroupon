@@ -71,7 +71,7 @@ export default function AboutBrand({ brandSlug, sectionType = "all" }) {
       if (imgPath.startsWith('http')) return imgPath;
       
       let cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
-      const fullUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/${cleanPath}`;
+      const fullUrl = `${process.env.NEXT_PUBLIC_API_URL || 'https://devagroupon-1.onrender.com'}/${cleanPath}`;
       
       new URL(fullUrl);
       return fullUrl;

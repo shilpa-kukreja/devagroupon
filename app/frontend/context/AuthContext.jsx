@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, rememberMe = false) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('https://devagroupon-1.onrender.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
 
     const fetchblogs = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/blog/getblog");
+            const response = await axios.get("https://devagroupon-1.onrender.com/api/blog/getblog");
             if (response.data && Array.isArray(response.data)) {
                 setBlogs(response.data);
             } else {

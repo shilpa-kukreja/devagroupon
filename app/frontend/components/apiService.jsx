@@ -1,5 +1,5 @@
 // services/apiService.js
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://devagroupon-1.onrender.com/api';
 
 // Helper function to remove circular references
 function removeCircularReferences(obj, seen = new WeakSet()) {

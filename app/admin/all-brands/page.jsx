@@ -28,7 +28,7 @@ export default function BrandsPage() {
   const [sortConfig, setSortConfig] = useState({ key: "name", direction: "asc" });
 
   // API base URL
-  const API_BASE = "http://localhost:5000/api/admin";
+  const API_BASE = "https://devagroupon-1.onrender.com/api/admin";
 
   // Fetch data
   const fetchData = useCallback(async () => {
