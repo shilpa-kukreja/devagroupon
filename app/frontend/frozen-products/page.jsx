@@ -15,7 +15,7 @@ export default function FrozenProductsPage() {
   const [viewMode, setViewMode] = useState('grid');
   const [sortBy, setSortBy] = useState('default');
   const [expandedFilters, setExpandedFilters] = useState({});
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([0, 100000]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilters, setSelectedFilters] = useState({
     brands: [],
@@ -302,7 +302,7 @@ export default function FrozenProductsPage() {
       sugar: false,
       unit: []
     });
-    setPriceRange([0, 1000]);
+    setPriceRange([0, 100000]);
     setSearchQuery('');
   };
 
@@ -322,7 +322,7 @@ export default function FrozenProductsPage() {
       cleanPath = cleanPath.substring(1);
     }
     
-    return `https://devagroupon.onrender.com/${cleanPath}`;
+    return `http://localhost:5000/${cleanPath}`;
   };
 
   const FilterSection = ({ title, children, isExpanded = false }) => (
@@ -391,7 +391,7 @@ export default function FrozenProductsPage() {
             <Snowflake size={64} className="mx-auto text-blue-500 mb-4" />
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Frozen Products</h1>
             <p className="text-xl text-gray-600 mb-6">
-              Explore our wide range of frozen foods, perfectly preserved for your convenience
+              Carefully frozen foods that lock in taste, texture, and reliability.
             </p>
             <div className="bg-white rounded-lg p-4 inline-flex items-center gap-2">
               <Snowflake size={20} className="text-blue-500" />
@@ -462,7 +462,7 @@ export default function FrozenProductsPage() {
                         <input
                           type="range"
                           min="0"
-                          max="1000"
+                          max="100000"
                           value={priceRange[1]}
                           onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
                           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"

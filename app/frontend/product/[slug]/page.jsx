@@ -1029,13 +1029,13 @@ export default function ProductDetailPage() {
   }
 
   const getImageUrl = (imgPath) => {
-    if (!imgPath) return "/placeholder.png";
+    if (!imgPath) return "/products/product1.webp";
     if (imgPath.startsWith('http')) return imgPath;
     
     // Handle different path formats
     let cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
     
-    return `https://devagroupon.onrender.com/${cleanPath}`;
+    return `http://localhost:5000/${cleanPath}`;
   };
 
   const getCountryCode = (country) => {
@@ -1167,12 +1167,11 @@ export default function ProductDetailPage() {
                 className="relative w-full aspect-square bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 cursor-zoom-in transition-all duration-300 hover:shadow-2xl"
                 onClick={() => openModal(selectedImageIndex)}
               >
-                <Image
+                <img
                   src={getImageUrl(galleryImages[selectedImageIndex])}
                   alt={product.name}
-                  fill
                   className="object-contain p-8 transition-transform duration-500"
-                  priority
+                
                 />
                 <div className="absolute inset-0  bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center">
                   <ZoomIn className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -1209,10 +1208,10 @@ export default function ProductDetailPage() {
                     }`}
                   onClick={() => setSelectedImageIndex(index)}
                 >
-                  <Image
+                  <img
                     src={getImageUrl(img)}
                     alt={`${product.name} - View ${index + 1}`}
-                    fill
+                    
                     className="object-cover"
                   />
                 </div>
@@ -1370,7 +1369,7 @@ export default function ProductDetailPage() {
             )}
 
             <div className="relative w-full h-full flex items-center justify-center">
-              <Image
+              <img
                 src={getImageUrl(galleryImages[selectedImageIndex])}
                 alt={product.name}
                 width={1200}

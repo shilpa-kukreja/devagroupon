@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import AdminLayout from "../components/AdminLayout";
+import * as XLSX from "xlsx";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -22,6 +23,7 @@ export default function CategoriesPage() {
   const [editingId, setEditingId] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
+  const [exportLoading, setExportLoading] = useState(false);
 
   // Fetch all categories and main categories
   const fetchData = useCallback(async () => {
@@ -63,6 +65,196 @@ export default function CategoriesPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Export to Excel function
+  const exportToExcel = () => {
+    try {
+      setExportLoading(true);
+      
+      // Prepare data for export
+      const exportData = categories.map(category => ({
+        "ID": category._id,
+        "Category Name": category.name,
+        "Slug": category.slug || "",
+        "Main Category": category.maincategory?.name || "N/A",
+        "Main Category ID": category.maincategory?._id || "",
+        "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
+        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
+        "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        "Created Time": new Date(category.createdAt).toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        "Updated Date": category.updatedAt ? new Date(category.updatedAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }) : "",
+        "Active": category.status === "active" ? "Yes" : "No",
+        "Products Count": category.productsCount || 0
+      }));
+
+      // Create workbook and worksheet
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      // Add column widths
+      const colWidths = [
+        { wch: 24 }, // ID
+        { wch: 25 }, // Category Name
+        { wch: 20 }, // Slug
+        { wch: 20 }, // Main Category
+        { wch: 24 }, // Main Category ID
+        { wch: 12 }, // Status
+        { wch: 40 }, // Image URL
+        { wch: 15 }, // Created Date
+        { wch: 12 }, // Created Time
+        { wch: 15 }, // Updated Date
+        { wch: 8 },  // Active
+        { wch: 12 }, // Products Count
+      ];
+      worksheet['!cols'] = colWidths;
+
+      // Add worksheet to workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Categories");
+
+      // Generate file name with timestamp
+      const timestamp = new Date().toISOString().split('T')[0];
+      const fileName = `categories_export_${timestamp}.xlsx`;
+
+      // Export the file
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success(`Exported ${categories.length} categories to Excel`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export to Excel');
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
+  // Export filtered results to Excel
+  const exportFilteredToExcel = () => {
+    try {
+      setExportLoading(true);
+      
+      const exportData = filteredCategories.map(category => ({
+        "ID": category._id,
+        "Category Name": category.name,
+        "Slug": category.slug || "",
+        "Main Category": category.maincategory?.name || "N/A",
+        "Main Category ID": category.maincategory?._id || "",
+        "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
+        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
+        "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        "Created Time": new Date(category.createdAt).toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        "Active": category.status === "active" ? "Yes" : "No",
+        "Products Count": category.productsCount || 0
+      }));
+
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      const colWidths = [
+        { wch: 24 },
+        { wch: 25 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 24 },
+        { wch: 12 },
+        { wch: 40 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 8 },
+        { wch: 12 },
+      ];
+      worksheet['!cols'] = colWidths;
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Filtered Categories");
+
+      const timestamp = new Date().toISOString().split('T')[0];
+      const filterInfo = searchTerm ? `_search_${searchTerm.substring(0, 10)}` : "";
+      const statusInfo = statusFilter !== "all" ? `_${statusFilter}` : "";
+      const fileName = `categories_filtered${filterInfo}${statusInfo}_${timestamp}.xlsx`;
+
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success(`Exported ${filteredCategories.length} filtered categories to Excel`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export filtered results');
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
+  // Export by Main Category
+  const exportByMainCategory = (mainCategoryId, mainCategoryName) => {
+    try {
+      setExportLoading(true);
+      
+      const filteredByMainCategory = categories.filter(
+        category => category.maincategory?._id === mainCategoryId
+      );
+      
+      const exportData = filteredByMainCategory.map(category => ({
+        "ID": category._id,
+        "Category Name": category.name,
+        "Slug": category.slug || "",
+        "Main Category": category.maincategory?.name || "N/A",
+        "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
+        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
+        "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        "Active": category.status === "active" ? "Yes" : "No"
+      }));
+
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      const colWidths = [
+        { wch: 24 },
+        { wch: 25 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 12 },
+        { wch: 40 },
+        { wch: 15 },
+        { wch: 8 },
+      ];
+      worksheet['!cols'] = colWidths;
+
+      const safeName = mainCategoryName.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20);
+      XLSX.utils.book_append_sheet(workbook, worksheet, safeName);
+
+      const timestamp = new Date().toISOString().split('T')[0];
+      const fileName = `categories_${safeName}_${timestamp}.xlsx`;
+
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success(`Exported ${filteredByMainCategory.length} categories for ${mainCategoryName}`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error(`Failed to export categories for ${mainCategoryName}`);
+    } finally {
+      setExportLoading(false);
+    }
+  };
 
   // Handle image file selection
   const handleImageChange = (e) => {
@@ -369,20 +561,105 @@ export default function CategoriesPage() {
                 {categories.length} categories in system
               </div>
             </div>
-            <button
-              onClick={() => {
-                setShowForm(true);
-                setEditingId(null);
-                setFormData({ name: "", img: null, maincategory: "", status: "active" });
-                setImagePreview("");
-              }}
-              className="mt-4 lg:mt-0 inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Add Category
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 mt-4 lg:mt-0">
+              {/* Export Buttons */}
+              <div className="flex gap-2">
+                <button
+                  onClick={exportToExcel}
+                  disabled={exportLoading || categories.length === 0}
+                  className="inline-flex items-center px-4 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {exportLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-500 border-t-transparent mr-2"></div>
+                      Exporting...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Export All
+                    </>
+                  )}
+                </button>
+                {filteredCategories.length > 0 && (searchTerm || statusFilter !== "all") && (
+                  <button
+                    onClick={exportFilteredToExcel}
+                    disabled={exportLoading}
+                    className="inline-flex items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {exportLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+                        Exporting...
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Export Filtered
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+              
+              <button
+                onClick={() => {
+                  setShowForm(true);
+                  setEditingId(null);
+                  setFormData({ name: "", img: null, maincategory: "", status: "active" });
+                  setImagePreview("");
+                }}
+                className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Add Category
+              </button>
+            </div>
+          </div>
+
+          {/* Export Options Panel */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-medium text-gray-900">Export Options</h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  Export category data to Excel for analysis or reporting
+                </p>
+              </div>
+              
+              {/* Quick Export by Main Category */}
+              {mainCategories.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                    Export by Main Category:
+                  </span>
+                  <select
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value) {
+                        const [id, name] = value.split('|');
+                        exportByMainCategory(id, name);
+                        e.target.value = '';
+                      }
+                    }}
+                    className="block w-full md:w-auto px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  >
+                    <option value="">Select Main Category</option>
+                    {mainCategories.map(mc => (
+                      <option key={mc._id} value={`${mc._id}|${mc.name}`}>
+                        {mc.name} ({categories.filter(c => c.maincategory?._id === mc._id).length})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Stats Cards */}
@@ -622,7 +899,7 @@ export default function CategoriesPage() {
                               <div className="flex items-center">
                                 {category.img && (
                                   <img 
-                                    src={category.img} 
+                                    src={`${process.env.NEXT_PUBLIC_API_URL}${category.img}   `}
                                     alt={category.name}
                                     className="h-10 w-10 rounded-lg object-cover mr-3"
                                   />

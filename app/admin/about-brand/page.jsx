@@ -608,7 +608,7 @@ const TableView = ({ aboutBrands, onEdit, onDelete }) => {
                   <div className="flex items-center">
                     {aboutBrand.image && (
                       <img 
-                        src={aboutBrand.image} 
+                        src={`http://localhost:5000${aboutBrand.image}`}
                         alt={aboutBrand.heading}
                         className="h-10 w-10 rounded-lg object-cover mr-3"
                       />
@@ -682,7 +682,7 @@ const GridView = ({ aboutBrands, onEdit, onDelete }) => {
           <div className="h-32 bg-gray-100 overflow-hidden">
             {aboutBrand.image ? (
               <img 
-                src={aboutBrand.image} 
+                src={`http://localhost:5000${aboutBrand.image}`}
                 alt={aboutBrand.heading}
                 className="w-full h-full object-cover"
               />
@@ -946,7 +946,7 @@ const AboutBrandForm = ({
               </label>
               <div className="flex justify-center">
                 <img 
-                  src={imagePreview} 
+                  src={`http://localhost:5000${imagePreview}`}
                   alt="Preview" 
                   className="h-24 w-24 rounded-lg object-cover border border-gray-200"
                 />

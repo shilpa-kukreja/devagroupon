@@ -42,7 +42,7 @@ export const getCategoriesForDropdown = async (req, res) => {
 // export const createProduct = async (req, res) => {
 //   try {
 //     const productData = req.body;
-    
+
 //     // Handle file uploads if using multer
 //     if (req.files) {
 //       if (req.files.thumbImg) {
@@ -58,7 +58,7 @@ export const getCategoriesForDropdown = async (req, res) => {
 //     if (productData.discountPrice) productData.discountPrice = parseFloat(productData.discountPrice);
 //     if (productData.stock) productData.stock = parseInt(productData.stock);
 //     if (productData.NewProduct) productData.NewProduct = productData.NewProduct === 'true';
-    
+
 //     // Convert measurements
 //     const measurements = ['width', 'height', 'weight', 'length'];
 //     measurements.forEach(field => {
@@ -113,7 +113,7 @@ export const createProduct = async (req, res) => {
 
     // Create product data object
     const productData = { ...req.body };
-    
+
     // Handle file uploads
     if (req.files) {
       if (req.files.thumbImg) {
@@ -166,7 +166,7 @@ export const createProduct = async (req, res) => {
 
     // Convert boolean fields safely
     productData.NewProduct = productData.NewProduct === 'true';
-    
+
     // Convert measurements with safety checks - FIXED
     const measurements = ['width', 'height', 'weight', 'length'];
     measurements.forEach(field => {
@@ -193,6 +193,18 @@ export const createProduct = async (req, res) => {
       }
     });
 
+    // Normalize producttype
+    if (productData.producttype) {
+      productData.producttype =
+        productData.producttype.charAt(0).toUpperCase() +
+        productData.producttype.slice(1).toLowerCase();
+    }
+
+    // Fallback safety
+    if (!['Food', 'Retail'].includes(productData.producttype)) {
+      productData.producttype = 'Food';
+    }
+
     // Handle numeric fields that might be empty
     const numericFields = ['ml', 'kg'];
     numericFields.forEach(field => {
@@ -204,7 +216,7 @@ export const createProduct = async (req, res) => {
     // Ensure all required fields have values
     const requiredFields = ['name', 'price', 'maincategory', 'category', 'subcategory', 'brand', 'country'];
     const missingFields = requiredFields.filter(field => !productData[field]);
-    
+
     if (missingFields.length > 0) {
       return res.status(400).json({
         success: false,
@@ -233,7 +245,7 @@ export const createProduct = async (req, res) => {
 
   } catch (error) {
     console.error("Create product error:", error);
-    
+
     // Handle specific error types
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(err => err.message);
@@ -243,14 +255,14 @@ export const createProduct = async (req, res) => {
         errors: messages
       });
     }
-    
+
     if (error.code === 11000) {
       return res.status(400).json({
         success: false,
         message: "Product with this name or slug already exists."
       });
     }
-    
+
     res.status(500).json({
       success: false,
       message: "Server error. Please try again later.",
@@ -262,9 +274,9 @@ export const createProduct = async (req, res) => {
 // Get All Products with advanced filtering
 export const getSalesProducts = async (req, res) => {
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
+    const {
+      page = 1,
+      limit = 100,
       search = '',
       status = '',
       category = '',
@@ -273,7 +285,7 @@ export const getSalesProducts = async (req, res) => {
       sortBy = 'createdAt',
       sortOrder = 'desc'
     } = req.query;
-    
+
     const skip = (page - 1) * limit;
     const filter = {};
 
@@ -382,6 +394,13 @@ export const updateProduct = async (req, res) => {
     if (updateData.price) updateData.price = parseFloat(updateData.price);
     if (updateData.discountPrice) updateData.discountPrice = parseFloat(updateData.discountPrice);
     if (updateData.stock) updateData.stock = parseInt(updateData.stock);
+
+    if (updateData.producttype) {
+      updateData.producttype =
+        updateData.producttype.charAt(0).toUpperCase() +
+        updateData.producttype.slice(1).toLowerCase();
+    }
+
 
     // Boolean conversions
     const booleanFields = ['NewProduct', 'Halal', 'Vegan', 'Frozen', 'Kosher'];
@@ -503,7 +522,7 @@ export const getProductById = async (req, res) => {
 
   } catch (error) {
     console.error("Get product error:", error);
-    
+
     // Handle invalid ID format
     if (error.name === 'CastError') {
       return res.status(400).json({
@@ -511,7 +530,7 @@ export const getProductById = async (req, res) => {
         message: "Invalid product ID format"
       });
     }
-    
+
     res.status(500).json({
       success: false,
       message: "Server error. Please try again later.",

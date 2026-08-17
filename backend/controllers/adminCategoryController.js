@@ -10,28 +10,29 @@ export const createMainCategory = async (req, res) => {
     const { name, status = "active" } = req.body;
 
     if (!name) {
+      return res.status(400).json({ success: false, message: "Name is required" });
+    }
+
+    if (!req.files?.img || !req.files?.banner) {
       return res.status(400).json({
         success: false,
-        message: "Name is required."
+        message: "Image and Banner are required"
       });
     }
 
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "Image is required."
-      });
-    }
+    const slug = name
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9 -]/g, "")
+      .replace(/\s+/g, "-");
 
-    const slug = name.toLowerCase().replace(/[^a-zA-Z0-9 -]/g, '').replace(/\s+/g, '-');
-
-    // Construct image URL - adjust this based on your server setup
-    const img = `/uploads/maincategory/${req.file.filename}`;
+    const img = `/uploads/maincategory/${req.files.img[0].filename}`;
+    const banner = `/uploads/maincategory/${req.files.banner[0].filename}`;
 
     const mainCategory = await MainCategoryModel.create({
       name,
       slug,
       img,
+      banner,
       status
     });
 
@@ -40,22 +41,11 @@ export const createMainCategory = async (req, res) => {
       message: "Main category created successfully!",
       data: mainCategory
     });
-
   } catch (error) {
-    console.error("Create main category error:", error);
-    if (error.code === 11000) {
-      return res.status(400).json({
-        success: false,
-        message: "Main category with this name or slug already exists."
-      });
-    }
-    res.status(500).json({
-      success: false,
-      message: "Server error. Please try again later.",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 export const getMainCategories = async (req, res) => {
   try {
@@ -77,50 +67,41 @@ export const getMainCategories = async (req, res) => {
 export const updateMainCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, img, status } = req.body;
+    const { name, status } = req.body;
 
     const updateData = {};
+
     if (name) {
       updateData.name = name;
       updateData.slug = name.toLowerCase().replace(/[^a-zA-Z0-9 -]/g, '').replace(/\s+/g, '-');
     }
-    if (img) updateData.img = img;
+
     if (status) updateData.status = status;
 
-    const mainCategory = await MainCategoryModel.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true, runValidators: true }
-    );
-
-    if (!mainCategory) {
-      return res.status(404).json({
-        success: false,
-        message: "Main category not found."
-      });
+    if (req.files?.img) {
+      updateData.img = `/uploads/maincategory/${req.files.img[0].filename}`;
     }
 
-    res.status(200).json({
+    if (req.files?.banner) {
+      updateData.banner = `/uploads/maincategory/${req.files.banner[0].filename}`;
+    }
+
+    const category = await MainCategoryModel.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!category) {
+      return res.status(404).json({ success: false, message: "Category not found" });
+    }
+
+    res.json({
       success: true,
-      message: "Main category updated successfully!",
-      data: mainCategory
+      message: "Main category updated successfully",
+      data: category
     });
-
   } catch (error) {
-    console.error("Update main category error:", error);
-    if (error.code === 11000) {
-      return res.status(400).json({
-        success: false,
-        message: "Main category with this name or slug already exists."
-      });
-    }
-    res.status(500).json({
-      success: false,
-      message: "Server error. Please try again later.",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 export const deleteMainCategory = async (req, res) => {
   try {

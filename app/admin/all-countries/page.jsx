@@ -140,7 +140,7 @@ export default function CountriesPage() {
       name: country.name,
       img: null
     });
-    setImagePreview(country.img);
+    setImagePreview(`http://localhost:5000${country.img}` || country.img);
     setEditingId(country._id);
     setShowForm(true);
   };
@@ -260,7 +260,7 @@ export default function CountriesPage() {
       <div className="relative h-48 bg-gray-100 overflow-hidden">
         {country.img ? (
           <img 
-            src={country.img} 
+            src={`http://localhost:5000${country.img}`} // Replace with your backend APIcountry.img} 
             alt={country.name}
             className="w-full h-full object-cover"
           />
@@ -535,7 +535,7 @@ export default function CountriesPage() {
                               <div className="flex items-center">
                                 {country.img && (
                                   <img 
-                                    src={country.img} 
+                                    src={`http://localhost:5000${country.img}`} // Replace with your backend APIcountry.img} 
                                     alt={country.name}
                                     className="h-10 w-10 rounded-lg object-cover mr-3"
                                   />
@@ -553,7 +553,7 @@ export default function CountriesPage() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               {country.img ? (
                                 <img 
-                                  src={country.img} 
+                                  src={`http://localhost:5000${country.img}`} // Replace with your backend APIcountry.img} 
                                   alt={country.name}
                                   className="h-12 w-16 rounded object-cover border border-gray-200"
                                 />

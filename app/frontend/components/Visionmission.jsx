@@ -138,9 +138,9 @@ const VisionMission = () => {
             
             <div className="relative inline-block">
               <h1 className="text-5xl md:text-6xl font-black bg-gray-900 bg-clip-text text-transparent mb-8 tracking-tight">
-                DEAGLEY
+                Deva
                 <span className="block text-5xl md:text-6xl bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mt-2">
-                  COPPERMANS
+                  Gruppen
                 </span>
               </h1>
               
@@ -230,14 +230,14 @@ const VisionMission = () => {
                 <div className="p-8 md:p-10 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm">
                   <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
                     <p className="text-xl text-cyan-100 font-light">
-                      In an era of unprecedented global connectivity, the world is embracing the rich tapestry of Asian culinary traditions like never before.
+                      The world is more connected than ever. Travel, digital exposure, and cultural curiosity have reshaped how consumers explore food. Asian cuisine is no longer niche. It is influential, aspirational, and deeply integrated into modern lifestyles.
                     </p>
                     <p>
-                      As borders blur and cultures intertwine, there's a growing desire to experience the authentic flavors of the East from the comfort of home. Asian cuisine stands out for its <span className="highlight-cyan">health-conscious approach</span> and <span className="highlight-blue">sustainable practices</span>, offering a world of taste experiences that nourish both body and soul.
+                       Deva Gruppen envisions a future where authentic Asian food is not only accessible but respected, understood, and celebrated. We see a market where quality replaces imitation, and where consumers experience the true depth, balance, and wellness driven nature of Asian flavours. <span className="highlight-cyan"></span> and <span className="highlight-blue">sustainable practices</span>, offering a world of taste experiences that nourish both body and soul.
                     </p>
                     <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-l-4 border-cyan-400 rounded-r-xl p-6 mt-8">
                       <p className="text-cyan-100 font-semibold text-lg">
-                        At Deagley Coppermans, we're not just importing products – we're curating experiences. We transform the authentic passion for Asian food into accessible, inspiring culinary journeys for every European household.
+                          Our vision is to lead this evolution with integrity, sophistication, and scale
                       </p>
                     </div>
                   </div>
@@ -279,18 +279,18 @@ const VisionMission = () => {
                 <div className="p-8 md:p-10 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm">
                   <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
                     <p>
-                      As Europe's premier innovator in Asian food distribution, we serve a diverse network including specialty Asian markets, mainstream retailers, and food service leaders.
+                      Deva Gruppen exists to set a higher benchmark for Asian food distribution in Europe.
                     </p>
                     <p>
-                      Through strategic partnerships and meticulous sourcing, we ensure every product maintains its <span className="highlight-orange">authentic character</span> while meeting the highest standards of <span className="highlight-emerald">European compliance</span>.
+                     Our mission is to deliver authentic, premium Asian food and related products to a wide spectrum of customers, from specialist stores to mainstream retailers and food service partners. We ensure every product meets strict regulatory standards while preserving its original character and taste identity.
                     </p>
                     <p className="text-red-100 font-light">
-                      Our passion fuels excellence in every aspect – from product selection to customer relationships and team development. We're not just suppliers; we're cultural ambassadors.
+                      We achieve this through disciplined sourcing, trusted partnerships, and a team driven by pride in their craft. Passion guides our work, but precision defines our outcomes.
                     </p>
                     
                     <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-2xl p-6 mt-8">
                       <p className="text-xl font-bold text-center text-white">
-                        Our ambition is clear: to become the <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">undisputed leader</span> in bringing authentic Asian culinary excellence to Europe.
+                        Our ambition is clear and deliberate:  To become the most trusted and influential Asian food partner in Europe.
                       </p>
                     </div>
                   </div>

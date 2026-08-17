@@ -192,7 +192,7 @@ export default function ProductsPage() {
       <div className="relative h-48 bg-gray-100 overflow-hidden">
         {product.thumbImg ? (
           <img 
-            src={product.thumbImg} 
+            src={`http://localhost:5000/${product.thumbImg}`} 
             alt={product.name}
             className="w-full h-full object-cover"
           />

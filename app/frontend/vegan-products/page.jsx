@@ -318,7 +318,7 @@ export default function VeganProductsPage() {
       cleanPath = cleanPath.substring(1);
     }
     
-    return `https://devagroupon.onrender.com/${cleanPath}`;
+    return `http://localhost:5000/${cleanPath}`;
   };
 
   const FilterSection = ({ title, children, isExpanded = false }) => (

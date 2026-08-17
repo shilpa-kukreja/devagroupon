@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import AdminLayout from "../components/AdminLayout";
+import * as XLSX from "xlsx";
 
 export default function SubcategoriesPage() {
   const [subcategories, setSubcategories] = useState([]);
@@ -22,6 +23,7 @@ export default function SubcategoriesPage() {
   const [editingId, setEditingId] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
+  const [exportLoading, setExportLoading] = useState(false);
 
   // Fetch all subcategories and categories
   const fetchData = useCallback(async () => {
@@ -63,6 +65,204 @@ export default function SubcategoriesPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Export to Excel function
+  const exportToExcel = () => {
+    try {
+      setExportLoading(true);
+      
+      // Prepare data for export
+      const exportData = subcategories.map(subcategory => ({
+        "ID": subcategory._id,
+        "Subcategory Name": subcategory.name,
+        "Slug": subcategory.slug || "",
+        "Parent Category": subcategory.category?.name || "N/A",
+        "Parent Category ID": subcategory.category?._id || "",
+        "Main Category": subcategory.category?.maincategory?.name || "N/A",
+        "Main Category ID": subcategory.category?.maincategory?._id || "",
+        "Status": subcategory.status.charAt(0).toUpperCase() + subcategory.status.slice(1),
+        "Image URL": subcategory.img ? `http://localhost:5000${subcategory.img}` : "",
+        "Created Date": new Date(subcategory.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        "Created Time": new Date(subcategory.createdAt).toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        "Updated Date": subcategory.updatedAt ? new Date(subcategory.updatedAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }) : "",
+        "Active": subcategory.status === "active" ? "Yes" : "No",
+        "Products Count": subcategory.productsCount || 0
+      }));
+
+      // Create workbook and worksheet
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      // Add column widths
+      const colWidths = [
+        { wch: 24 }, // ID
+        { wch: 25 }, // Subcategory Name
+        { wch: 20 }, // Slug
+        { wch: 20 }, // Parent Category
+        { wch: 24 }, // Parent Category ID
+        { wch: 20 }, // Main Category
+        { wch: 24 }, // Main Category ID
+        { wch: 12 }, // Status
+        { wch: 40 }, // Image URL
+        { wch: 15 }, // Created Date
+        { wch: 12 }, // Created Time
+        { wch: 15 }, // Updated Date
+        { wch: 8 },  // Active
+        { wch: 12 }, // Products Count
+      ];
+      worksheet['!cols'] = colWidths;
+
+      // Add worksheet to workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Subcategories");
+
+      // Generate file name with timestamp
+      const timestamp = new Date().toISOString().split('T')[0];
+      const fileName = `subcategories_export_${timestamp}.xlsx`;
+
+      // Export the file
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success(`Exported ${subcategories.length} subcategories to Excel`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export to Excel');
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
+  // Export filtered results to Excel
+  const exportFilteredToExcel = () => {
+    try {
+      setExportLoading(true);
+      
+      const exportData = filteredSubcategories.map(subcategory => ({
+        "ID": subcategory._id,
+        "Subcategory Name": subcategory.name,
+        "Slug": subcategory.slug || "",
+        "Parent Category": subcategory.category?.name || "N/A",
+        "Parent Category ID": subcategory.category?._id || "",
+        "Main Category": subcategory.category?.maincategory?.name || "N/A",
+        "Status": subcategory.status.charAt(0).toUpperCase() + subcategory.status.slice(1),
+        "Image URL": subcategory.img ? `http://localhost:5000${subcategory.img}` : "",
+        "Created Date": new Date(subcategory.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        "Created Time": new Date(subcategory.createdAt).toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        "Active": subcategory.status === "active" ? "Yes" : "No",
+        "Products Count": subcategory.productsCount || 0
+      }));
+
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      const colWidths = [
+        { wch: 24 },
+        { wch: 25 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 24 },
+        { wch: 20 },
+        { wch: 12 },
+        { wch: 40 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 8 },
+        { wch: 12 },
+      ];
+      worksheet['!cols'] = colWidths;
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Filtered Subcategories");
+
+      const timestamp = new Date().toISOString().split('T')[0];
+      const filterInfo = searchTerm ? `_search_${searchTerm.substring(0, 10)}` : "";
+      const statusInfo = statusFilter !== "all" ? `_${statusFilter}` : "";
+      const fileName = `subcategories_filtered${filterInfo}${statusInfo}_${timestamp}.xlsx`;
+
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success(`Exported ${filteredSubcategories.length} filtered subcategories to Excel`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export filtered results');
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
+  // Export by Parent Category
+  const exportByParentCategory = (categoryId, categoryName) => {
+    try {
+      setExportLoading(true);
+      
+      const filteredByParent = subcategories.filter(
+        subcategory => subcategory.category?._id === categoryId
+      );
+      
+      const exportData = filteredByParent.map(subcategory => ({
+        "ID": subcategory._id,
+        "Subcategory Name": subcategory.name,
+        "Slug": subcategory.slug || "",
+        "Parent Category": subcategory.category?.name || "N/A",
+        "Parent Category ID": subcategory.category?._id || "",
+        "Status": subcategory.status.charAt(0).toUpperCase() + subcategory.status.slice(1),
+        "Image URL": subcategory.img ? `http://localhost:5000${subcategory.img}` : "",
+        "Created Date": new Date(subcategory.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        "Active": subcategory.status === "active" ? "Yes" : "No"
+      }));
+
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      const colWidths = [
+        { wch: 24 },
+        { wch: 25 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 24 },
+        { wch: 12 },
+        { wch: 40 },
+        { wch: 15 },
+        { wch: 8 },
+      ];
+      worksheet['!cols'] = colWidths;
+
+      const safeName = categoryName.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20);
+      XLSX.utils.book_append_sheet(workbook, worksheet, safeName);
+
+      const timestamp = new Date().toISOString().split('T')[0];
+      const fileName = `subcategories_${safeName}_${timestamp}.xlsx`;
+
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success(`Exported ${filteredByParent.length} subcategories for ${categoryName}`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error(`Failed to export subcategories for ${categoryName}`);
+    } finally {
+      setExportLoading(false);
+    }
+  };
 
   // Handle image file selection
   const handleImageChange = (e) => {
@@ -293,7 +493,7 @@ export default function SubcategoriesPage() {
       <div className="relative h-48 bg-gray-100 overflow-hidden">
         {subcategory.img ? (
           <img 
-            src={subcategory.img} 
+            src={`http://localhost:5000${subcategory.img} `}
             alt={subcategory.name}
             className="w-full h-full object-cover"
           />
@@ -369,19 +569,104 @@ export default function SubcategoriesPage() {
                 {subcategories.length} subcategories in system
               </div>
             </div>
-            <button
-              onClick={() => {
-                setShowForm(true);
-                setEditingId(null);
-                setFormData({ name: "", img: null, category: "", status: "active" });
-              }}
-              className="mt-4 lg:mt-0 inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Add Subcategory
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 mt-4 lg:mt-0">
+              {/* Export Buttons */}
+              <div className="flex gap-2">
+                <button
+                  onClick={exportToExcel}
+                  disabled={exportLoading || subcategories.length === 0}
+                  className="inline-flex items-center px-4 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {exportLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-500 border-t-transparent mr-2"></div>
+                      Exporting...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Export All
+                    </>
+                  )}
+                </button>
+                {filteredSubcategories.length > 0 && (searchTerm || statusFilter !== "all") && (
+                  <button
+                    onClick={exportFilteredToExcel}
+                    disabled={exportLoading}
+                    className="inline-flex items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {exportLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+                        Exporting...
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Export Filtered
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+              
+              <button
+                onClick={() => {
+                  setShowForm(true);
+                  setEditingId(null);
+                  setFormData({ name: "", img: null, category: "", status: "active" });
+                }}
+                className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Add Subcategory
+              </button>
+            </div>
+          </div>
+
+          {/* Export Options Panel */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-medium text-gray-900">Export Options</h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  Export subcategory data to Excel with complete hierarchy information
+                </p>
+              </div>
+              
+              {/* Quick Export by Parent Category */}
+              {categories.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                    Export by Parent Category:
+                  </span>
+                  <select
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value) {
+                        const [id, name] = value.split('|');
+                        exportByParentCategory(id, name);
+                        e.target.value = '';
+                      }
+                    }}
+                    className="block w-full md:w-auto px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  >
+                    <option value="">Select Parent Category</option>
+                    {categories.map(cat => (
+                      <option key={cat._id} value={`${cat._id}|${cat.name}`}>
+                        {cat.name} ({subcategories.filter(s => s.category?._id === cat._id).length})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Stats Cards */}
@@ -620,7 +905,7 @@ export default function SubcategoriesPage() {
                               <div className="flex items-center">
                                 {subcategory.img && (
                                   <img 
-                                    src={subcategory.img} 
+                                    src={`http://localhost:5000${subcategory.img} `}
                                     alt={subcategory.name}
                                     className="h-10 w-10 rounded-lg object-cover mr-3"
                                   />

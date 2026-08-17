@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import AdminLayout from "../components/AdminLayout";
+import * as XLSX from "xlsx";
 
 export default function MainCategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -14,19 +15,22 @@ export default function MainCategoriesPage() {
   const [formData, setFormData] = useState({
     name: "",
     img: null,
+    banner: null,
     status: "active"
   });
   const [imagePreview, setImagePreview] = useState("");
+  const [bannerPreview, setBannerPreview] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [viewMode, setViewMode] = useState("table"); // "table" or "grid"
+  const [exportLoading, setExportLoading] = useState(false);
 
   // Fetch all main categories
   const fetchCategories = useCallback(async () => {
     try {
       setLoading(true);
       const res = await fetch("http://localhost:5000/api/admin/main-categories");
-      
+
       if (!res.ok) {
         throw new Error('Failed to fetch categories');
       }
@@ -49,6 +53,132 @@ export default function MainCategoriesPage() {
     fetchCategories();
   }, [fetchCategories]);
 
+  // Export to Excel function
+  const exportToExcel = () => {
+    try {
+      setExportLoading(true);
+      
+      // Prepare data for export
+      const exportData = categories.map(category => ({
+        "ID": category._id,
+        "Name": category.name,
+        "Slug": category.slug || "",
+        "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
+        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
+        "Banner URL": category.banner ? `http://localhost:5000${category.banner}` : "",
+        "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        "Created Time": new Date(category.createdAt).toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        "Updated Date": category.updatedAt ? new Date(category.updatedAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }) : "",
+        "Active": category.status === "active" ? "Yes" : "No"
+      }));
+
+      // Create workbook and worksheet
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      // Add column widths
+      const colWidths = [
+        { wch: 24 }, // ID
+        { wch: 20 }, // Name
+        { wch: 20 }, // Slug
+        { wch: 10 }, // Status
+        { wch: 40 }, // Image URL
+        { wch: 40 }, // Banner URL
+        { wch: 15 }, // Created Date
+        { wch: 12 }, // Created Time
+        { wch: 15 }, // Updated Date
+        { wch: 8 },  // Active
+      ];
+      worksheet['!cols'] = colWidths;
+
+      // Add worksheet to workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Categories");
+
+      // Generate file name with timestamp
+      const timestamp = new Date().toISOString().split('T')[0];
+      const fileName = `categories_export_${timestamp}.xlsx`;
+
+      // Export the file
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success(`Exported ${categories.length} categories to Excel`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export to Excel');
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
+  // Export filtered results to Excel
+  const exportFilteredToExcel = () => {
+    try {
+      setExportLoading(true);
+      
+      const exportData = filteredCategories.map(category => ({
+        "ID": category._id,
+        "Name": category.name,
+        "Slug": category.slug || "",
+        "Status": category.status.charAt(0).toUpperCase() + category.status.slice(1),
+        "Image URL": category.img ? `http://localhost:5000${category.img}` : "",
+        "Banner URL": category.banner ? `http://localhost:5000${category.banner}` : "",
+        "Created Date": new Date(category.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        "Created Time": new Date(category.createdAt).toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        "Active": category.status === "active" ? "Yes" : "No"
+      }));
+
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      const colWidths = [
+        { wch: 24 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 10 },
+        { wch: 40 },
+        { wch: 40 },
+        { wch: 15 },
+        { wch: 12 },
+        { wch: 8 },
+      ];
+      worksheet['!cols'] = colWidths;
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Filtered Categories");
+
+      const timestamp = new Date().toISOString().split('T')[0];
+      const filterInfo = searchTerm ? `_search_${searchTerm.substring(0, 10)}` : "";
+      const statusInfo = statusFilter !== "all" ? `_${statusFilter}` : "";
+      const fileName = `categories_filtered${filterInfo}${statusInfo}_${timestamp}.xlsx`;
+
+      XLSX.writeFile(workbook, fileName);
+      
+      toast.success(`Exported ${filteredCategories.length} filtered categories to Excel`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export filtered results');
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
   // Handle image file selection
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -58,7 +188,7 @@ export default function MainCategoriesPage() {
         toast.error('Please select a valid image file');
         return;
       }
-      
+
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         toast.error('Image size should be less than 5MB');
@@ -66,7 +196,7 @@ export default function MainCategoriesPage() {
       }
 
       setFormData({ ...formData, img: file });
-      
+
       // Create preview
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -76,24 +206,49 @@ export default function MainCategoriesPage() {
     }
   };
 
+  const handleBannerChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select a valid banner image");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Banner must be less than 5MB");
+      return;
+    }
+
+    setFormData({ ...formData, banner: file });
+
+    const reader = new FileReader();
+    reader.onload = () => setBannerPreview(reader.result);
+    reader.readAsDataURL(file);
+  };
+
   // Handle create/update category
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormLoading(true);
-    
+
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("name", formData.name.trim());
       formDataToSend.append("status", formData.status);
-      
+
       if (formData.img) {
         formDataToSend.append("img", formData.img);
       }
 
-      const url = editingId 
+      if (formData.banner) {
+        formDataToSend.append("banner", formData.banner);
+      }
+
+      const url = editingId
         ? `http://localhost:5000/api/admin/main-categories/${editingId}`
         : "http://localhost:5000/api/admin/main-categories";
-      
+
       const method = editingId ? "PUT" : "POST";
 
       const res = await fetch(url, {
@@ -102,15 +257,16 @@ export default function MainCategoriesPage() {
       });
 
       const data = await res.json();
+
       if (data.success) {
-        toast.success(`Category ${editingId ? 'updated' : 'created'} successfully`);
+        toast.success(`Category ${editingId ? "updated" : "created"} successfully`);
         handleCloseForm();
         fetchCategories();
       } else {
-        throw new Error(data.message || `Failed to ${editingId ? 'update' : 'create'} category`);
+        throw new Error(data.message);
       }
     } catch (error) {
-      toast.error(error.message || `Error ${editingId ? 'updating' : 'creating'} category`);
+      toast.error(error.message || "Something went wrong");
     } finally {
       setFormLoading(false);
     }
@@ -119,7 +275,7 @@ export default function MainCategoriesPage() {
   // Handle delete category
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this category? This action cannot be undone.")) return;
-    
+
     try {
       const res = await fetch(`http://localhost:5000/api/admin/main-categories/${id}`, {
         method: "DELETE",
@@ -144,7 +300,8 @@ export default function MainCategoriesPage() {
       img: null,
       status: category.status
     });
-    setImagePreview(category.img);
+    setImagePreview(`http://localhost:5000/${category.img}` || category.img);
+    setBannerPreview(`http://localhost:5000${category.banner}`);
     setEditingId(category._id);
     setShowForm(true);
   };
@@ -154,17 +311,18 @@ export default function MainCategoriesPage() {
     setShowForm(false);
     setFormData({ name: "", img: null, status: "active" });
     setImagePreview("");
+    setBannerPreview("");
     setEditingId(null);
   };
 
   // Filter categories based on search and status
   const filteredCategories = categories.filter(category => {
-    const matchesSearch = 
+    const matchesSearch =
       category.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       category.slug?.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesStatus = statusFilter === "all" || category.status === statusFilter;
-    
+
     return matchesSearch && matchesStatus;
   });
 
@@ -188,7 +346,7 @@ export default function MainCategoriesPage() {
   const getPageNumbers = () => {
     const pageNumbers = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
@@ -196,22 +354,22 @@ export default function MainCategoriesPage() {
     } else {
       const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
       const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-      
+
       if (startPage > 1) {
         pageNumbers.push(1);
         if (startPage > 2) pageNumbers.push('...');
       }
-      
+
       for (let i = startPage; i <= endPage; i++) {
         pageNumbers.push(i);
       }
-      
+
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) pageNumbers.push('...');
         pageNumbers.push(totalPages);
       }
     }
-    
+
     return pageNumbers;
   };
 
@@ -274,8 +432,8 @@ export default function MainCategoriesPage() {
       {/* Image */}
       <div className="relative h-48 bg-gray-100 overflow-hidden">
         {category.img ? (
-          <img 
-            src={category.img} 
+          <img
+            src={`http://localhost:5000${category.img} `}
             alt={category.name}
             className="w-full h-full object-cover"
           />
@@ -286,14 +444,13 @@ export default function MainCategoriesPage() {
             </svg>
           </div>
         )}
-        
+
         {/* Status Badge */}
         <div className="absolute top-3 left-3">
-          <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
-            category.status === "active" 
-              ? "bg-green-100 text-green-800" 
+          <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${category.status === "active"
+              ? "bg-green-100 text-green-800"
               : "bg-gray-100 text-gray-800"
-          }`}>
+            }`}>
             {category.status === "active" ? "Active" : "Inactive"}
           </span>
         </div>
@@ -304,7 +461,7 @@ export default function MainCategoriesPage() {
         <h3 className="font-medium text-gray-900 text-sm mb-1 line-clamp-2">
           {category.name}
         </h3>
-        
+
         <div className="text-xs text-gray-500 font-mono mb-2">
           {category.slug}
         </div>
@@ -347,19 +504,65 @@ export default function MainCategoriesPage() {
                 {categories.length} categories in system
               </div>
             </div>
-            <button
-              onClick={() => {
-                setShowForm(true);
-                setEditingId(null);
-                setFormData({ name: "", img: null, status: "active" });
-              }}
-              className="mt-4 lg:mt-0 inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Add Category
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 mt-4 lg:mt-0">
+              {/* Export Buttons */}
+              <div className="flex gap-2">
+                <button
+                  onClick={exportToExcel}
+                  disabled={exportLoading || categories.length === 0}
+                  className="inline-flex items-center px-4 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {exportLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-500 border-t-transparent mr-2"></div>
+                      Exporting...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Export All
+                    </>
+                  )}
+                </button>
+                {filteredCategories.length > 0 && (searchTerm || statusFilter !== "all") && (
+                  <button
+                    onClick={exportFilteredToExcel}
+                    disabled={exportLoading}
+                    className="inline-flex items-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {exportLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+                        Exporting...
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Export Filtered
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+              
+              <button
+                onClick={() => {
+                  setShowForm(true);
+                  setEditingId(null);
+                  setFormData({ name: "", img: null, status: "active" });
+                }}
+                className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Add Category
+              </button>
+            </div>
           </div>
 
           {/* Stats Cards */}
@@ -421,6 +624,19 @@ export default function MainCategoriesPage() {
             </div>
           </div>
 
+          {/* Export Info Banner */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div className="flex items-start">
+              <svg className="w-5 h-5 text-blue-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div className="text-sm text-blue-800">
+                <p className="font-medium">Excel Export Available</p>
+                <p className="mt-1">Export all categories or filtered results with detailed information including image URLs, status, and timestamps.</p>
+              </div>
+            </div>
+          </div>
+
           {/* Filters and Search */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
             <div className="flex flex-col lg:flex-row gap-4">
@@ -474,7 +690,7 @@ export default function MainCategoriesPage() {
                 </span>
               )}
             </div>
-            
+
             <div className="flex items-center space-x-4">
               {/* Items Per Page */}
               <div className="flex items-center space-x-2">
@@ -501,11 +717,10 @@ export default function MainCategoriesPage() {
               <div className="flex items-center space-x-1 border border-gray-300 rounded-md p-1">
                 <button
                   onClick={() => setViewMode("table")}
-                  className={`p-2 rounded-md transition-colors duration-200 ${
-                    viewMode === "table" 
-                      ? "bg-blue-100 text-blue-600" 
+                  className={`p-2 rounded-md transition-colors duration-200 ${viewMode === "table"
+                      ? "bg-blue-100 text-blue-600"
                       : "text-gray-400 hover:text-gray-600"
-                  }`}
+                    }`}
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -513,11 +728,10 @@ export default function MainCategoriesPage() {
                 </button>
                 <button
                   onClick={() => setViewMode("grid")}
-                  className={`p-2 rounded-md transition-colors duration-200 ${
-                    viewMode === "grid" 
-                      ? "bg-blue-100 text-blue-600" 
+                  className={`p-2 rounded-md transition-colors duration-200 ${viewMode === "grid"
+                      ? "bg-blue-100 text-blue-600"
                       : "text-gray-400 hover:text-gray-600"
-                  }`}
+                    }`}
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -535,8 +749,8 @@ export default function MainCategoriesPage() {
               </svg>
               <h3 className="mt-4 text-lg font-medium text-gray-900">No categories found</h3>
               <p className="mt-2 text-sm text-gray-500 max-w-md mx-auto">
-                {categories.length === 0 
-                  ? "No categories have been created yet." 
+                {categories.length === 0
+                  ? "No categories have been created yet."
                   : "No categories match your current filters."}
               </p>
               <div className="mt-6 space-x-3">
@@ -597,8 +811,8 @@ export default function MainCategoriesPage() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="flex items-center">
                                 {category.img && (
-                                  <img 
-                                    src={category.img} 
+                                  <img
+                                    src={`http://localhost:5000${category.img} `}
                                     alt={category.name}
                                     className="h-10 w-10 rounded-lg object-cover mr-3"
                                   />
@@ -615,8 +829,8 @@ export default function MainCategoriesPage() {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               {category.img && (
-                                <img 
-                                  src={category.img} 
+                                <img
+                                  src={`http://localhost:5000${category.img} `}
                                   alt={category.name}
                                   className="h-10 w-10 rounded-lg object-cover"
                                 />
@@ -624,11 +838,10 @@ export default function MainCategoriesPage() {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span
-                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                  category.status === "active"
+                                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${category.status === "active"
                                     ? "bg-green-100 text-green-800"
                                     : "bg-gray-100 text-gray-800"
-                                }`}
+                                  }`}
                               >
                                 {category.status}
                               </span>
@@ -708,24 +921,23 @@ export default function MainCategoriesPage() {
                             <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
                           </svg>
                         </button>
-                        
+
                         {getPageNumbers().map((pageNumber, index) => (
                           <button
                             key={index}
                             onClick={() => typeof pageNumber === 'number' && setCurrentPage(pageNumber)}
                             disabled={pageNumber === '...'}
-                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                              pageNumber === currentPage
+                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pageNumber === currentPage
                                 ? 'bg-blue-600 text-white  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
                                 : pageNumber === '...'
-                                ? 'text-gray-500 cursor-default'
-                                : 'text-gray-900'
-                            }`}
+                                  ? 'text-gray-500 cursor-default'
+                                  : 'text-gray-900'
+                              }`}
                           >
                             {pageNumber}
                           </button>
                         ))}
-                        
+
                         <button
                           onClick={() => setCurrentPage(currentPage + 1)}
                           disabled={currentPage === totalPages}
@@ -764,7 +976,7 @@ export default function MainCategoriesPage() {
                     <input
                       type="text"
                       value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
                       className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
                       placeholder="Enter category name"
@@ -791,21 +1003,52 @@ export default function MainCategoriesPage() {
                         Image Preview
                       </label>
                       <div className="flex justify-center">
-                        <img 
-                          src={imagePreview} 
-                          alt="Preview" 
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
                           className="h-24 w-24 rounded-lg object-cover border border-gray-200"
                         />
                       </div>
                     </div>
                   )}
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Banner Image {!editingId && "*"}
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleBannerChange}
+                      required={!editingId}
+                      className="block w-full text-sm text-gray-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-md file:border-0
+      file:text-sm file:font-medium
+      file:bg-purple-50 file:text-purple-700
+      hover:file:bg-purple-100"
+                    />
+                  </div>
+
+                  {bannerPreview && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Banner Preview
+                      </label>
+                      <img
+                        src={bannerPreview}
+                        className="w-full h-32 object-cover rounded-lg border"
+                      />
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Status
                     </label>
                     <select
                       value={formData.status}
-                      onChange={(e) => setFormData({...formData, status: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                       className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
                     >
                       <option value="active">Active</option>

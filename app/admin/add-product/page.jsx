@@ -3,7 +3,7 @@
 import AdminLayout from "../components/AdminLayout";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useParams, useRouter} from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
 import dynamic from "next/dynamic";
@@ -15,9 +15,12 @@ const CKEditor = dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => m
 });
 
 export default function AddProductPage() {
-  
+
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState({});
   const [formData, setFormData] = useState({
@@ -51,6 +54,7 @@ export default function AddProductPage() {
     ofwhichSugars: "",
     PackingComposition: "",
     variant: "",
+    producttype: "Food",
     status: "active",
     width: "",
     height: "",
@@ -65,7 +69,7 @@ export default function AddProductPage() {
   const [filteredSubcategories, setFilteredSubcategories] = useState([]);
 
 
-  const id = params.id;
+
   const isEditMode = !!id;
 
   // Debug logs
@@ -147,6 +151,7 @@ export default function AddProductPage() {
           ofwhichSugars: product.ofwhichSugars || "",
           PackingComposition: product.PackingComposition || "",
           variant: product.variant || "",
+          producttype: product.producttype || "Food",
           status: product.status || "active",
           width: product.width || "",
           height: product.height || "",
@@ -746,6 +751,24 @@ export default function AddProductPage() {
                     <option value="inactive">Inactive</option>
                   </select>
                 </div>
+                {/* Product Type */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Product Type *
+                  </label>
+                  <select
+                    name="producttype"
+                    value={formData.producttype}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg
+               focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="Food">Food</option>
+                    <option value="Retail">Retail</option>
+                  </select>
+                </div>
+
               </div>
             </div>
 

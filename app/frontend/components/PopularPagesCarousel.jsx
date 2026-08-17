@@ -44,7 +44,7 @@ const PopularPagesCarousel = () => {
             Popular Pages
           </h2>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            Discover our most sought-after collections and exclusive offers
+            Handpicked destinations within our product universe
           </p>
         </div>
 

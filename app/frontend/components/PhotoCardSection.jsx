@@ -10,25 +10,25 @@ const photoCards = [
   {
     title: "Asian Store",
     imageSrc: "/home/Group1.png",
-    description: "Authentic Asian groceries and ingredients",
+    description: "Authentic Asian food essentials curated for everyday cooking and cultural taste.",
     href: "/frontend/asian-store",
   },
   {
     title: "Candy Store",
     imageSrc: "/home/Group2.png",
-    description: "Sweet delights from around the world",
+    description: "Unique sweets and confectionery from Asia and beyond, crafted for impulse and delight.",
     href: "/frontend/candy-store",
   },
   {
     title: "Retail",
     imageSrc: "/home/Group3.png",
-    description: "Premium retail shopping experience",
+    description: "Retail ready Asian food products designed for modern supermarkets and mass consumers.",
     href: "/frontend/retail",
   },
   {
     title: "Asian Wholesale",
     imageSrc: "/home/Group4.png",
-    description: "Bulk sourcing for businesses",
+    description: "Bulk sourcing and distribution of trusted Asian food products for trade partners.",
     href: "/frontend/asian-wholesale",
   },
 ];

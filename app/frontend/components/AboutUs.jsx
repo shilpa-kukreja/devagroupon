@@ -20,21 +20,21 @@ const AboutUs = () => {
 
             {/* Main Heading */}
             <h2 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-              Beagley <span className="text-green-600">Copperman</span>
+              Deva <span className="text-green-600">Gruppen</span>
             </h2>
 
             {/* Subheading */}
             <h3 className="text-2xl font-semibold text-gray-700 border-l-4 border-green-500 pl-4 py-1">
-              Pioneering Asian Food Distribution in Europe
+              Shaping the Future of Asian Food Distribution
             </h3>
 
             {/* Description */}
             <div className="space-y-4">
               <p className="text-xl text-gray-600 leading-relaxed">
-                We serve clients across multiple sectors within the food industry, including mainstream retailers, Asian grocery stores, candy stores, food service providers, and wholesalers.
+                Deva Gruppen operates across key segments of the food industry, serving mainstream retailers, Asian grocery stores, specialty shops, food service partners, and wholesale networks.
               </p>
               <p className="text-xl text-gray-600 leading-relaxed">
-                By collaborating with these partners and our top-brand suppliers, we introduce the unique products of Asia to consumers, all while ensuring that our offerings comply with European laws and regulations.
+                Through close collaboration with trusted suppliers and brand partners, we bring authentic Asian food products to diverse markets while ensuring strict compliance with regional quality and regulatory standards
               </p>
             </div>
 

@@ -15,19 +15,13 @@ export default function SalesMarketing() {
                 </h2>
               </div>
               <p className="text-xl leading-relaxed text-emerald-50 opacity-95">
-                Over the years, we have built a strong customer base across Europe, 
-                serving both ethnic and mainstream markets. Our multilingual sales team, 
-                fluent in 22 languages, creates authentic connections by engaging customers 
-                in their native tongue.
+                Deva Gruppen supports partners across both ethnic and mainstream markets with a sales and marketing approach designed for scale, sensitivity, and impact Our multilingual sales team communicates fluently across cultures and regions, ensuring clarity, confidence, and trust at every interaction. We understand that food is deeply personal, and selling it requires cultural awareness as much as commercial skill.
               </p>
             </div>
 
             <div className="space-y-4">
               <p className="text-xl leading-relaxed text-emerald-50 opacity-95">
-                Our in-house creative marketing team develops integrated campaigns across 
-                digital and traditional channels. We ensure retail partners stay informed 
-                about latest promotions while driving brand visibility through strategic 
-                in-store activations and above-the-line campaigns.
+                Complementing this is our in house marketing expertise. From tailored trade communications to compelling retail activations, our team builds brand presence that resonates both online and offline. We support our partners with timely product storytelling, promotional strategies, and visibility initiatives that strengthen sell through and brand recall.
               </p>
             </div>
 
@@ -50,8 +44,8 @@ export default function SalesMarketing() {
               <div className="absolute -inset-4 bg-gradient-to-r from-amber-400 to-amber-300 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition duration-500"></div>
               <div className="relative overflow-hidden rounded-xl shadow-2xl transform group-hover:scale-[1.02] transition duration-500">
                 <img
-                  className="w-full h-96 lg:h-[480px] object-cover transform group-hover:scale-105 transition duration-700"
-                  src="/about/aboutus.webp"
+                  className="w-full  object-cover transform group-hover:scale-105 transition duration-700"
+                  src="/home/img2.png"
                   alt="Our multilingual sales and marketing team collaborating"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/20 to-transparent"></div>

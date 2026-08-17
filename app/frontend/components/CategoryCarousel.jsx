@@ -38,7 +38,7 @@ const CategoryCarousel = () => {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setShowLeftArrow(scrollLeft > 0);
       setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
-      
+
       // Update current index based on scroll position
       const cardWidth = 288; // w-72
       const newIndex = Math.round(scrollLeft / cardWidth);
@@ -50,7 +50,7 @@ const CategoryCarousel = () => {
     if (scrollContainerRef.current) {
       const scrollAmount = 300;
       const newScrollLeft = scrollContainerRef.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
-      
+
       scrollContainerRef.current.scrollTo({
         left: newScrollLeft,
         behavior: 'smooth'
@@ -68,18 +68,18 @@ const CategoryCarousel = () => {
   const getImageUrl = (imgPath) => {
     try {
       if (!imgPath) return "/images/placeholder-product.jpg";
-      
+
       // If it's already a full URL, return as is
       if (imgPath.startsWith('http')) return imgPath;
-      
+
       // Ensure the path starts with a slash
       let cleanPath = imgPath.startsWith('/') ? imgPath : `/${imgPath}`;
-      
+
       // Remove any double slashes that might occur
       cleanPath = cleanPath.replace(/\/+/g, '/');
-      
-      const fullUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${cleanPath}`;
-      
+
+      const fullUrl = `${'http://localhost:5000'}${cleanPath}`;
+
       // Validate URL
       new URL(fullUrl);
       return fullUrl;
@@ -100,8 +100,8 @@ const CategoryCarousel = () => {
   };
 
   const itemVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       y: 30,
       scale: 0.9
     },
@@ -154,10 +154,10 @@ const CategoryCarousel = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-gray-50/30">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -184,7 +184,7 @@ const CategoryCarousel = () => {
               <ChevronLeftIcon className="w-6 h-6 text-gray-700 group-hover:text-lime-600 transition-colors" />
             </motion.button>
           )}
-          
+
           {showRightArrow && (
             <motion.button
               initial={{ opacity: 0, x: 20 }}
@@ -197,7 +197,7 @@ const CategoryCarousel = () => {
           )}
 
           {/* Scrollable Container */}
-          <div 
+          <div
             ref={scrollContainerRef}
             onScroll={checkScrollPosition}
             className="flex overflow-x-auto scrollbar-hide space-x-6 pb-8 pt-2 px-2 -mx-2"
@@ -208,8 +208,8 @@ const CategoryCarousel = () => {
                 display: none;
               }
             `}</style>
-            
-            <motion.div 
+
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
@@ -219,38 +219,36 @@ const CategoryCarousel = () => {
               {maincategory.map((category) => {
                 const categoryId = category._id?.$oid || category._id;
                 const categorySlug = category.slug || category.name?.toLowerCase().replace(/\s+/g, '-');
-                
+
                 return (
                   <motion.div
                     key={categoryId}
                     variants={itemVariants}
-                    whileHover={{ 
+                    whileHover={{
                       y: -8,
                       transition: { duration: 0.3 }
                     }}
                     className="flex-none w-72 lg:w-80 group cursor-pointer"
                   >
                     {/* Modern Card Design */}
-                    <Link 
+                    <Link
                       href={`/frontend/products/${categorySlug}`}
                       className="block"
                     >
                       <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200 hover:border-lime-200">
-                        
+
                         {/* Image Container with Clean Design */}
-                        <div className="relative h-72 overflow-hidden">
-                          <Image
+                        <div className="relative aspect-square h-72 overflow-hidden">
+                          <img
                             src={getImageUrl(category.img)}
                             alt={category.name}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                            placeholder="blur"
-                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R"
+                            className="object-cover  aspect-square transition-transform duration-700 group-hover:scale-105"
+
                           />
-                          
+
                           {/* Subtle Overlay Only on Hover */}
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-500" />
-                          
+
                           {/* Floating Badge */}
                           <div className="absolute top-4 left-4">
                             <span className="bg-white/95 backdrop-blur-sm text-gray-900 px-3 py-1 rounded-full text-sm font-medium shadow-sm">
@@ -268,15 +266,19 @@ const CategoryCarousel = () => {
 
                         {/* Content Area - Clean and Professional */}
                         <div className="p-6">
-                          <div className="text-center">
-                            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-lime-600 transition-colors duration-300 line-clamp-2">
+                          <div className="flex flex-col items-center justify-center gap-2 text-center">
+                            <h3 className="text-lg font-bold text-gray-900 group-hover:text-lime-600 transition-colors duration-300 line-clamp-1">
                               {category.name}
                             </h3>
-                            <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+
+                          
+
+                            <p className="text-gray-600 text-sm line-clamp-1">
                               {category.description || `Discover our premium collection of ${category.name}`}
                             </p>
                           </div>
                         </div>
+
 
                         {/* Elegant Border Effect on Hover */}
                         <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-lime-500/20 transition-all duration-500" />
@@ -304,22 +306,21 @@ const CategoryCarousel = () => {
                     });
                   }
                 }}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  currentIndex === index ? 'bg-lime-600 w-6' : 'bg-gray-300 hover:bg-gray-400'
-                }`}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${currentIndex === index ? 'bg-lime-600 w-6' : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
               />
             ))}
           </div>
         )}
 
         {/* CTA Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-12"
         >
-          <Link 
+          <Link
             href="/frontend/products"
             className="inline-flex items-center bg-lime-500 hover:bg-lime-600 text-white px-8 py-4 rounded-full font-semibold text-lg transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
           >

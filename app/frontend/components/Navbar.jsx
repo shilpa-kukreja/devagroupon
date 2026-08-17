@@ -1552,7 +1552,7 @@ export default function Navbar() {
       let cleanPath = imgPath.startsWith('/') ? imgPath : `/${imgPath}`;
       cleanPath = cleanPath.replace(/\/+/g, '/');
 
-      const fullUrl = `${'https://devagroupon.onrender.com'}${cleanPath}`;
+      const fullUrl = `${'http://localhost:5000'}${cleanPath}`;
 
       new URL(fullUrl);
       return fullUrl;
@@ -1593,648 +1593,406 @@ export default function Navbar() {
   }
 
   return (
-    <header
-      className={`w-full fixed top-0 z-50 transition-all duration-500 ${scrolled
-        ? "bg-black/40 shadow-md backdrop-blur-md"
-        : "bg-transparent"
-        }`}
-    >
-      {/* Top Info Bar - Hidden on mobile */}
-      <div className="bg-gray-900 text-white text-sm py-2 px-4 lg:px-6">
-        <div className="flex flex-row items-center justify-between gap-2">
+    <div>
+      <header
+        className={`w-full fixed top-0 z-50 transition-all duration-500 ${scrolled
+          ? "bg-black/40 shadow-md backdrop-blur-md"
+          : "bg-transparent"
+          }`}
+      >
+        {/* Top Info Bar - Hidden on mobile */}
+        <div className="bg-gray-900 text-white text-sm py-2 px-4 lg:px-6">
+          <div className="flex flex-row items-center justify-between gap-2">
 
-          {/* LEFT ITEMS */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs lg:text-sm">
-            <span className="whitespace-nowrap">✔ Import and export</span>
-            <span className="whitespace-nowrap sm:block hidden">✔ Authentic food</span>
-            <span className="whitespace-nowrap sm:block hidden">✔ Fast delivery</span>
-            <span className="whitespace-nowrap sm:block hidden">✔ Order quickly</span>
-            <span className="whitespace-nowrap">✔ EU law conform</span>
-          </div>
-
-          {/* RIGHT ITEMS */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Phone size={14} className="hidden sm:block" />
-            <Mail size={14} className="hidden sm:block" />
-
-            <a
-              href="/frontend/about"
-              className="hover:text-lime-400 transition text-xs lg:text-sm whitespace-nowrap"
-            >
-              About us
-            </a>
-
-            {/* Language Selector */}
-            <div className="relative">
-              <GoogleTranslate />
+            {/* LEFT ITEMS */}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs lg:text-sm">
+              <span className="whitespace-nowrap">✔ Import and export</span>
+              <span className="whitespace-nowrap sm:block hidden">✔ Authentic food</span>
+              <span className="whitespace-nowrap sm:block hidden">✔ Fast delivery</span>
+              <span className="whitespace-nowrap sm:block hidden">✔ Order quickly</span>
+              <span className="whitespace-nowrap">✔ EU law conform</span>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Main Navbar */}
-      <nav className="flex items-center justify-between bg-white px-4 lg:px-8 py-3 lg:py-4 shadow-sm relative">
-        {/* Mobile Menu Button */}
-        <div className="lg:hidden">
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-md text-gray-700 hover:bg-gray-100 transition"
-          >
-            <Menu size={24} />
-          </button>
-        </div>
-
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <a href="/" className="flex items-center">
-            <img
-              src="/home/logo1.png"
-              alt="Logo"
-              className="w-20 lg:w-40 object-contain"
-            />
-          </a>
-        </div>
-
-        {/* Center Links - Hidden on mobile */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-gray-700 font-medium relative">
-          {/* All Products */}
-          <div className="relative">
-            <button
-              onClick={() => setShowAllProducts(!showAllProducts)}
-              onMouseEnter={() => setShowAllProducts(true)}
-              className="hover:text-lime-600 transition relative flex items-center gap-1"
-            >
-              All products
-              <ChevronRight
-                size={16}
-                className={`transition-transform duration-300 ${showAllProducts ? "rotate-90 text-lime-600" : "rotate-0"}`}
-              />
-            </button>
-
-            {/* Mega Menu */}
-            {showAllProducts && (
-              <div
-                className="absolute left-1/2 transform -translate-x-[20%] top-[50px] bg-white shadow-2xl w-[1200px] rounded-md overflow-hidden flex border border-gray-300 z-50"
-                onMouseLeave={() => setHoveredMainCategory(maincategory[0]?._id?.$oid || maincategory[0]?._id || null)}
+            {/* RIGHT ITEMS */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              <a
+                href="tel:+919876543210"
+                className="hidden sm:block text-gray-700 hover:text-blue-600"
+                title="Call Us"
               >
-                {/* LEFT SIDE - Main Categories */}
-                <div className="w-[25%] bg-gray-50 border-r border-gray-300 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-                  {maincategory.map((main) => {
-                    const mainId = main._id?.$oid || main._id;
-                    return (
-                      <a
-                        key={mainId}
-                        href={`/frontend/products/${main.slug}`}
-                        onMouseEnter={() => setHoveredMainCategory(mainId)}
-                        className={`flex items-center gap-3 px-5 py-4 transition ${hoveredMainCategory === mainId ? "bg-gray-100" : "hover:bg-gray-50"}`}
-                      >
-                        <Image
-                          src={getImageUrl(main.img)}
-                          alt={main.name}
-                          width={26}
-                          height={26}
-                          className="object-contain"
-                        />
-                        <span className={`text-md font-medium ${hoveredMainCategory === mainId ? "text-lime-600" : "text-gray-600"}`}>
-                          {main.name}
-                        </span>
-                      </a>
-                    );
-                  })}
-                </div>
+                <Phone size={14} />
+              </a>
 
-                {/* MIDDLE + RIGHT CONTENT */}
-                <div className="flex w-[75%] bg-white">
-                  {/* MIDDLE SECTION */}
-                  <div className="w-[70%] p-6 lg:p-8 border-r border-gray-300 overflow-y-auto max-h-[70vh]">
-                    {hoveredMainCategory ? (
-                      <div>
-                        {getRelatedCategories(hoveredMainCategory).length > 0 ? (
-                          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                            {getRelatedCategories(hoveredMainCategory).map((cat) => {
-                              const catId = cat._id?.$oid || cat._id;
-                              const relatedSubcategories = getRelatedSubcategories(catId);
+              {/* Mail Icon */}
+              <a
+                href="mailto:support@example.com"
+                className="hidden sm:block text-gray-700 hover:text-blue-600"
+                title="Email Us"
+              >
+                <Mail size={14} />
+              </a>
 
-                              return (
-                                <div key={catId}>
-                                  <a
-                                    href={`/frontend/products/${maincategory.find(
-                                      (m) => (m._id?.$oid || m._id) === hoveredMainCategory
-                                    )?.slug}/${cat.slug}`}
-                                    className="text-gray-800 font-semibold text-sm lg:text-md mb-2 block hover:text-lime-600 transition"
-                                  >
-                                    {cat.name}
-                                  </a>
+              <a
+                href="/frontend/about"
+                className="hover:text-lime-400 transition text-xs lg:text-sm whitespace-nowrap"
+              >
+                About us
+              </a>
 
-                                  {relatedSubcategories.length > 0 ? (
-                                    <ul className="space-y-1.5">
-                                      {relatedSubcategories.map((sub) => (
-                                        <li key={sub._id?.$oid || sub._id}>
-                                          <a
-                                            href={`/frontend/products/${maincategory.find(
-                                              (m) => (m._id?.$oid || m._id) === hoveredMainCategory
-                                            )?.slug}/${cat.slug}/${sub.slug}`}
-                                            className="text-gray-600 text-xs lg:text-sm hover:text-lime-600 cursor-pointer transition block"
-                                          >
-                                            {sub.name}
-                                          </a>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  ) : (
-                                    <p className="text-gray-400 text-xs italic">No subcategories</p>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : (
-                          <div className="text-gray-500 flex items-center justify-center h-full italic">
-                            No categories found
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="text-gray-500 flex items-center justify-center h-full italic">
-                        Hover over a category →
-                      </div>
-                    )}
-                  </div>
-
-                  {/* RIGHT SECTION - Brands */}
-                  <div className="w-[30%] p-6 lg:p-8 bg-gradient-to-b from-gray-50 to-white">
-                    <h3 className="font-semibold text-gray-900 text-sm lg:text-base mb-4">
-                      Highlighted brands
-                    </h3>
-                    {hoveredMainCategory ? (
-                      <div>
-                        {getRelatedBrands(hoveredMainCategory).length > 0 ? (
-                          <div className="flex flex-col gap-3">
-                            {getRelatedBrands(hoveredMainCategory).map((b) => (
-                              <div
-                                key={b._id?.$oid || b._id}
-                                className="flex items-center gap-3 hover:opacity-80 cursor-pointer transition"
-                              >
-                                <div className="bg-white border border-gray-300 rounded-md p-1 shadow-sm">
-                                  <Image
-                                    src={getImageUrl(b.img)}
-                                    alt={b.name}
-                                    width={60}
-                                    height={40}
-                                    className="object-contain"
-                                  />
-                                </div>
-                                <span className="text-sm text-gray-700">
-                                  {b.name}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="text-gray-400 text-sm mt-4">
-                            No brands found
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="text-gray-400 text-sm mt-4">
-                        Hover over a category to see brands
-                      </div>
-                    )}
-                  </div>
-                </div>
+              {/* Language Selector */}
+              <div className="relative">
+                <GoogleTranslate />
               </div>
-            )}
-          </div>
-
-          {/* Desktop Only Elements */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-            {/* Country of Origin Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setCountryOpen((prev) => !prev)}
-                className="flex items-center gap-1 cursor-pointer hover:text-lime-600 transition select-none"
-              >
-                <Globe size={18} />
-                <span>Country</span>
-                <ChevronRight
-                  size={16}
-                  className={`transition-transform duration-300 ${countryOpen ? "rotate-90 text-lime-600" : "rotate-0"}`}
-                />
-              </button>
-
-              {countryOpen && (
-                <div className="absolute left-0 mt-4 w-80 lg:w-[450px] bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 p-4 lg:p-6 animate-slide-down">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-gray-900 font-semibold text-base lg:text-lg tracking-tight">
-                      Choose Country
-                    </h4>
-                    <button
-                      onClick={() => setCountryOpen(false)}
-                      className="text-gray-400 hover:text-gray-600 transition"
-                    >
-                      <X size={18} />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3 max-h-72 overflow-y-auto">
-                    {uniqueCountries.map((country) => (
-                      <Link
-                        key={country}
-                        href={`/frontend/products/country/${country.toLowerCase().replace(/\s+/g, '-')}`}
-                        onClick={() => setCountryOpen(false)}
-                      >
-                        <div className="group flex items-center justify-between px-3 lg:px-4 py-2 rounded-lg text-gray-700 text-sm 
-                 border border-transparent hover:border-lime-400 hover:bg-lime-50 hover:text-lime-700 
-                 transition cursor-pointer duration-200">
-                          <span className="font-medium group-hover:text-lime-700">
-                            {country}
-                          </span>
-                          <ChevronRight
-                            size={14}
-                            className="text-gray-400 group-hover:text-lime-500 transition"
-                          />
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
-
-            {/* Brands Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setOpen(!open)}
-                className="flex items-center gap-1 cursor-pointer hover:text-lime-600 transition select-none"
-              >
-                <span>All Brands</span>
-                <ChevronRight
-                  size={16}
-                  className={`transition-transform duration-300 ${open ? "rotate-90 text-lime-600" : "rotate-0"}`}
-                />
-              </button>
-              {open && (
-                <div className="absolute left-0 mt-4 w-56 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 overflow-hidden">
-                  <div className="p-3">
-                    <Link
-                      href="/frontend/popular-brands"
-                      onClick={() => setOpen(false)}
-                      className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors"
-                    >
-                      Popular Brands
-                    </Link>
-                    <Link
-                      href="/frontend/all-brands"
-                      onClick={() => setOpen(false)}
-                      className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors mt-1"
-                    >
-                      All Brands
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Business Type Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setopenservices(!openservices)}
-                className="flex items-center gap-1 cursor-pointer hover:text-lime-600 transition select-none"
-              >
-                <span>Business Type</span>
-                <ChevronRight
-                  size={16}
-                  className={`transition-transform duration-300 ${openservices ? "rotate-90 text-lime-600" : "rotate-0"}`}
-                />
-              </button>
-              {openservices && (
-                <div className="absolute left-0 mt-4 w-56 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 overflow-hidden">
-                  <div className="p-3">
-                    <Link
-                      href="/frontend/retail-services"
-                      onClick={() => setopenservices(false)}
-                      className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors"
-                    >
-                      Retail Services
-                    </Link>
-                    <Link
-                      href="/frontend/food-services"
-                      onClick={() => setopenservices(false)}
-                      className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors mt-1"
-                    >
-                      Food Services
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <Link
-              href="/frontend/products/new"
-              className="bg-gray-900 text-white px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-gray-800 transition whitespace-nowrap"
-            >
-              New
-            </Link>
           </div>
         </div>
 
-        {/* Search + Buttons */}
-        <div className="flex items-center gap-2 lg:gap-3" ref={searchRef}>
-          {/* Desktop Search Bar */}
-          <div className="hidden lg:block relative">
-            <form onSubmit={handleSearchSubmit}>
-              <input
-                type="text"
-                placeholder="Search products, categories, brands..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onFocus={() => query && setSearchOpen(true)}
-                className="pl-10 pr-4 py-2 w-[300px] xl:w-[400px] border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-lime-500 transition-all duration-300"
-              />
-              <Search
-                className="absolute left-3 top-2.5 text-gray-500"
-                size={18}
-              />
-              {isSearching && (
-                <Loader className="absolute right-3 top-2.5 text-gray-400 animate-spin" size={18} />
-              )}
-            </form>
-
-            {/* Desktop Search Results Dropdown */}
-            {searchOpen && query && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 max-h-96 overflow-hidden animate-slide-down">
-                <div className="p-4 border-b border-gray-100">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-semibold text-gray-700">Search Results</span>
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                      {totalResults} results
-                    </span>
-                  </div>
-                </div>
-
-                <div className="max-h-80 overflow-y-auto">
-                  {/* Products Section */}
-                  {searchResults.products?.length > 0 && (
-                    <div className="border-b border-gray-100 last:border-b-0">
-                      <div className="px-4 py-2 bg-gray-50">
-                        <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                          Products ({searchResults.products.length})
-                        </span>
-                      </div>
-                      {searchResults.products.map((product) => (
-                        <Link
-                          key={product._id?.$oid || product._id}
-                          href={getSearchResultLink("product", product)}
-                          onClick={() => {
-                            setSearchOpen(false);
-                            setQuery("");
-                          }}
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-lime-50 transition-colors duration-200 group"
-                        >
-                          <div className="w-10 h-10 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
-                            <Image
-                              src={getImageUrl(product.thumbImg)}
-                              alt={product.name}
-                              width={40}
-                              height={40}
-                              className="object-cover w-full h-full"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-gray-900 truncate group-hover:text-lime-700">
-                              {product.name}
-                            </p>
-                            <p className="text-xs text-gray-500 truncate">{product.shortDescription}</p>
-                          </div>
-                          <span className="text-xs font-semibold text-lime-600 bg-lime-50 px-2 py-1 rounded">
-                            ${product.discountPrice || product.price}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Categories Section */}
-                  {searchResults.categories?.length > 0 && (
-                    <div className="border-b border-gray-100 last:border-b-0">
-                      <div className="px-4 py-2 bg-gray-50">
-                        <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                          Categories ({searchResults.categories.length})
-                        </span>
-                      </div>
-                      {searchResults.categories.map((category) => (
-                        <Link
-                          key={category._id?.$oid || category._id}
-                          href={getSearchResultLink("category", category)}
-                          onClick={() => {
-                            setSearchOpen(false);
-                            setQuery("");
-                          }}
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-lime-50 transition-colors duration-200 group"
-                        >
-                          <div className="w-10 h-10 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
-                            <Image
-                              src={getImageUrl(category.img)}
-                              alt={category.name}
-                              width={40}
-                              height={40}
-                              className="object-cover w-full h-full"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-lime-700">
-                              {category.name}
-                            </p>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Brands Section */}
-                  {searchResults.brands?.length > 0 && (
-                    <div className="border-b border-gray-100 last:border-b-0">
-                      <div className="px-4 py-2 bg-gray-50">
-                        <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                          Brands ({searchResults.brands.length})
-                        </span>
-                      </div>
-                      {searchResults.brands.map((brand) => (
-                        <Link
-                          key={brand._id?.$oid || brand._id}
-                          href={getSearchResultLink("brand", brand)}
-                          onClick={() => {
-                            setSearchOpen(false);
-                            setQuery("");
-                          }}
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-lime-50 transition-colors duration-200 group"
-                        >
-                          <div className="w-10 h-10 rounded-md overflow-hidden border border-gray-200 flex-shrink-0 bg-white p-1">
-                            <Image
-                              src={getImageUrl(brand.img)}
-                              alt={brand.name}
-                              width={40}
-                              height={40}
-                              className="object-contain w-full h-full"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-lime-700">
-                              {brand.name}
-                            </p>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Countries Section */}
-                  {searchResults.countries?.length > 0 && (
-                    <div className="border-b border-gray-100 last:border-b-0">
-                      <div className="px-4 py-2 bg-gray-50">
-                        <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                          Countries ({searchResults.countries.length})
-                        </span>
-                      </div>
-                      {searchResults.countries.map((country) => (
-                        <Link
-                          key={country}
-                          href={getSearchResultLink("country", country)}
-                          onClick={() => {
-                            setSearchOpen(false);
-                            setQuery("");
-                          }}
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-lime-50 transition-colors duration-200 group"
-                        >
-                          <div className="w-8 h-6 overflow-hidden rounded-sm border border-gray-200 flex-shrink-0">
-                            <Image
-                              src={`https://flagcdn.com/${country.slice(0, 2).toLowerCase()}.svg`}
-                              alt={country}
-                              width={24}
-                              height={16}
-                              className="object-cover w-full h-full"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-lime-700">
-                              {country}
-                            </p>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* No Results */}
-                  {totalResults === 0 && !isSearching && (
-                    <div className="px-4 py-8 text-center">
-                      <div className="text-gray-400 mb-2">
-                        <Search size={32} className="mx-auto" />
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        No results found for "<span className="font-semibold">{query}</span>"
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        Try different keywords or browse our categories
-                      </p>
-                    </div>
-                  )}
-
-                  {/* View All Results */}
-                  {totalResults > 0 && (
-                    <div className="p-4 border-t border-gray-100 bg-gray-50">
-                      <Link
-                        href={`/frontend/search?q=${encodeURIComponent(query)}`}
-                        onClick={() => {
-                          setSearchOpen(false);
-                          setQuery("");
-                        }}
-                        className="w-full bg-lime-500 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-lime-600 transition-colors duration-200 text-center block"
-                      >
-                        View All {totalResults} Results
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile Search Icon */}
+        {/* Main Navbar */}
+        <nav className="flex items-center justify-between bg-white px-4 lg:px-8 py-3 lg:py-4 shadow-sm relative">
+          {/* Mobile Menu Button */}
           <div className="lg:hidden">
             <button
-              onClick={() => {
-                setMobileSearchOpen(!mobileSearchOpen);
-                setMobileMenuOpen(false);
-              }}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-md text-gray-700 hover:bg-gray-100 transition"
             >
-              <Search size={20} />
+              <Menu size={24} />
             </button>
           </div>
 
-          {/* Mobile Search Overlay - Similar to Desktop */}
-          {mobileSearchOpen && (
-            <div className="lg:hidden fixed inset-0 top-0 z-50 bg-white" ref={mobileSearchRef}>
-              {/* Search Header */}
-              <div className="bg-white border-b border-gray-200 p-4">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => {
-                      setMobileSearchOpen(false);
-                      setQuery("");
-                      setSearchResults([]);
-                    }}
-                    className="p-2 text-gray-500 hover:text-gray-700 transition"
-                  >
-                    <X size={20} />
-                  </button>
-                  <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
-                    <div className="flex-1 relative">
-                      <input
-                        type="text"
-                        placeholder="Search products, categories, brands..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500 text-base"
-                        autoFocus
-                      />
-                      <Search
-                        className="absolute left-3 top-3.5 text-gray-500"
-                        size={18}
-                      />
-                      {isSearching && (
-                        <Loader className="absolute right-3 top-3.5 text-gray-400 animate-spin" size={18} />
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <a href="/" className="flex items-center">
+              <img
+                src="/home/logo1.png"
+                alt="Logo"
+                className="w-32 lg:w-40 object-contain"
+              />
+            </a>
+          </div>
+
+          {/* Center Links - Hidden on mobile */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-gray-700 font-medium relative">
+            {/* All Products */}
+            <div className="relative">
+              <button
+                onClick={() => setShowAllProducts(!showAllProducts)}
+                onMouseEnter={() => setShowAllProducts(true)}
+                className="hover:text-lime-600 transition relative flex items-center gap-1"
+              >
+                All products
+                <ChevronRight
+                  size={16}
+                  className={`transition-transform duration-300 ${showAllProducts ? "rotate-90 text-lime-600" : "rotate-0"}`}
+                />
+              </button>
+
+              {/* Mega Menu */}
+              {showAllProducts && (
+                <div
+                  className="absolute left-1/2 transform -translate-x-[20%] top-[50px] bg-white shadow-2xl w-[1200px] rounded-md overflow-hidden flex border border-gray-300 z-50"
+                  onMouseLeave={() => setHoveredMainCategory(maincategory[0]?._id?.$oid || maincategory[0]?._id || null)}
+                >
+                  {/* LEFT SIDE - Main Categories */}
+                  <div className="w-[25%] bg-gray-50 border-r border-gray-300 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                    {maincategory.map((main) => {
+                      const mainId = main._id?.$oid || main._id;
+                      return (
+                        <a
+                          key={mainId}
+                          href={`/frontend/products/${main.slug}`}
+                          onMouseEnter={() => setHoveredMainCategory(mainId)}
+                          className={`flex items-center gap-3 px-5 py-4 transition ${hoveredMainCategory === mainId ? "bg-gray-100" : "hover:bg-gray-50"}`}
+                        >
+                          <img
+                            src={getImageUrl(main.img)}
+                            alt={main.name}
+                            width={26}
+                            height={26}
+                            className="object-contain"
+                          />
+                          <span className={`text-md font-medium ${hoveredMainCategory === mainId ? "text-lime-600" : "text-gray-600"}`}>
+                            {main.name}
+                          </span>
+                        </a>
+                      );
+                    })}
+                  </div>
+
+                  {/* MIDDLE + RIGHT CONTENT */}
+                  <div className="flex w-[75%] bg-white">
+                    {/* MIDDLE SECTION */}
+                    <div className="w-[70%] p-6 lg:p-8 border-r border-gray-300 overflow-y-auto max-h-[70vh]">
+                      {hoveredMainCategory ? (
+                        <div>
+                          {getRelatedCategories(hoveredMainCategory).length > 0 ? (
+                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                              {getRelatedCategories(hoveredMainCategory).map((cat) => {
+                                const catId = cat._id?.$oid || cat._id;
+                                const relatedSubcategories = getRelatedSubcategories(catId);
+
+                                return (
+                                  <div key={catId}>
+                                    <a
+                                      href={`/frontend/products/${maincategory.find(
+                                        (m) => (m._id?.$oid || m._id) === hoveredMainCategory
+                                      )?.slug}/${cat.slug}`}
+                                      className="text-gray-800 font-semibold text-sm lg:text-md mb-2 block hover:text-lime-600 transition"
+                                    >
+                                      {cat.name}
+                                    </a>
+
+                                    {relatedSubcategories.length > 0 ? (
+                                      <ul className="space-y-1.5">
+                                        {relatedSubcategories.map((sub) => (
+                                          <li key={sub._id?.$oid || sub._id}>
+                                            <a
+                                              href={`/frontend/products/${maincategory.find(
+                                                (m) => (m._id?.$oid || m._id) === hoveredMainCategory
+                                              )?.slug}/${cat.slug}/${sub.slug}`}
+                                              className="text-gray-600 text-xs lg:text-sm hover:text-lime-600 cursor-pointer transition block"
+                                            >
+                                              {sub.name}
+                                            </a>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    ) : (
+                                      <p className="text-gray-400 text-xs italic">No subcategories</p>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          ) : (
+                            <div className="text-gray-500 flex items-center justify-center h-full italic">
+                              No categories found
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="text-gray-500 flex items-center justify-center h-full italic">
+                          Hover over a category →
+                        </div>
                       )}
                     </div>
-                    <button
-                      type="submit"
-                      className="bg-lime-500 text-white px-4 py-3 rounded-lg hover:bg-lime-600 transition font-medium"
-                    >
-                      Search
-                    </button>
-                  </form>
+
+                    {/* RIGHT SECTION - Brands */}
+                    <div className="w-[30%] p-6 lg:p-8 bg-gradient-to-b from-gray-50 to-white">
+                      <h3 className="font-semibold text-gray-900 text-sm lg:text-base mb-4">
+                        Highlighted brands
+                      </h3>
+                      {hoveredMainCategory ? (
+                        <div>
+                          {getRelatedBrands(hoveredMainCategory).length > 0 ? (
+                            <div className="flex flex-col gap-3">
+                              {getRelatedBrands(hoveredMainCategory).map((b) => (
+                                <div
+                                  key={b._id?.$oid || b._id}
+                                  className="flex items-center gap-3 hover:opacity-80 cursor-pointer transition"
+                                >
+                                  <div className="bg-white border border-gray-300 rounded-md p-1 shadow-sm">
+                                    <img
+                                      src={getImageUrl(b.img)}
+                                      alt={b.name}
+                                      width={60}
+                                      height={40}
+                                      className="object-contain"
+                                    />
+                                  </div>
+                                  <span className="text-sm text-gray-700">
+                                    {b.name}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="text-gray-400 text-sm mt-4">
+                              No brands found
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="text-gray-400 text-sm mt-4">
+                          Hover over a category to see brands
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
+              )}
+            </div>
+
+            {/* Desktop Only Elements */}
+            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+              {/* Country of Origin Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setCountryOpen((prev) => !prev)}
+                  className="flex items-center gap-1 cursor-pointer hover:text-lime-600 transition select-none"
+                >
+                  <Globe size={18} />
+                  <span>Country</span>
+                  <ChevronRight
+                    size={16}
+                    className={`transition-transform duration-300 ${countryOpen ? "rotate-90 text-lime-600" : "rotate-0"}`}
+                  />
+                </button>
+
+                {countryOpen && (
+                  <div className="absolute left-0 mt-4 w-80 lg:w-[450px] bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 p-4 lg:p-6 animate-slide-down">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-gray-900 font-semibold text-base lg:text-lg tracking-tight">
+                        Choose Country
+                      </h4>
+                      <button
+                        onClick={() => setCountryOpen(false)}
+                        className="text-gray-400 hover:text-gray-600 transition"
+                      >
+                        <X size={18} />
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-3 max-h-72 overflow-y-auto">
+                      {uniqueCountries.map((country) => (
+                        <Link
+                          key={country}
+                          href={`/frontend/products/country/${country.toLowerCase().replace(/\s+/g, '-')}`}
+                          onClick={() => setCountryOpen(false)}
+                        >
+                          <div className="group flex items-center justify-between px-3 lg:px-4 py-2 rounded-lg text-gray-700 text-sm 
+                 border border-transparent hover:border-lime-400 hover:bg-lime-50 hover:text-lime-700 
+                 transition cursor-pointer duration-200">
+                            <span className="font-medium group-hover:text-lime-700">
+                              {country}
+                            </span>
+                            <ChevronRight
+                              size={14}
+                              className="text-gray-400 group-hover:text-lime-500 transition"
+                            />
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Mobile Search Results */}
-              {query && (
-                <div className="bg-white h-[calc(100vh-80px)] overflow-y-auto">
-                  <div className="p-4 border-b border-gray-100 bg-gray-50">
+              {/* Brands Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="flex items-center gap-1 cursor-pointer hover:text-lime-600 transition select-none"
+                >
+                  <span>All Brands</span>
+                  <ChevronRight
+                    size={16}
+                    className={`transition-transform duration-300 ${open ? "rotate-90 text-lime-600" : "rotate-0"}`}
+                  />
+                </button>
+                {open && (
+                  <div className="absolute left-0 mt-4 w-56 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 overflow-hidden">
+                    <div className="p-3">
+                      <Link
+                        href="/frontend/popular-brands"
+                        onClick={() => setOpen(false)}
+                        className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors"
+                      >
+                        Popular Brands
+                      </Link>
+                      <Link
+                        href="/frontend/all-brands"
+                        onClick={() => setOpen(false)}
+                        className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors mt-1"
+                      >
+                        All Brands
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Business Type Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setopenservices(!openservices)}
+                  className="flex items-center gap-1 cursor-pointer hover:text-lime-600 transition select-none"
+                >
+                  <span>Business Type</span>
+                  <ChevronRight
+                    size={16}
+                    className={`transition-transform duration-300 ${openservices ? "rotate-90 text-lime-600" : "rotate-0"}`}
+                  />
+                </button>
+                {openservices && (
+                  <div className="absolute left-0 mt-4 w-56 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 overflow-hidden">
+                    <div className="p-3">
+                      <Link
+                        href="/frontend/retail-services"
+                        onClick={() => setopenservices(false)}
+                        className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors"
+                      >
+                        Retail Services
+                      </Link>
+                      <Link
+                        href="/frontend/food-services"
+                        onClick={() => setopenservices(false)}
+                        className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors mt-1"
+                      >
+                        Food Services
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <Link
+                href="/frontend/products/new"
+                className="bg-gray-900 text-white px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-gray-800 transition whitespace-nowrap"
+              >
+                New
+              </Link>
+            </div>
+          </div>
+
+          {/* Search + Buttons */}
+          <div className="flex items-center gap-2 lg:gap-3" ref={searchRef}>
+            {/* Desktop Search Bar */}
+            <div className="hidden lg:block relative">
+              <form onSubmit={handleSearchSubmit}>
+                <input
+                  type="text"
+                  placeholder="Search products, categories, brands..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onFocus={() => query && setSearchOpen(true)}
+                  className="pl-10 pr-4 py-2 w-[300px] xl:w-[400px] border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-lime-500 transition-all duration-300"
+                />
+                <Search
+                  className="absolute left-3 top-2.5 text-gray-500"
+                  size={18}
+                />
+                {isSearching && (
+                  <Loader className="absolute right-3 top-2.5 text-gray-400 animate-spin" size={18} />
+                )}
+              </form>
+
+              {/* Desktop Search Results Dropdown */}
+              {searchOpen && query && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 max-h-96 overflow-hidden animate-slide-down">
+                  <div className="p-4 border-b border-gray-100">
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-semibold text-gray-700">Search Results</span>
-                      <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
+                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                         {totalResults} results
                       </span>
                     </div>
                   </div>
 
-                  <div className="pb-20">
+                  <div className="max-h-80 overflow-y-auto">
                     {/* Products Section */}
                     {searchResults.products?.length > 0 && (
-                      <div className="border-b border-gray-100">
-                        <div className="px-4 py-3 bg-gray-50">
+                      <div className="border-b border-gray-100 last:border-b-0">
+                        <div className="px-4 py-2 bg-gray-50">
                           <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                             Products ({searchResults.products.length})
                           </span>
@@ -2244,25 +2002,25 @@ export default function Navbar() {
                             key={product._id?.$oid || product._id}
                             href={getSearchResultLink("product", product)}
                             onClick={() => {
-                              setMobileSearchOpen(false);
+                              setSearchOpen(false);
                               setQuery("");
                             }}
-                            className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-lime-50 transition-colors duration-200"
+                            className="flex items-center gap-3 px-4 py-3 hover:bg-lime-50 transition-colors duration-200 group"
                           >
-                            <div className="w-12 h-12 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
+                            <div className="w-10 h-10 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
                               <Image
                                 src={getImageUrl(product.thumbImg)}
                                 alt={product.name}
-                                width={48}
-                                height={48}
+                                width={40}
+                                height={40}
                                 className="object-cover w-full h-full"
                               />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">
+                              <p className="text-sm font-medium text-gray-900 truncate group-hover:text-lime-700">
                                 {product.name}
                               </p>
-                              <p className="text-xs text-gray-500 truncate">{product.shortDescription}</p>
+                              {/* <p className="text-xs text-gray-500 truncate">{product.shortDescription}</p> */}
                             </div>
                             <span className="text-xs font-semibold text-lime-600 bg-lime-50 px-2 py-1 rounded">
                               ${product.discountPrice || product.price}
@@ -2274,8 +2032,8 @@ export default function Navbar() {
 
                     {/* Categories Section */}
                     {searchResults.categories?.length > 0 && (
-                      <div className="border-b border-gray-100">
-                        <div className="px-4 py-3 bg-gray-50">
+                      <div className="border-b border-gray-100 last:border-b-0">
+                        <div className="px-4 py-2 bg-gray-50">
                           <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                             Categories ({searchResults.categories.length})
                           </span>
@@ -2285,22 +2043,22 @@ export default function Navbar() {
                             key={category._id?.$oid || category._id}
                             href={getSearchResultLink("category", category)}
                             onClick={() => {
-                              setMobileSearchOpen(false);
+                              setSearchOpen(false);
                               setQuery("");
                             }}
-                            className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-lime-50 transition-colors duration-200"
+                            className="flex items-center gap-3 px-4 py-3 hover:bg-lime-50 transition-colors duration-200 group"
                           >
-                            <div className="w-12 h-12 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
+                            <div className="w-10 h-10 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
                               <Image
                                 src={getImageUrl(category.img)}
                                 alt={category.name}
-                                width={48}
-                                height={48}
+                                width={40}
+                                height={40}
                                 className="object-cover w-full h-full"
                               />
                             </div>
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-gray-900">
+                              <p className="text-sm font-medium text-gray-900 group-hover:text-lime-700">
                                 {category.name}
                               </p>
                             </div>
@@ -2311,8 +2069,8 @@ export default function Navbar() {
 
                     {/* Brands Section */}
                     {searchResults.brands?.length > 0 && (
-                      <div className="border-b border-gray-100">
-                        <div className="px-4 py-3 bg-gray-50">
+                      <div className="border-b border-gray-100 last:border-b-0">
+                        <div className="px-4 py-2 bg-gray-50">
                           <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                             Brands ({searchResults.brands.length})
                           </span>
@@ -2322,22 +2080,22 @@ export default function Navbar() {
                             key={brand._id?.$oid || brand._id}
                             href={getSearchResultLink("brand", brand)}
                             onClick={() => {
-                              setMobileSearchOpen(false);
+                              setSearchOpen(false);
                               setQuery("");
                             }}
-                            className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-lime-50 transition-colors duration-200"
+                            className="flex items-center gap-3 px-4 py-3 py-6 sm:py-8hover:bg-lime-50 transition-colors duration-200 group"
                           >
-                            <div className="w-12 h-12 rounded-md overflow-hidden border border-gray-200 flex-shrink-0 bg-white p-1">
+                            <div className="w-10 h-10 rounded-md overflow-hidden border border-gray-200 flex-shrink-0 bg-white p-1">
                               <Image
                                 src={getImageUrl(brand.img)}
                                 alt={brand.name}
-                                width={48}
-                                height={48}
+                                width={40}
+                                height={40}
                                 className="object-contain w-full h-full"
                               />
                             </div>
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-gray-900">
+                              <p className="text-sm font-medium text-gray-900 group-hover:text-lime-700">
                                 {brand.name}
                               </p>
                             </div>
@@ -2348,8 +2106,8 @@ export default function Navbar() {
 
                     {/* Countries Section */}
                     {searchResults.countries?.length > 0 && (
-                      <div className="border-b border-gray-100">
-                        <div className="px-4 py-3 bg-gray-50">
+                      <div className="border-b border-gray-100 last:border-b-0">
+                        <div className="px-4 py-2 bg-gray-50">
                           <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
                             Countries ({searchResults.countries.length})
                           </span>
@@ -2359,22 +2117,22 @@ export default function Navbar() {
                             key={country}
                             href={getSearchResultLink("country", country)}
                             onClick={() => {
-                              setMobileSearchOpen(false);
+                              setSearchOpen(false);
                               setQuery("");
                             }}
-                            className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-lime-50 transition-colors duration-200"
+                            className="flex items-center gap-3 px-4 py-3 hover:bg-lime-50 transition-colors duration-200 group"
                           >
-                            <div className="w-10 h-8 overflow-hidden rounded-sm border border-gray-200 flex-shrink-0">
+                            <div className="w-8 h-6 overflow-hidden rounded-sm border border-gray-200 flex-shrink-0">
                               <Image
                                 src={`https://flagcdn.com/${country.slice(0, 2).toLowerCase()}.svg`}
                                 alt={country}
-                                width={32}
-                                height={24}
+                                width={24}
+                                height={16}
                                 className="object-cover w-full h-full"
                               />
                             </div>
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-gray-900">
+                              <p className="text-sm font-medium text-gray-900 group-hover:text-lime-700">
                                 {country}
                               </p>
                             </div>
@@ -2385,14 +2143,14 @@ export default function Navbar() {
 
                     {/* No Results */}
                     {totalResults === 0 && !isSearching && (
-                      <div className="px-4 py-12 text-center">
-                        <div className="text-gray-400 mb-3">
-                          <Search size={48} className="mx-auto" />
+                      <div className="px-4 py-8 text-center">
+                        <div className="text-gray-400 mb-2">
+                          <Search size={32} className="mx-auto" />
                         </div>
-                        <p className="text-base text-gray-600 mb-1">
+                        <p className="text-sm text-gray-600">
                           No results found for "<span className="font-semibold">{query}</span>"
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs text-gray-500 mt-1">
                           Try different keywords or browse our categories
                         </p>
                       </div>
@@ -2400,14 +2158,14 @@ export default function Navbar() {
 
                     {/* View All Results */}
                     {totalResults > 0 && (
-                      <div className="p-4 bg-white border-t border-gray-200 sticky bottom-0">
+                      <div className="p-4 border-t border-gray-100 bg-gray-50">
                         <Link
                           href={`/frontend/search?q=${encodeURIComponent(query)}`}
                           onClick={() => {
-                            setMobileSearchOpen(false);
+                            setSearchOpen(false);
                             setQuery("");
                           }}
-                          className="w-full bg-lime-500 text-white py-3.5 rounded-lg text-base font-semibold hover:bg-lime-600 transition-colors duration-200 text-center block"
+                          className="w-full bg-lime-500 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-lime-600 transition-colors duration-200 text-center block"
                         >
                           View All {totalResults} Results
                         </Link>
@@ -2417,374 +2175,633 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-          )}
 
-          {/* User Actions */}
-          <div className="flex items-center gap-2">
-            {user ? (
-              <>
-                <button
-                  onClick={handleLoginToggle}
-                  className="hidden sm:block bg-lime-500 text-white px-3 lg:px-4 py-2 rounded-md hover:bg-lime-600 transition text-sm"
-                >
-                  {user.role === 'sales' ? 'Dashboard' : 'Dashboard'}
-                </button>
-                <button
-                  onClick={logout}
-                  className="hidden sm:block bg-gray-900 text-white px-3 lg:px-4 py-2 rounded-md hover:bg-gray-800 transition text-sm"
-                >
-                  Logout
-                </button>
-                {/* Mobile User Icon */}
-                <button
-                  onClick={handleLoginToggle}
-                  className="sm:hidden text-[10px] p-1 rounded-md text-white bg-lime-500  hover:bg-lime-600 transition"
-                >
-                  {user.role === 'sales' ? 'Dashboard' : <LayoutDashboard size={20} />}
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={handleLoginToggle}
-                  className="hidden sm:block bg-gray-900 text-white px-3 lg:px-4 py-2 rounded-md hover:bg-gray-800 transition text-sm"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => {
-                    router.push('/business-registration');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="hidden sm:block bg-lime-500 text-white px-3 lg:px-4 py-2 rounded-md hover:bg-lime-600 transition text-sm"
-                >
-                  Register
-                </button>
-                {/* Mobile User Icon */}
-                <button
-                  onClick={handleLoginToggle}
-                  className="sm:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 transition"
-                >
-                  <User size={20} />
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
-
-      {/* Enhanced Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[84px] z-40 bg-white">
-          <div ref={mobileMenuRef} className="h-full overflow-y-auto pb-32">
-            {/* Mobile Header - Increased z-index */}
-            <div className="bg-gray-900 text-white p-4 z-[60] flex items-center justify-between sticky top-0">
-              <h2 className="text-lg font-semibold">Menu</h2>
+            {/* Mobile Search Icon */}
+            <div className="lg:hidden">
               <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2 hover:bg-gray-800 rounded-lg transition"
+                onClick={() => {
+                  setMobileSearchOpen(!mobileSearchOpen);
+                  setMobileMenuOpen(false);
+                }}
+                className="p-2 rounded-md text-gray-700 hover:bg-gray-100 transition"
               >
-                <X size={24} />
+                <Search size={20} />
               </button>
             </div>
-            {/* Mobile Navigation Links */}
-            <div className="p-4 space-y-1">
-              {/* All Products with Full Category Hierarchy */}
-              <div className="border-b border-gray-200 pb-4">
-                <button
-                  onClick={() => setShowAllProducts(!showAllProducts)}
-                  className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
-                >
-                  <span className="flex items-center gap-2">
-                    <span>All Products</span>
-                    {showAllProducts && (
-                      <span className="text-xs bg-lime-500 text-white px-2 py-1 rounded-full">
-                        {maincategory.length}
-                      </span>
-                    )}
-                  </span>
-                  {showAllProducts ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                </button>
 
-                {showAllProducts && (
-                  <div className="mt-3 space-y-2 px-10">
-                    {maincategory.map((main) => {
-                      const mainId = main._id?.$oid || main._id;
-                      const relatedCategories = getRelatedCategories(mainId);
-                      const isExpanded = expandedMainCategories[mainId];
-
-                      return (
-                        <div key={mainId} className="bg-gray-50 rounded-lg overflow-hidden">
-                          <button
-                            onClick={() => toggleMainCategory(mainId)}
-                            className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-100 transition-colors"
-                          >
-                            <Image
-                              src={getImageUrl(main.img)}
-                              alt={main.name}
-                              width={28}
-                              height={28}
-                              className="object-contain flex-shrink-0"
-                            />
-                            <span className="font-medium text-gray-800 flex-1">{main.name}</span>
-                            <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
-                              {relatedCategories.length}
-                            </span>
-                            {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                          </button>
-
-                          {isExpanded && (
-                            <div className="bg-white border-t border-gray-200">
-                              {/* Main Category Link */}
-                              <Link
-                                href={`/frontend/products/${main.slug}`}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="block px-3 py-2.5 pl-11 text-sm font-medium text-lime-600 hover:bg-lime-50 border-b border-gray-100"
-                              >
-                                View All {main.name}
-                              </Link>
-
-                              {/* Categories */}
-                              {relatedCategories.map((cat) => {
-                                const catId = cat._id?.$oid || cat._id;
-                                const relatedSubcategories = getRelatedSubcategories(catId);
-                                const isCatExpanded = expandedCategories[catId];
-
-                                return (
-                                  <div key={catId} className="border-b border-gray-100 last:border-b-0">
-                                    <button
-                                      onClick={() => toggleCategory(catId)}
-                                      className="w-full flex items-center gap-3 px-3 py-2.5 pl-11 text-left hover:bg-gray-50 transition-colors"
-                                    >
-                                      <span className="font-medium text-gray-700 flex-1">{cat.name}</span>
-                                      {relatedSubcategories.length > 0 && (
-                                        <>
-                                          <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
-                                            {relatedSubcategories.length}
-                                          </span>
-                                          {isCatExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                                        </>
-                                      )}
-                                    </button>
-
-                                    {/* Subcategories */}
-                                    {isCatExpanded && relatedSubcategories.length > 0 && (
-                                      <div className="bg-gray-50 border-t border-gray-200">
-                                        {relatedSubcategories.map((sub) => (
-                                          <Link
-                                            key={sub._id?.$oid || sub._id}
-                                            href={`/frontend/products/${main.slug}/${cat.slug}/${sub.slug}`}
-                                            onClick={() => setMobileMenuOpen(false)}
-                                            className="block px-3 py-2 text-sm text-gray-600 hover:bg-lime-50 hover:text-lime-700 pl-16 border-b border-gray-100 last:border-b-0 transition-colors"
-                                          >
-                                            {sub.name}
-                                          </Link>
-                                        ))}
-                                      </div>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-
-              {/* Country of Origin */}
-              <div className="border-b border-gray-200 pb-4">
-                <button
-                  onClick={() => setCountryOpen(!countryOpen)}
-                  className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
-                >
-                  <span>Country of Origin</span>
-                  {countryOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                </button>
-                {countryOpen && (
-                  <div className="mt-3 grid grid-cols-2 gap-2">
-                    {uniqueCountries.slice(0, 12).map((country) => (
-                      <Link
-                        key={country}
-                        href={`/frontend/products/country/${country.toLowerCase().replace(/\s+/g, '-')}`}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="text-gray-600 hover:text-lime-600 hover:bg-lime-50 transition-colors py-2 px-3 rounded-lg text-sm border border-gray-200 text-center"
-                      >
-                        {country}
-                      </Link>
-                    ))}
-                    {uniqueCountries.length > 12 && (
-                      <Link
-                        href="/frontend/countries"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="col-span-2 text-center text-lime-600 hover:bg-lime-50 transition-colors py-2 px-3 rounded-lg text-sm border border-lime-200 font-medium"
-                      >
-                        View All Countries →
-                      </Link>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* All Brands with Sub-options */}
-              <div className="border-b border-gray-200 pb-4">
-                <button
-                  onClick={() => setOpen(!open)}
-                  className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
-                >
-                  <span>All Brands</span>
-                  {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                </button>
-                {open && (
-                  <div className="mt-3 space-y-2 pl-2">
-                    <Link
-                      href="/frontend/popular-brands"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block py-2.5 px-4 text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors font-medium border-l-2 border-lime-500"
-                    >
-                      Popular Brands
-                    </Link>
-                    <Link
-                      href="/frontend/all-brands"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block py-2.5 px-4 text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors font-medium border-l-2 border-gray-300"
-                    >
-                      All Brands
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              {/* Business Type with Sub-options */}
-              <div className="border-b border-gray-200 pb-4">
-                <button
-                  onClick={() => setopenservices(!openservices)}
-                  className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
-                >
-                  <span>Business Type</span>
-                  {openservices ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                </button>
-                {openservices && (
-                  <div className="mt-3 space-y-2 pl-2">
-                    <Link
-                      href="/frontend/retail-services"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block py-2.5 px-4 text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors font-medium border-l-2 border-lime-500"
-                    >
-                      Retail Services
-                    </Link>
-                    <Link
-                      href="/frontend/food-services"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block py-2.5 px-4 text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors font-medium border-l-2 border-gray-300"
-                    >
-                      Food Services
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              {/* Language Selector for Mobile */}
-              <div className="border-b border-gray-200 pb-4">
-                <button
-                  onClick={() => setLanguageOpen(!languageOpen)}
-                  className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-2">
-                    <Image
-                      src={currentLanguage === "english" ? "https://flagcdn.com/gb.svg" : "https://flagcdn.com/no.svg"}
-                      alt={currentLanguage === "english" ? "English" : "Norwegian"}
-                      width={20}
-                      height={15}
-                      className="rounded-sm"
-                    />
-                    <span>Language</span>
-                  </div>
-                  {languageOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                </button>
-                {languageOpen && (
-                  <div className="mt-3 space-y-2">
-                    {languages.map((language) => (
-                      <button
-                        key={language.code}
-                        onClick={() => handleLanguageChange(language)}
-                        className={`flex items-center gap-3 w-full px-3 py-2.5 text-left rounded-lg transition ${currentLanguage === language.code ? 'bg-lime-50 text-lime-700 border border-lime-200' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-                          }`}
-                      >
-                        <Image
-                          src={language.flag}
-                          alt={language.name}
-                          width={20}
-                          height={15}
-                          className="rounded-sm"
-                        />
-                        <span className="font-medium">{language.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* New Products */}
-              <Link
-                href="/frontend/products/new"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-lg font-semibold text-gray-900 py-3 hover:text-lime-600 transition border-b border-gray-200"
-              >
-                New Products
-              </Link>
-
-              {/* Auth Buttons for Mobile */}
-              <div className="pt-6 pb-4">
-                {user ? (
-                  <div className="space-y-3">
-                    <div className="text-center mb-4 p-3 bg-gray-50 rounded-lg">
-                      <p className="font-medium text-gray-900">Welcome back!</p>
-                      <p className="text-sm text-gray-600">{user.email}</p>
-                    </div>
-                    <button
-                      onClick={handleLoginToggle}
-                      className="w-full bg-lime-500 text-white py-3.5 rounded-lg font-semibold hover:bg-lime-600 transition text-base"
-                    >
-                      Go to Dashboard
-                    </button>
-                    <button
-                      onClick={logout}
-                      className="w-full bg-gray-900 text-white py-3.5 rounded-lg font-semibold hover:bg-gray-800 transition text-base"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <button
-                      onClick={handleLoginToggle}
-                      className="w-full bg-gray-900 text-white py-3.5 rounded-lg font-semibold hover:bg-gray-800 transition text-base"
-                    >
-                      Business Login
-                    </button>
+            {/* Mobile Search Overlay - Similar to Desktop */}
+            {mobileSearchOpen && (
+              <div className="lg:hidden fixed inset-0 top-0 z-50 bg-white" ref={mobileSearchRef}>
+                {/* Search Header */}
+                <div className="bg-white border-b border-gray-200 p-4">
+                  <div className="flex items-center gap-3">
                     <button
                       onClick={() => {
-                        router.push('/frontend/register');
-                        setMobileMenuOpen(false);
+                        setMobileSearchOpen(false);
+                        setQuery("");
+                        setSearchResults([]);
                       }}
-                      className="w-full bg-lime-500 text-white py-3.5 rounded-lg font-semibold hover:bg-lime-600 transition text-base"
+                      className="p-2 text-gray-500 hover:text-gray-700 transition"
                     >
-                      Register Business
+                      <X size={20} />
                     </button>
+                    <form onSubmit={handleSearchSubmit} className="flex-1 flex gap-2">
+                      <div className="flex-1 relative">
+                        <input
+                          type="text"
+                          placeholder="Search products, categories, brands..."
+                          value={query}
+                          onChange={(e) => setQuery(e.target.value)}
+                          className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500 text-base"
+                          autoFocus
+                        />
+                        <Search
+                          className="absolute left-3 top-3.5 text-gray-500"
+                          size={18}
+                        />
+                        {isSearching && (
+                          <Loader className="absolute right-3 top-3.5 text-gray-400 animate-spin" size={18} />
+                        )}
+                      </div>
+                      <button
+                        type="submit"
+                        className="bg-lime-500 text-white px-4 py-3 rounded-lg hover:bg-lime-600 transition font-medium"
+                      >
+                        Search
+                      </button>
+                    </form>
+                  </div>
+                </div>
+
+                {/* Mobile Search Results */}
+                {query && (
+                  <div className="bg-white h-[calc(100vh-80px)] overflow-y-auto">
+                    <div className="p-4 border-b border-gray-100 bg-gray-50">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-semibold text-gray-700">Search Results</span>
+                        <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
+                          {totalResults} results
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pb-20">
+                      {/* Products Section */}
+                      {searchResults.products?.length > 0 && (
+                        <div className="border-b border-gray-100">
+                          <div className="px-4 py-3 bg-gray-50">
+                            <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                              Products ({searchResults.products.length})
+                            </span>
+                          </div>
+                          {searchResults.products.map((product) => (
+                            <Link
+                              key={product._id?.$oid || product._id}
+                              href={getSearchResultLink("product", product)}
+                              onClick={() => {
+                                setMobileSearchOpen(false);
+                                setQuery("");
+                              }}
+                              className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-lime-50 transition-colors duration-200"
+                            >
+                              <div className="w-12 h-12 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
+                                <Image
+                                  src={getImageUrl(product.thumbImg)}
+                                  alt={product.name}
+                                  width={48}
+                                  height={48}
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate">
+                                  {product.name}
+                                </p>
+                                <p className="text-xs text-gray-500 truncate">{product.shortDescription}</p>
+                              </div>
+                              <span className="text-xs font-semibold text-lime-600 bg-lime-50 px-2 py-1 rounded">
+                                ${product.discountPrice || product.price}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Categories Section */}
+                      {searchResults.categories?.length > 0 && (
+                        <div className="border-b border-gray-100">
+                          <div className="px-4 py-3 bg-gray-50">
+                            <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                              Categories ({searchResults.categories.length})
+                            </span>
+                          </div>
+                          {searchResults.categories.map((category) => (
+                            <Link
+                              key={category._id?.$oid || category._id}
+                              href={getSearchResultLink("category", category)}
+                              onClick={() => {
+                                setMobileSearchOpen(false);
+                                setQuery("");
+                              }}
+                              className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-lime-50 transition-colors duration-200"
+                            >
+                              <div className="w-12 h-12 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
+                                <Image
+                                  src={getImageUrl(category.img)}
+                                  alt={category.name}
+                                  width={48}
+                                  height={48}
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-gray-900">
+                                  {category.name}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Brands Section */}
+                      {searchResults.brands?.length > 0 && (
+                        <div className="border-b border-gray-100">
+                          <div className="px-4 py-3 bg-gray-50">
+                            <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                              Brands ({searchResults.brands.length})
+                            </span>
+                          </div>
+                          {searchResults.brands.map((brand) => (
+                            <Link
+                              key={brand._id?.$oid || brand._id}
+                              href={getSearchResultLink("brand", brand)}
+                              onClick={() => {
+                                setMobileSearchOpen(false);
+                                setQuery("");
+                              }}
+                              className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-lime-50 transition-colors duration-200"
+                            >
+                              <div className="w-12 h-12 rounded-md overflow-hidden border border-gray-200 flex-shrink-0 bg-white p-1">
+                                <Image
+                                  src={getImageUrl(brand.img)}
+                                  alt={brand.name}
+                                  width={48}
+                                  height={48}
+                                  className="object-contain w-full h-full"
+                                />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-gray-900">
+                                  {brand.name}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Countries Section */}
+                      {searchResults.countries?.length > 0 && (
+                        <div className="border-b border-gray-100">
+                          <div className="px-4 py-3 bg-gray-50">
+                            <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
+                              Countries ({searchResults.countries.length})
+                            </span>
+                          </div>
+                          {searchResults.countries.map((country) => (
+                            <Link
+                              key={country}
+                              href={getSearchResultLink("country", country)}
+                              onClick={() => {
+                                setMobileSearchOpen(false);
+                                setQuery("");
+                              }}
+                              className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 hover:bg-lime-50 transition-colors duration-200"
+                            >
+                              <div className="w-10 h-8 overflow-hidden rounded-sm border border-gray-200 flex-shrink-0">
+                                <Image
+                                  src={`https://flagcdn.com/${country.slice(0, 2).toLowerCase()}.svg`}
+                                  alt={country}
+                                  width={32}
+                                  height={24}
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-gray-900">
+                                  {country}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* No Results */}
+                      {totalResults === 0 && !isSearching && (
+                        <div className="px-4 py-12 text-center">
+                          <div className="text-gray-400 mb-3">
+                            <Search size={48} className="mx-auto" />
+                          </div>
+                          <p className="text-base text-gray-600 mb-1">
+                            No results found for "<span className="font-semibold">{query}</span>"
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            Try different keywords or browse our categories
+                          </p>
+                        </div>
+                      )}
+
+                      {/* View All Results */}
+                      {totalResults > 0 && (
+                        <div className="p-4 bg-white border-t border-gray-200 sticky bottom-0">
+                          <Link
+                            href={`/frontend/search?q=${encodeURIComponent(query)}`}
+                            onClick={() => {
+                              setMobileSearchOpen(false);
+                              setQuery("");
+                            }}
+                            className="w-full bg-lime-500 text-white py-3.5 rounded-lg text-base font-semibold hover:bg-lime-600 transition-colors duration-200 text-center block"
+                          >
+                            View All {totalResults} Results
+                          </Link>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* User Actions */}
+            <div className="flex items-center gap-2">
+              {user ? (
+                <>
+                  <button
+                    onClick={handleLoginToggle}
+                    className="hidden sm:block bg-lime-500 text-white px-3 lg:px-4 py-2 rounded-md hover:bg-lime-600 transition text-sm"
+                  >
+                    {user.role === 'sales' ? 'Dashboard' : 'Dashboard'}
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="hidden sm:block bg-gray-900 text-white px-3 lg:px-4 py-2 rounded-md hover:bg-gray-800 transition text-sm"
+                  >
+                    Logout
+                  </button>
+                  {/* Mobile User Icon */}
+                  <button
+                    onClick={handleLoginToggle}
+                    className="sm:hidden text-[10px] p-1 rounded-md text-white bg-lime-500  hover:bg-lime-600 transition"
+                  >
+                    {user.role === 'sales' ? 'Dashboard' : <LayoutDashboard size={20} />}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={handleLoginToggle}
+                    className="hidden sm:block bg-gray-900 text-white px-3 lg:px-4 py-2 rounded-md hover:bg-gray-800 transition text-sm"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => {
+                      router.push('/frontend/register');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="hidden sm:block bg-lime-500 text-white px-3 lg:px-4 py-2 rounded-md hover:bg-lime-600 transition text-sm"
+                  >
+                    Register
+                  </button>
+                  {/* Mobile User Icon */}
+                  <button
+                    onClick={handleLoginToggle}
+                    className="sm:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 transition"
+                  >
+                    <User size={20} />
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </nav>
+
+        {/* Enhanced Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden fixed inset-0 top-[84px] z-40 bg-white">
+            <div ref={mobileMenuRef} className="h-full overflow-y-auto pb-32">
+              {/* Mobile Header - Increased z-index */}
+              <div className="bg-gray-900 text-white p-4 z-[60] flex items-center justify-between sticky top-0">
+                <h2 className="text-lg font-semibold">Menu</h2>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 hover:bg-gray-800 rounded-lg transition"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+              {/* Mobile Navigation Links */}
+              <div className="p-4 space-y-1">
+                {/* All Products with Full Category Hierarchy */}
+                <div className="border-b border-gray-200 pb-4">
+                  <button
+                    onClick={() => setShowAllProducts(!showAllProducts)}
+                    className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span>All Products</span>
+                      {showAllProducts && (
+                        <span className="text-xs bg-lime-500 text-white px-2 py-1 rounded-full">
+                          {maincategory.length}
+                        </span>
+                      )}
+                    </span>
+                    {showAllProducts ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+
+                  {showAllProducts && (
+                    <div className="mt-3 space-y-2 px-10">
+                      {maincategory.map((main) => {
+                        const mainId = main._id?.$oid || main._id;
+                        const relatedCategories = getRelatedCategories(mainId);
+                        const isExpanded = expandedMainCategories[mainId];
+
+                        return (
+                          <div key={mainId} className="bg-gray-50 rounded-lg overflow-hidden">
+                            <button
+                              onClick={() => toggleMainCategory(mainId)}
+                              className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-100 transition-colors"
+                            >
+                              <Image
+                                src={getImageUrl(main.img)}
+                                alt={main.name}
+                                width={28}
+                                height={28}
+                                className="object-contain flex-shrink-0"
+                              />
+                              <span className="font-medium text-gray-800 flex-1">{main.name}</span>
+                              <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
+                                {relatedCategories.length}
+                              </span>
+                              {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                            </button>
+
+                            {isExpanded && (
+                              <div className="bg-white border-t border-gray-200">
+                                {/* Main Category Link */}
+                                <Link
+                                  href={`/frontend/products/${main.slug}`}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="block px-3 py-2.5 pl-11 text-sm font-medium text-lime-600 hover:bg-lime-50 border-b border-gray-100"
+                                >
+                                  View All {main.name}
+                                </Link>
+
+                                {/* Categories */}
+                                {relatedCategories.map((cat) => {
+                                  const catId = cat._id?.$oid || cat._id;
+                                  const relatedSubcategories = getRelatedSubcategories(catId);
+                                  const isCatExpanded = expandedCategories[catId];
+
+                                  return (
+                                    <div key={catId} className="border-b border-gray-100 last:border-b-0">
+                                      <button
+                                        onClick={() => toggleCategory(catId)}
+                                        className="w-full flex items-center gap-3 px-3 py-2.5 pl-11 text-left hover:bg-gray-50 transition-colors"
+                                      >
+                                        <span className="font-medium text-gray-700 flex-1">{cat.name}</span>
+                                        {relatedSubcategories.length > 0 && (
+                                          <>
+                                            <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
+                                              {relatedSubcategories.length}
+                                            </span>
+                                            {isCatExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                                          </>
+                                        )}
+                                      </button>
+
+                                      {/* Subcategories */}
+                                      {isCatExpanded && relatedSubcategories.length > 0 && (
+                                        <div className="bg-gray-50 border-t border-gray-200">
+                                          {relatedSubcategories.map((sub) => (
+                                            <Link
+                                              key={sub._id?.$oid || sub._id}
+                                              href={`/frontend/products/${main.slug}/${cat.slug}/${sub.slug}`}
+                                              onClick={() => setMobileMenuOpen(false)}
+                                              className="block px-3 py-2 text-sm text-gray-600 hover:bg-lime-50 hover:text-lime-700 pl-16 border-b border-gray-100 last:border-b-0 transition-colors"
+                                            >
+                                              {sub.name}
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+
+                {/* Country of Origin */}
+                <div className="border-b border-gray-200 pb-4">
+                  <button
+                    onClick={() => setCountryOpen(!countryOpen)}
+                    className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
+                  >
+                    <span>Country of Origin</span>
+                    {countryOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  {countryOpen && (
+                    <div className="mt-3 grid grid-cols-2 gap-2">
+                      {uniqueCountries.slice(0, 12).map((country) => (
+                        <Link
+                          key={country}
+                          href={`/frontend/products/country/${country.toLowerCase().replace(/\s+/g, '-')}`}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="text-gray-600 hover:text-lime-600 hover:bg-lime-50 transition-colors py-2 px-3 rounded-lg text-sm border border-gray-200 text-center"
+                        >
+                          {country}
+                        </Link>
+                      ))}
+                      {uniqueCountries.length > 12 && (
+                        <Link
+                          href="/frontend/countries"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="col-span-2 text-center text-lime-600 hover:bg-lime-50 transition-colors py-2 px-3 rounded-lg text-sm border border-lime-200 font-medium"
+                        >
+                          View All Countries →
+                        </Link>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* All Brands with Sub-options */}
+                <div className="border-b border-gray-200 pb-4">
+                  <button
+                    onClick={() => setOpen(!open)}
+                    className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
+                  >
+                    <span>All Brands</span>
+                    {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  {open && (
+                    <div className="mt-3 space-y-2 pl-2">
+                      <Link
+                        href="/frontend/popular-brands"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2.5 px-4 text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors font-medium border-l-2 border-lime-500"
+                      >
+                        Popular Brands
+                      </Link>
+                      <Link
+                        href="/frontend/all-brands"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2.5 px-4 text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors font-medium border-l-2 border-gray-300"
+                      >
+                        All Brands
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* Business Type with Sub-options */}
+                <div className="border-b border-gray-200 pb-4">
+                  <button
+                    onClick={() => setopenservices(!openservices)}
+                    className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
+                  >
+                    <span>Business Type</span>
+                    {openservices ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  {openservices && (
+                    <div className="mt-3 space-y-2 pl-2">
+                      <Link
+                        href="/frontend/retail-services"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2.5 px-4 text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors font-medium border-l-2 border-lime-500"
+                      >
+                        Retail Services
+                      </Link>
+                      <Link
+                        href="/frontend/food-services"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2.5 px-4 text-gray-700 hover:bg-lime-50 hover:text-lime-700 rounded-lg transition-colors font-medium border-l-2 border-gray-300"
+                      >
+                        Food Services
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* Language Selector for Mobile */}
+                <div className="border-b border-gray-200 pb-4">
+                  <button
+                    onClick={() => setLanguageOpen(!languageOpen)}
+                    className="w-full text-left text-lg font-semibold text-gray-900 py-3 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={currentLanguage === "english" ? "https://flagcdn.com/gb.svg" : "https://flagcdn.com/no.svg"}
+                        alt={currentLanguage === "english" ? "English" : "Norwegian"}
+                        width={20}
+                        height={15}
+                        className="rounded-sm"
+                      />
+                      <span>Language</span>
+                    </div>
+                    {languageOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  {languageOpen && (
+                    <div className="mt-3 space-y-2">
+                      {languages.map((language) => (
+                        <button
+                          key={language.code}
+                          onClick={() => handleLanguageChange(language)}
+                          className={`flex items-center gap-3 w-full px-3 py-2.5 text-left rounded-lg transition ${currentLanguage === language.code ? 'bg-lime-50 text-lime-700 border border-lime-200' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                            }`}
+                        >
+                          <Image
+                            src={language.flag}
+                            alt={language.name}
+                            width={20}
+                            height={15}
+                            className="rounded-sm"
+                          />
+                          <span className="font-medium">{language.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* New Products */}
+                <Link
+                  href="/frontend/products/new"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-lg font-semibold text-gray-900 py-3 hover:text-lime-600 transition border-b border-gray-200"
+                >
+                  New Products
+                </Link>
+
+                {/* Auth Buttons for Mobile */}
+                <div className="pt-6 pb-4">
+                  {user ? (
+                    <div className="space-y-3">
+                      <div className="text-center mb-4 p-3 bg-gray-50 rounded-lg">
+                        <p className="font-medium text-gray-900">Welcome back!</p>
+                        <p className="text-sm text-gray-600">{user.email}</p>
+                      </div>
+                      <button
+                        onClick={handleLoginToggle}
+                        className="w-full bg-lime-500 text-white py-3.5 rounded-lg font-semibold hover:bg-lime-600 transition text-base"
+                      >
+                        Go to Dashboard
+                      </button>
+                      <button
+                        onClick={logout}
+                        className="w-full bg-gray-900 text-white py-3.5 rounded-lg font-semibold hover:bg-gray-800 transition text-base"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <button
+                        onClick={handleLoginToggle}
+                        className="w-full bg-gray-900 text-white py-3.5 rounded-lg font-semibold hover:bg-gray-800 transition text-base"
+                      >
+                        Business Login
+                      </button>
+                      <button
+                        onClick={() => {
+                          router.push('/frontend/register');
+                          setMobileMenuOpen(false);
+                        }}
+                        className="w-full bg-lime-500 text-white py-3.5 rounded-lg font-semibold hover:bg-lime-600 transition text-base"
+                      >
+                        Register Business
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-      )}
+        )}
 
-      {/* LOGIN SLIDE PANEL */}
+        {/* LOGIN SLIDE PANEL */}
+
+      </header>
       {isLoginOpen && (
         <div className="fixed inset-0 z-[999999] pointer-events-none">
 
@@ -2811,7 +2828,7 @@ export default function Navbar() {
               </button>
             </div>
 
-            <div className="py-6 sm:py-8">
+            <div className="py-6 sm:py-8 bg-white z-50">
               <form className="space-y-5" onSubmit={handleLoginSubmit}>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -2936,6 +2953,6 @@ export default function Navbar() {
         </div>
 
       )}
-    </header>
+    </div>
   );
 }

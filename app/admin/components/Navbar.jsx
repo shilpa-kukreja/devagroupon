@@ -74,8 +74,7 @@ const Navbar = ({ setToken }) => {
           <div className="flex px-4 items-center gap-2">
             <Link href="/" className="flex items-center gap-2 group">
                 <Link href="/" className="text-2xl font-semibold text-gray-800">
-            <span className="font-serif">Deva</span>{" "}
-            <span className="font-serif text-lime-600">Groupon</span>
+             <img src="/home/logo1.png" alt="Logo" className="h-8 w-full" />
           </Link>
 
             </Link>

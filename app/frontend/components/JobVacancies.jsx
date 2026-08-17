@@ -39,23 +39,20 @@ const JobVacancies = () => {
 
             <div className="space-y-6">
               <p className="text-lg text-gray-700 leading-relaxed">
-                As a market leader in authentic Asian food and beverages across Europe, 
-                we're experiencing remarkable growth and expansion. Our entrepreneurial 
-                culture thrives on innovation and excellence.
+                At Deva Gruppen, we are building more than a business. We are shaping a future driven by quality, ambition, and global collaboration. As a fast growing name in the Asian food sector across Europe, we foster a culture where ideas are valued and individuals are empowered to grow.
               </p>
               
               <p className="text-lg text-gray-700 leading-relaxed">
-                We offer dynamic career paths for talented professionals seeking meaningful 
-                development opportunities. Join us in shaping the future of Asian cuisine in Europe.
+                Our teams work across borders, functions, and markets, united by a shared commitment to excellence. Whether you are just starting your journey or looking to take the next step in your career, Deva Gruppen offers an environment where talent is recognized and potential is nurtured.
               </p>
 
               {/* Features List */}
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4">
                 {[
-                  'Professional Growth',
-                  'Innovative Projects', 
-                  'Competitive Benefits',
-                  'International Team'
+                  'Career Development Opportunities',
+                  'Competitive Rewards and Benefits', 
+                  'Forward Thinking Projects',
+                  'Diverse and International Work Culture'
                 ].map((item, index) => (
                   <li key={index} className="flex items-center space-x-3">
                     <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full" />

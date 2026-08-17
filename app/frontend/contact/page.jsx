@@ -153,10 +153,10 @@ const ContactSection = () => {
             <Navbar />
             
             {/* Hero Section */}
-            <div className="relative h-64 md:h-80 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900">
-                <div className="absolute inset-0 bg-black/40"></div>
+            <div className="relative h-64 md:h-96 mt-20 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900">
+                {/* <div className="absolute inset-0  bg-black/40"></div> */}
                 <img 
-                    src="/about/aboutus-hero1.webp" 
+                    src="/home/ContactUs.png" 
                     alt="Beagley Copperman Headquarters" 
                     className="w-full h-full object-cover"
                 />
@@ -167,10 +167,10 @@ const ContactSection = () => {
                         transition={{ duration: 0.8 }}
                         className="text-center text-white"
                     >
-                        <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
+                        {/* <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
                         <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto">
                             Get in touch with Europe's leading Asian food importer
-                        </p>
+                        </p> */}
                     </motion.div>
                 </div>
             </div>

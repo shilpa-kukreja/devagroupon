@@ -1,40 +1,49 @@
+"use client";
 import React, { useEffect, useState, useRef } from "react";
 import { GlobeAltIcon } from "@heroicons/react/24/outline";
 
-const GoogleTranslate= () => {
+const GoogleTranslate = () => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const scriptLoaded = useRef(false);
 
-  // Load Google Translate Script
   useEffect(() => {
+    // Prevent multiple script injections
+    if (scriptLoaded.current) return;
+    scriptLoaded.current = true;
+
+    // Define callback FIRST
+    window.googleTranslateElementInit = () => {
+      if (window.google?.translate?.TranslateElement) {
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            includedLanguages: "en,no",
+            autoDisplay: false,
+          },
+          "google_translate_element"
+        );
+      }
+    };
+
+    // Load script
     const script = document.createElement("script");
     script.src =
-      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
     script.async = true;
     document.body.appendChild(script);
 
-    window.googleTranslateElementInit = () => {
-      new window.google.translate.TranslateElement(
-        {
-          pageLanguage: "en",
-          includedLanguages: "en,no",
-          autoDisplay: false,
-        },
-        "google_translate_element"
-      );
-    };
-
-    // Close dropdown on outside click
+    // Outside click handler
     const handler = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Change language programmatically
   const changeLanguage = (lang) => {
     const select = document.querySelector(".goog-te-combo");
     if (select) {
@@ -46,39 +55,33 @@ const GoogleTranslate= () => {
 
   return (
     <>
-      {/* Hidden Google Translate Element */}
-      <div id="google_translate_element" style={{ display: "none" }}></div>
+      {/* Hidden Google Translate */}
+      <div id="google_translate_element" style={{ display: "none" }} />
 
-      {/* DROPDOWN */}
       <div className="relative" ref={dropdownRef}>
-        {/* Button Icon */}
         <button
           onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 text-white hover:text-green-400 transition"
+          className="flex items-center text-white hover:text-green-400 transition"
         >
           <GlobeAltIcon className="w-6 h-6" />
         </button>
 
-        {/* Menu */}
         {open && (
-          <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 p-2 z-50">
-
-            {/* English */}
+          <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border p-2 z-50">
             <button
               onClick={() => changeLanguage("en")}
-              className="flex items-center gap-3 w-full px-2 py-2 hover:bg-gray-100 rounded-lg"
+              className="flex items-center gap-3 w-full px-2 py-2 hover:bg-gray-100 rounded"
             >
-              <img src="/flags/en.png" className="w-6 h-6 rounded" alt="English" />
-              <span className="text-sm text-gray-600 font-medium">English</span>
+              <img src="/flags/en.png" className="w-6 h-6 rounded" />
+              <span className="text-sm text-gray-600">English</span>
             </button>
 
-            {/* Norwegian */}
             <button
               onClick={() => changeLanguage("no")}
-              className="flex items-center gap-3 w-full px-2 py-2 hover:bg-gray-100 rounded-lg"
+              className="flex items-center gap-3 w-full px-2 py-2 hover:bg-gray-100 rounded"
             >
-              <img src="/flags/no.png" className="w-6 h-6 rounded" alt="Norwegian" />
-              <span className="text-sm text-gray-600 font-medium">Norwegian</span>
+              <img src="/flags/no.png" className="w-6 h-6 rounded" />
+              <span className="text-sm text-gray-600">Norwegian</span>
             </button>
           </div>
         )}

@@ -75,6 +75,11 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  producttype: {
+    type: String,
+    enum: ['Food', 'Retail'],
+    default: 'Food'
+  },
   ProductEan: String,
   Halal: Boolean,
   Vegan: Boolean,

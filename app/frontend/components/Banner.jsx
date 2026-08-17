@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 const Banner = () => {
   return (
-    <section className="relative w-full h-[700px] min-h-[500px] overflow-hidden">
+    <section className="relative w-full h-[800px] min-h-[500px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 mt-10">
         <Image
@@ -53,15 +53,15 @@ const Banner = () => {
 
         {/* Right Section — Image + Video */}
         <div className="relative w-full lg:w-auto mt-auto flex justify-center lg:justify-end items-end gap-6 lg:gap-10 pb-10 lg:pb-20">
-          {/* Product Image */}
-          <div className="relative group transition-all duration-500 hover:scale-105">
+        
+          {/* <div className="relative group transition-all duration-500 hover:scale-105">
             <img
               src="/banner1.webp"
               alt="Tokyo Design Studio"
               
               className="rounded-xl w-[200px] h-[220px] shadow-2xl object-cover"
             />
-          </div>
+          </div> */}
 
           {/* Product Video (same size) */}
           <div className="relative group transition-all duration-500 hover:scale-105">

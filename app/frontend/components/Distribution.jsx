@@ -25,14 +25,11 @@ export default function Distribution() {
               </div>
               
               <p className="text-xl lg:text-2xl leading-relaxed text-blue-100 opacity-95 font-light">
-                Our advanced distribution network allows us to deliver goods to nearly every corner of Europe. 
-                We operate eight strategically located warehouses and collaborate with 72 transport companies 
-                to ensure seamless logistics.
+                Deva Gruppen operates a robust European distribution network designed for efficiency, speed, and reliability. Through strategically positioned logistics hubs and trusted transport partners, we ensure smooth delivery across diverse markets and retail formats.
               </p>
               
               <p className="text-xl lg:text-2xl leading-relaxed text-blue-100 opacity-95 font-light">
-                From these warehouses, we offer quick and efficient delivery directly to your stores 
-                or distribution centers.
+               From central warehouses to store level fulfillment, our distribution model is engineered to reduce complexity for our partners while maintaining product integrity throughout the supply chain.
               </p>
             </div>
 

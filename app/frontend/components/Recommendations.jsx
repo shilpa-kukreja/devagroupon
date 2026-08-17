@@ -135,15 +135,12 @@ export const Recommendations = () => {
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300 group">
         {/* Product Image */}
         <div className="bg-gray-50 h-48 flex items-center justify-center p-4 relative">
-          <Image 
+          <img 
             src={productInfo.image} 
             alt={productInfo.name}
             width={200}
             height={200}
             className="max-h-36 max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
-            onError={(e) => {
-              e.target.src = '/placeholder.png';
-            }}
           />
           {/* Badges */}
           <div className="absolute top-2 left-2 flex flex-col gap-1">
@@ -274,15 +271,13 @@ export const Recommendations = () => {
               <div className="flex items-center justify-between mb-6 p-4 bg-white rounded-lg shadow-sm">
                 <div className="flex items-center gap-4">
                   {subcategoryImg && subcategoryImg !== "/placeholder.png" && (
-                    <Image 
+                    <img
                       src={subcategoryImg} 
                       alt={subcategoryName}
                       width={48}
                       height={48}
                       className="w-12 h-12 object-cover rounded"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
+                     
                     />
                   )}
                   <div>
@@ -384,15 +379,12 @@ export const SimpleDynamicRecommendations = ({ product }) => {
         className="group border border-gray-200 bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 block"
       >
         <div className="relative bg-gray-50 h-48 flex items-center justify-center overflow-hidden">
-          <Image
+          <img
             src={imageUrl}
             alt={productName}
             width={200}
             height={200}
             className="object-contain max-h-40 transition-transform duration-300 group-hover:scale-105"
-            onError={(e) => {
-              e.target.src = '/placeholder.png';
-            }}
           />
         </div>
         <div className="p-4">

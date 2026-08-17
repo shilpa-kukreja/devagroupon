@@ -30,9 +30,15 @@ import countryMiddleware from '../middlewares/countryMiddleware.js';
 const adminRouter = express.Router();
 
 // Main Categories
-adminRouter.post('/main-categories',upload.single('img'), createMainCategory);
+adminRouter.post('/main-categories',upload.fields([
+  { name: "img", maxCount: 1 },
+  { name: "banner", maxCount: 1 }
+]), createMainCategory);
 adminRouter.get('/main-categories', getMainCategories);
-adminRouter.put('/main-categories/:id', updateMainCategory);
+adminRouter.put('/main-categories/:id',upload.fields([
+  { name: "img", maxCount: 1 },
+  { name: "banner", maxCount: 1 }
+]), updateMainCategory);
 adminRouter.delete('/main-categories/:id', deleteMainCategory);
 
 // Categories

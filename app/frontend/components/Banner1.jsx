@@ -32,13 +32,13 @@ const Banner1 = () => {
 
           {/* Main Heading */}
           <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight">
-            Authentic
-            <span className="block text-green-300">Asian Flavors</span>
+            Asian Taste, 
+            <span className="block text-green-300">Perfectly Curated</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-lg lg:text-xl text-white/90 mb-8 leading-relaxed max-w-lg">
-            Discover the finest selection of Asian snacks, beverages, and culinary delights curated for European tastes
+            Experience a refined selection of Asian food products, from everyday essentials to specialty delights, thoughtfully sourced and adapted for modern European markets.
           </p>
 
           {/* CTA Buttons */}
@@ -51,7 +51,7 @@ const Banner1 = () => {
             </button>
             
             <button className="group/btn2 inline-flex items-center justify-center gap-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/30 hover:border-white/50 px-8 py-4 rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-              <span>Explore Products</span>
+              <span>Explore Collection</span>
               <svg className="w-5 h-5 transition-transform duration-300 group-hover/btn2:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -62,15 +62,15 @@ const Banner1 = () => {
           <div className="flex items-center gap-6 mt-12 text-white/80">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              <span className="text-sm">50+ Premium Brands</span>
+              <span className="text-sm">Curated Brand Portfolio</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              <span className="text-sm">Fast EU Delivery</span>
+              <span className="text-sm">Reliable EU Distribution</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              <span className="text-sm">Quality Guaranteed</span>
+              <span className="text-sm">Quality and Compliance Assured</span>
             </div>
           </div>
         </div>

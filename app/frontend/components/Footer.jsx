@@ -1,6 +1,9 @@
+"use client"
 import Link from 'next/link'
 import { FaFacebookF, FaInstagram, FaYoutube, FaChevronUp, FaPhone, FaEnvelope, FaMapMarkerAlt, FaChevronDown } from 'react-icons/fa'
 import { useState } from 'react'
+import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext'
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -8,6 +11,7 @@ const Footer = () => {
   }
 
   const [openSections, setOpenSections] = useState({})
+  const { token } = useAuth();
 
   const toggleSection = (section) => {
     setOpenSections(prev => ({
@@ -22,8 +26,8 @@ const Footer = () => {
       title: 'My Account',
       links: [
         { href: "/frontend/purchase-dashboard", label: "My Account" },
-        { href: "/frontend/purchase-dashboard", label: "My Orders" },
-       
+        { href: "/frontend/purchase-dashboard", label: "My Enquiries" },
+
       ]
     },
     {
@@ -33,8 +37,8 @@ const Footer = () => {
         { href: "/frontend/contact", label: "Contact Us" },
         { href: "/frontend/register", label: "Register" },
         { href: "/frontend/newsletter", label: "Newsletter" },
-       
-       
+
+
       ]
     },
     {
@@ -56,7 +60,7 @@ const Footer = () => {
         { href: "/frontend/vegan-products", label: "Vegan" },
         { href: "/frontend/frozen-products", label: "Frozen" },
         { href: "/frontend/catalogues-and-folders", label: "Catalogues" },
-       
+
       ]
     }
   ]
@@ -74,38 +78,55 @@ const Footer = () => {
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-8 lg:py-10 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 lg:gap-12">
-          
+
           {/* Company Info - Enhanced */}
           <div className="lg:col-span-2">
             <div className="mb-8">
               <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-green-600 rounded-lg flex items-center justify-center mr-3 shadow-lg">
-                  <span className="text-white font-bold text-lg">BC</span>
-                </div>
-                <h3 className="text-2xl font-bold text-white">
-                  Beagley<span className="text-green-400">Copperman</span>
-                </h3>
+                <a href="/" className="flex items-center">
+                  <img
+                    src="/home/logo1.png"
+                    alt="Logo"
+                    className="w-32 lg:w-48 object-contain"
+                  />
+                </a>
               </div>
               <p className="text-gray-300 leading-relaxed mb-6 max-w-md">
-                Your premier partner for authentic Asian food and beverages across Europe. 
-                Committed to delivering exceptional quality and authentic taste experiences.
+                A trusted partner in sourcing and distributing authentic Asian food products across Europe. Focused on quality, compliance, and delivering genuine taste experiences for modern markets.
               </p>
-              
+
               {/* Enhanced Contact Info */}
               <div className="space-y-2 bg-gray-800/50 rounded-xl p-6 backdrop-blur-sm border border-gray-700">
-                <div className="flex items-center space-x-4 group hover:transform hover:translate-x-1 transition-transform duration-300">
+
+                {/* Phone */}
+                <a
+                  href="tel:+31888880288"
+                  className="flex items-center space-x-4 group hover:transform hover:translate-x-1 transition-transform duration-300"
+                >
                   <div className="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
                     <FaPhone className="w-4 h-4 text-green-400" />
                   </div>
                   <span className="text-gray-200 font-medium">(+31) 888 880 288</span>
-                </div>
-                <div className="flex items-center space-x-4 group hover:transform hover:translate-x-1 transition-transform duration-300">
+                </a>
+
+                {/* Email */}
+                <a
+                  href="mailto:sales@beagleycopperman.com"
+                  className="flex items-center space-x-4 group hover:transform hover:translate-x-1 transition-transform duration-300"
+                >
                   <div className="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
                     <FaEnvelope className="w-4 h-4 text-green-400" />
                   </div>
                   <span className="text-gray-200 font-medium">sales@beagleycopperman.com</span>
-                </div>
-                <div className="flex items-start space-x-2 group hover:transform hover:translate-x-1 transition-transform duration-300">
+                </a>
+
+                {/* Address */}
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Steenwycklaan+2+1424+NL+De+Kwakel+Netherlands"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start space-x-2 group hover:transform hover:translate-x-1 transition-transform duration-300"
+                >
                   <div className="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center group-hover:bg-green-500/20 transition-colors mt-1">
                     <FaMapMarkerAlt className="w-4 h-4 text-green-400" />
                   </div>
@@ -114,8 +135,10 @@ const Footer = () => {
                     <p className="text-gray-400">1424 NL De Kwakel</p>
                     <p className="text-gray-400">The Netherlands</p>
                   </div>
-                </div>
+                </a>
+
               </div>
+
             </div>
           </div>
 
@@ -130,27 +153,36 @@ const Footer = () => {
                   <h4 className="text-lg font-semibold text-white">
                     {section.title}
                   </h4>
-                  <FaChevronDown 
-                    className={`w-4 h-4 text-green-400 transition-transform duration-300 ${
-                      openSections[section.id] ? 'rotate-180' : ''
-                    }`}
+                  <FaChevronDown
+                    className={`w-4 h-4 text-green-400 transition-transform duration-300 ${openSections[section.id] ? 'rotate-180' : ''
+                      }`}
                   />
                 </button>
-                
-                <div className={`px-6 transition-all duration-300 ${
-                  openSections[section.id] ? 'max-h-96 pb-4' : 'max-h-0'
-                } overflow-hidden`}>
+
+                <div className={`px-6 transition-all duration-300 ${openSections[section.id] ? 'max-h-96 pb-4' : 'max-h-0'
+                  } overflow-hidden`}>
                   <ul className="space-y-3">
-                    {section.links.map((item) => (
-                      <li key={item.href}>
-                        <Link 
-                          href={item.href}
-                          className="text-gray-400 hover:text-green-400 transition-all duration-300 text-sm flex items-center group py-2"
-                        >
-                          <span className="w-2 h-2 bg-gray-600 rounded-full mr-3 group-hover:bg-green-400 group-hover:shadow-lg group-hover:shadow-green-400/25 transition-all duration-300"></span>
-                          {item.label}
-                        </Link>
+                    {section.links.map((item,index) => (
+                      <li key={index}>
+                        {item.label === "My Enquiries" && !token ? (
+                          <button
+                            onClick={() => toast.error("Please login to view your enquiries")}
+                            className="text-gray-400 hover:text-green-400 transition-all duration-300 text-sm flex items-center group py-2 w-full text-left"
+                          >
+                            <span className="w-2 h-2 bg-gray-600 rounded-full mr-3 group-hover:bg-green-400 transition-all duration-300"></span>
+                            My Enquiries
+                          </button>
+                        ) : (
+                          <Link
+                            href={item.href}
+                            className="text-gray-400 hover:text-green-400 transition-all duration-300 text-sm flex items-center group py-2"
+                          >
+                            <span className="w-2 h-2 bg-gray-600 rounded-full mr-3 group-hover:bg-green-400 transition-all duration-300"></span>
+                            {item.label}
+                          </Link>
+                        )}
                       </li>
+
                     ))}
                   </ul>
                 </div>
@@ -166,9 +198,9 @@ const Footer = () => {
                   {section.title}
                 </h4>
                 <ul className="space-y-2">
-                  {section.links.map((item) => (
-                    <li key={item.href}>
-                      <Link 
+                  {section.links.map((item,index) => (
+                    <li key={index}>
+                      <Link
                         href={item.href}
                         className="text-gray-400 hover:text-green-400 transition-all duration-300 text-sm flex items-center group py-2"
                       >
@@ -186,7 +218,7 @@ const Footer = () => {
         {/* Enhanced Bottom Section */}
         <div className="border-t border-gray-800 mt-8 pt-6">
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
-            
+
             {/* Enhanced Social Links */}
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
               <span className="text-sm text-gray-400 font-medium">Connect With Us:</span>
@@ -212,7 +244,7 @@ const Footer = () => {
             <div className="text-center lg:text-right">
               <div className="bg-gray-800/50 rounded-lg px-4 py-3 backdrop-blur-sm border border-gray-700">
                 <p className="text-sm text-gray-300 font-medium">
-                  <span className="text-green-400">●</span> Business Hours: 
+                  <span className="text-green-400">●</span> Business Hours:
                   <span className="text-white ml-1">Mon-Fri, 8:30 AM - 6:00 PM (CET)</span>
                 </p>
               </div>

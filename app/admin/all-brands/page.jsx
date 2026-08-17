@@ -622,7 +622,7 @@ const TableView = ({ brands, sortConfig, onSort, onEdit, onDelete }) => {
                 <td className="px-4 py-4">
                   <div className="flex items-center">
                     {brand.img && (
-                      <img src={brand.img} alt={brand.name} className="h-10 w-10 rounded-lg object-cover mr-3" />
+                      <img src={process.env.NEXT_PUBLIC_API_URL + brand.img} alt={brand.name} className="h-10 w-10 rounded-lg object-cover mr-3" />
                     )}
                     <div>
                       <div className="text-sm font-medium text-gray-900">{brand.name}</div>

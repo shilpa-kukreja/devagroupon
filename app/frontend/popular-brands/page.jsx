@@ -50,7 +50,7 @@ export default function PopularBrandsPage() {
       // Remove leading slash if present to avoid double slashes
       let cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
       
-      const fullUrl = `https://devagroupon.onrender.com/${cleanPath}`;
+      const fullUrl = `http://localhost:5000/${cleanPath}`;
       
       // Validate URL
       new URL(fullUrl);
@@ -189,12 +189,12 @@ export default function PopularBrandsPage() {
               className="group relative overflow-hidden rounded-xl bg-white shadow-sm border border-gray-200 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-500"
             >
               {/* Brand Image */}
-              <div className="relative w-full h-44 bg-gray-100">
+              <div className="relative aspect-square w-full h-44 bg-gray-100">
                 <Image
                   src={getImageUrl(brand.img)}
                   alt={brand.name || 'Brand logo'}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover aspect-square transition-transform duration-700 group-hover:scale-105"
                   onError={(e) => {
                     e.target.src = '/placeholder.png';
                   }}

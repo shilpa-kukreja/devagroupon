@@ -97,6 +97,8 @@ export default function ProductsPage() {
     }
   };
 
+  console.log(products);
+
   // Helper function to extract ID from different data structures
   const extractId = (item) => {
     if (!item) return null;
@@ -535,7 +537,7 @@ export default function ProductsPage() {
       cleanPath = cleanPath.substring(1);
     }
     
-    return `https://devagroupon.onrender.com/${cleanPath}`;
+    return `http:/localhost:5000/${cleanPath}`;
   };
 
   const FilterSection = ({ title, children, isExpanded = false }) => (
@@ -599,7 +601,7 @@ export default function ProductsPage() {
     <div>
       <Navbar/>
       <div>
-        <img src="/banner/newsletterbanner.webp" alt="Banner" className="w-full h-auto" />
+        <img src="/home/Salebanner.png" alt="Banner" className="w-full h-auto mt-20" />
         <div className="min-h-screen bg-gray-50 py-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Breadcrumb */}
